@@ -1,0 +1,68 @@
+export const milestones = [
+  {
+    id: 'ms-01',
+    stage: 'INIT',
+    year: '2019',
+    title: 'First meetup',
+    detail: 'A dozen engineers in a Douala coworking space agree Cameroon needs a DevOps community.',
+    status: 'done',
+  },
+  {
+    id: 'ms-02',
+    stage: 'BUILD',
+    year: '2020',
+    title: 'Online community ships',
+    detail: 'Slack + WhatsApp channels open; first remote talks recorded and shared.',
+    status: 'done',
+  },
+  {
+    id: 'ms-03',
+    stage: 'TEST',
+    year: '2021',
+    title: 'Workshop cadence',
+    detail: 'Hands-on labs on Docker and CI/CD code to a regular monthly format.',
+    status: 'done',
+  },
+  {
+    id: 'ms-04',
+    stage: 'RELEASE',
+    year: '2022',
+    title: 'Yaoundé chapter',
+    detail: 'Second chapter launches; meetups now run in both major cities.',
+    status: 'done',
+  },
+  {
+    id: 'ms-05',
+    stage: 'SCALE',
+    year: '2023',
+    title: 'Community tools',
+    detail: 'Members ship dvc-cli and the first IaC template repo as open source.',
+    status: 'done',
+  },
+  {
+    id: 'ms-06',
+    stage: 'OS-ON',
+    year: '2024',
+    title: 'Docker Sprint',
+    detail: 'First 48h hackathon runs fully hybrid, drawing builders from 5 regions.',
+    status: 'done',
+  },
+  {
+    id: 'ms-07',
+    stage: 'PEAK',
+    year: '2025',
+    title: '1,000+ members',
+    detail: 'Community crosses a thousand members and 80 hosted events.',
+    status: 'done',
+  },
+  {
+    id: 'ms-08',
+    stage: 'NEXT',
+    year: '2026',
+    title: 'Greater West Africa',
+    detail: 'Roadmap: regional chapters, a learning platform, and formal sponsors.',
+    status: 'todo',
+  },
+]
+
+export const pipelineStages = ['INIT', 'BUILD', 'TEST', 'RELEASE', 'SCALE', 'OSITE', 'PEAK', 'NEXT']

@@ -1,0 +1,77 @@
+export const projects = [
+  {
+    id: 'pr-01',
+    name: 'dvc-cli',
+    tag: 'cli',
+    description:
+      'A single-command onboarding toolkit — scaffolds your CI config, readiness checks, and a local TTY dashboard for the community stack.',
+    stars: 182,
+    forks: 34,
+    lang: 'Go',
+    size: 'lg',
+    repo: 'https://github.com',
+    doc: 'https://github.com',
+  },
+  {
+    id: 'pr-02',
+    name: 'cmr-iac-templates',
+    tag: 'iac',
+    description:
+      'Reference Terraform modules and OpenTofu templates for the cloud regions used across Cameroon, pinned and tested.',
+    stars: 96,
+    forks: 21,
+    lang: 'HCL',
+    size: 'md',
+    repo: 'https://github.com',
+  },
+  {
+    id: 'pr-03',
+    name: 'uptime-dash',
+    tag: 'monitoring',
+    description:
+      'Lightweight status dashboard generator. Ping your endpoints, emit a static site with SLOs painted on.',
+    stars: 71,
+    forks: 12,
+    lang: 'TypeScript',
+    size: 'md',
+    repo: 'https://github.com',
+  },
+  {
+    id: 'pr-04',
+    name: 'cam-wireguard-playbook',
+    tag: 'infra',
+    description:
+      'Ansible playbook for bootstrapping a WireGuard mesh on DO — geared to first-time infras across towns.',
+    stars: 48,
+    forks: 9,
+    lang: 'YAML',
+    size: 'sm',
+    repo: 'https://github.com',
+  },
+  {
+    id: 'pr-05',
+    name: 'solid.log',
+    tag: 'sre',
+    description:
+      'Structured JSON logging shim + correlation ID helper, so your microservices agree on one trace format.',
+    stars: 63,
+    forks: 17,
+    lang: 'Rust',
+    size: 'md',
+    repo: 'https://github.com',
+  },
+  {
+    id: 'pr-06',
+    name: 'probe-cm',
+    tag: 'monitoring',
+    description:
+      'Agentless synthetic probes scheduled from a single config — pings, TLS, API smoke tests, and alert routing.',
+    stars: 39,
+    forks: 8,
+    lang: 'Python',
+    size: 'sm',
+    repo: 'https://github.com',
+  },
+]
+
+export const projectTags = ['all', 'cli', 'iac', 'monitoring', 'infra', 'sre']
