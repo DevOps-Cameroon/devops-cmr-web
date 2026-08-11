@@ -20,7 +20,7 @@ function App() {
           <Route path="resources" element={<Resources />} />
           <Route path="team" element={<Team />} />
           <Route path="join" element={<Join />} />
-          <Route path="*" element={<Home />} />
+          <Route path=" *" element={<Home />} />
         </Route>
       </Routes>
     </BrowserRouter>
