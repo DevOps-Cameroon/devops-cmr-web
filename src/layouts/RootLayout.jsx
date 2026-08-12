@@ -2,6 +2,7 @@ import { Outlet } from 'react-router-dom'
 import Nav from '../components/Nav'
 import Footer from '../components/Footer'
 import BootOverlay from '../components/BootOverlay'
+import Container from '../components/ui/container'
 
 function RootLayout() {
   return (
@@ -12,7 +13,9 @@ function RootLayout() {
       </a>
       <Nav />
       <main id="main" className="flex-1">
-        <Outlet />
+        <Container>
+          <Outlet />
+        </Container>
       </main>
       <Footer />
     </div>

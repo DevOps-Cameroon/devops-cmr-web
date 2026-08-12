@@ -90,6 +90,16 @@
   --ease: cubic-bezier(0.2, 0, 0, 1);
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 
+  /* FONT WEIGHTS (Poppins) */
+  --fw-body: 400; /* Body */
+  --fw-label: 500; /* Labels */
+  --fw-subhead: 600; /* Subheadings */
+  --fw-heading: 700; /* Main headings */
+  --fw-hero: 800; /* Hero heading */
+
+  /* Layout */
+  --container-max-width: 1280px;
+
   /* shadcn compat (kept in sync with the tokens above) */
   --background: var(--base);
   --foreground: var(--ink);
@@ -220,6 +230,7 @@
     font-family: var(--font-sans);
     background-color: var(--base);
     color: var(--ink);
+    font-weight: var(--fw-body);
   }
   ::selection {
     background: var(--accent);
@@ -270,7 +281,25 @@
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--ink-2);
+    font-weight: var(--fw-label);
   }
+
+  h1 {
+    font-weight: var(--fw-heading);
+  }
+
+  h2, h3 {
+    font-weight: var(--fw-subhead);
+  }
+
+  [data-hero-title], .hero-title {
+    font-weight: var(--fw-hero);
+  }
+
+  .container-max-width {
+    max-width: var(--container-max-width);
+  }
+
   /* subtle engineering grid behind a section, masked so it fades at the edges */
   .grid-texture {
     position: relative;
