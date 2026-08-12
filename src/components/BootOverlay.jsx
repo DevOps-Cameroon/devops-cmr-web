@@ -6,6 +6,7 @@ const BOOT_LINES = [
   { text: 'Authenticating guest session... done', cls: 'dim' },
   { text: 'Loading modules: docker terraform kubernetes ansible ci/cd', cls: 'dim' },
   { text: '[OK] modules loaded.......', cls: 'ok' },
+  { text: '[OK] rendering deveopscameroon.site', cls: 'ok' },
 ]
 
 export default function BootOverlay() {
