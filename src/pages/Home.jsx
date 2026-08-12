@@ -8,6 +8,7 @@ import Reveal from '../components/Reveal'
 import SectionHeading from '../components/SectionHeading'
 import { communityStats } from '../data/community'
 import { events } from '../data/events'
+import HeroSection from '../components/pages/home/hero'
 
 function EventSpotlight() {
   const next = events.find((e) => e.status === 'open')
@@ -125,80 +126,7 @@ export default function Home() {
 
   return (
     <>
-      <section ref={heroRef} className="relative overflow-hidden border-b border-line">
-        <div className="pointer-events-none absolute inset-0" aria-hidden="true">
-          <div className="absolute left-1/2 top-0 h-px w-full max-w-5xl -translate-x-1/2 bg-line" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255,90,31,0.18),transparent_50%)]" />
-          <div className="absolute inset-0 opacity-[0.04] bg-[repeating-linear-gradient(0deg,transparent,transparent_2px,rgba(255,255,255,0.06)_2px,rgba(255,255,255,0.06)_3px)]" />
-          <div className="absolute bottom-0 left-0 right-0 h-px bg-line" />
-        </div>
-
-        <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[1fr_1.15fr] lg:py-24">
-          <div>
-            <p data-hero-status className="label-mono mb-6">
-              <span className="text-ok" aria-hidden="true">●</span> online · {new Date().getFullYear()} cohort now onboarding
-            </p>
-            <h1 className="font-mono text-4xl font-bold uppercase leading-[1.05] tracking-tight text-ink sm:text-5xl lg:text-6xl">
-              <span data-hero-title className="block">Build. Automate.</span>
-              <span data-hero-title className="block">
-                Ship. <span className="text-accent">In Cameroon.</span>
-              </span>
-            </h1>
-            <p data-hero-sub className="mt-6 max-w-xl text-lg leading-relaxed text-ink-2">
-              DevOps Cameroon is the home for engineers who automate, harden, and ship infrastructure across Cameroon —
-              through meetups, hands-on labs, and open-source tools built together.
-            </p>
-            <div data-hero-sub className="mt-8 flex flex-wrap gap-3">
-              <Link
-                to="/join"
-                className="inline-flex items-center gap-2 border border-accent bg-accent px-6 py-3 font-mono text-sm font-bold uppercase tracking-wider text-accent-ink transition-colors hover:bg-transparent hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-              >
-                Join the community <span aria-hidden="true">→</span>
-              </Link>
-              <Link
-                to="/events"
-                className="inline-flex items-center gap-2 border border-line bg-surface px-6 py-3 font-mono text-sm font-bold uppercase tracking-wider text-ink transition-colors hover:border-accent hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-              >
-                Upcoming events
-              </Link>
-            </div>
-          </div>
-
-          <div data-hero-terminal>
-            <TerminalHero />
-          </div>
-        </div>
-      </section>
-
-      <section aria-labelledby="stats-heading" className="grid-texture relative border-b border-line">
-        <div className="mx-auto grid max-w-6xl grid-cols-2 gap-8 px-4 py-16 sm:px-6 lg:grid-cols-4 lg:py-20">
-          <h2 id="stats-heading" className="sr-only">
-            Community in numbers
-          </h2>
-          {communityStats.map((s) => (
-            <StatCounter key={s.key} value={s.value} suffix={s.suffix} label={s.label} pct={s.pct} />
-          ))}
-        </div>
-      </section>
-
-      <section aria-labelledby="spotlight-heading" className="grid-texture relative border-b border-line">
-        <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:py-20">
-          <Reveal>
-            <SectionHeading index="02" kicker="next deploy" title="Upcoming event" />
-          </Reveal>
-          <Reveal delay={0.1}>
-            <div className="panel">
-              <EventSpotlight />
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      <section aria-labelledby="cta-heading" className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:py-24">
-        <Reveal>
-          <CommunityCTA />
-        </Reveal>
-      </section>
+      <HeroSection />
     </>
   )
 }
