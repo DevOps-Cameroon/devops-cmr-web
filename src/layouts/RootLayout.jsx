@@ -1,10 +1,12 @@
 import { Outlet } from 'react-router-dom'
 import Nav from '../components/Nav'
 import Footer from '../components/Footer'
+import BootOverlay from '../components/BootOverlay'
 
 function RootLayout() {
   return (
-    <div className="flex min-h-screen flex-col bg-base text-ink">
+    <div className="relative flex min-h-screen flex-col bg-base text-ink">
+      <BootOverlay />
       <a href="#main" className="skip-link focus:outline-none">
         Skip to content
       </a>
