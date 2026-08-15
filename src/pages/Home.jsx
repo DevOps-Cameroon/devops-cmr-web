@@ -119,14 +119,13 @@ export default function Home() {
       )
         .fromTo('[data-hero-sub]', { opacity: 0 }, { opacity: 1, duration: 0.6 }, '-=0.3')
         .fromTo('[data-hero-terminal]', { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8 }, '-=0.4')
-        .fromTo('[data-hero-status]', { opacity: 0 }, { opacity: 1, duration: 0.5 }, '-=0.3')
     },
     { scope: heroRef },
   )
 
   return (
     <>
-      <HeroSection />
+      <HeroSection ref={heroRef} />
     </>
   )
 }
