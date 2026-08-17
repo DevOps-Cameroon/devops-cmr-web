@@ -137,8 +137,8 @@ export default function Footer() {
               <p className="text-xs uppercase tracking-[0.28em] text-primary-200/80">Subscribe to our newsletter</p>
 
               <div className="mt-4 flex w-full max-w-2xl items-center gap-3 rounded-full border border-white/10 bg-[#171d27] p-2 pr-2 shadow-inner shadow-black/10">
-                <div className="flex flex-1 items-center gap-3 px-3">
-                  <Mail className="text-primary-100" />
+                <div className="flex flex-1 items-center gap-3 px-3 text-primary-100">
+                  <Mail />
                   <input
                     type="email"
                     placeholder="Enter your email"

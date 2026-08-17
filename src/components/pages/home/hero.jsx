@@ -5,8 +5,6 @@ import MapSvg from '@/components/MapSvg'
 import { Users } from 'lucide-react'
 import SweepButton from '@/components/ui/SweepButton'
 
-// no ScrollTrigger: map animation plays on load (finite)
-
 const DevOpsHero = React.forwardRef(function DevOpsHero(props, forwardedRef) {
   const internalRef = useRef(null);
   const heroRef = forwardedRef || internalRef;
