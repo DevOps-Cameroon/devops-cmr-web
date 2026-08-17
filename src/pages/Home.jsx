@@ -10,6 +10,8 @@ import { communityStats } from '../data/community'
 import { events } from '../data/events'
 import HeroSection from '@/components/pages/home/hero'
 import ImpactStats from '@/components/pages/home/ImpactStats'
+import WhyDevOps from '@/components/pages/home/whyDevOps'
+import SweepButton from '@/components/ui/SweepButton'
 
 function EventSpotlight() {
   const next = events.find((e) => e.status === 'open')
@@ -20,7 +22,7 @@ function EventSpotlight() {
 
   return (
     <div className="grid gap-0 lg:grid-cols-[1fr_auto]">
-      <div className="p-6 sm:p-8">
+      <div className="py-6 sm:p-8">
         <p className="label-mono mb-4">
           [ upcoming ] <span className="text-accent">{next.type}</span>
         </p>
@@ -56,12 +58,9 @@ function EventSpotlight() {
         </div>
       </div>
       <div className="flex flex-row items-end justify-between gap-4 border-t border-line p-6 lg:flex-col lg:border-l lg:border-t-0 lg:p-8">
-        <Link
-          to="/events"
-          className="inline-flex items-center gap-2 border border-accent bg-accent px-5 py-3 font-mono text-sm font-bold uppercase tracking-wider text-accent-ink transition-colors hover:bg-transparent hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-        >
-          Reserve a seat <span aria-hidden="true">→</span>
-        </Link>
+        <SweepButton>
+          RSVP  
+        </SweepButton>
         <p className="font-mono text-xs text-ink-3">spots fill fast — set a reminder</p>
       </div>
     </div>
@@ -127,7 +126,9 @@ export default function Home() {
   return (
     <>
       <HeroSection ref={heroRef} />
+      <WhyDevOps />
       <ImpactStats />
+      {/* <EventSpotlight /> */}
     </>
   )
 }
