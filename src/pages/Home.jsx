@@ -8,7 +8,8 @@ import Reveal from '../components/Reveal'
 import SectionHeading from '../components/SectionHeading'
 import { communityStats } from '../data/community'
 import { events } from '../data/events'
-import HeroSection from '../components/pages/home/hero'
+import HeroSection from '@/components/pages/home/hero'
+import ImpactStats from '@/components/pages/home/ImpactStats'
 
 function EventSpotlight() {
   const next = events.find((e) => e.status === 'open')
@@ -126,6 +127,7 @@ export default function Home() {
   return (
     <>
       <HeroSection ref={heroRef} />
+      <ImpactStats />
     </>
   )
 }

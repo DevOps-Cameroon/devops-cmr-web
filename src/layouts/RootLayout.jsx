@@ -1,8 +1,8 @@
 import { Outlet } from 'react-router-dom'
-import Nav from '../components/Nav'
-import Footer from '../components/Footer'
-import BootOverlay from '../components/BootOverlay'
-import Container from '../components/ui/container'
+import Nav from '@/components/Nav'
+import Footer from '@/components/Footer'
+import BootOverlay from '@/components/BootOverlay'
+import Container from '@/components/ui/container'
 
 function RootLayout() {
   return (
