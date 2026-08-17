@@ -6,7 +6,7 @@ import Container from '@/components/ui/container'
 
 function RootLayout() {
   return (
-    <div className="relative flex min-h-screen flex-col bg-base text-ink">
+    <div className="relative flex min-h-screen flex-col overflow-x-clip bg-base text-ink">
       <BootOverlay />
       <a href="#main" className="skip-link focus:outline-none">
         Skip to content

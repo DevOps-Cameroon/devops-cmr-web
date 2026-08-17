@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 const STATS = [
   { value: 500, suffix: '+', label: 'Members', dark: false },
@@ -13,9 +14,10 @@ const STATS = [
 ];
 
 const TITLE = "Together, We're Making A Difference";
-const SCROLL_VH_PER_PANEL = 1.25;
+const SCROLL_VH_PER_PANEL = 1.1;
+const ASCII_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#$%&*+-=?';
 
-function AnimatedNumber({ value, suffix, trigger, reducedMotion }) {
+function AsciiNumber({ value, suffix, trigger, reducedMotion }) {
   const ref = useRef(null);
 
   useEffect(() => {
@@ -26,14 +28,29 @@ function AnimatedNumber({ value, suffix, trigger, reducedMotion }) {
       return undefined;
     }
 
-    ref.current.textContent = '0';
-    const counter = { value: 0 };
-    const tween = gsap.to(counter, {
-      value,
-      duration: 0.55,
-      ease: 'power3.out',
+    const target = value.toLocaleString();
+    const randomChar = () => ASCII_CHARS[Math.floor(Math.random() * ASCII_CHARS.length)];
+    ref.current.textContent = target.replace(/\d/g, randomChar);
+
+    const animation = { progress: 0 };
+    const tween = gsap.to(animation, {
+      progress: 1,
+      duration: 0.7,
+      ease: 'power2.out',
       onUpdate: () => {
-        if (ref.current) ref.current.textContent = Math.round(counter.value).toLocaleString();
+        if (!ref.current) return;
+
+        const revealed = Math.floor(animation.progress * target.length);
+        ref.current.textContent = target
+          .split('')
+          .map((character, index) => {
+            if (!/\d/.test(character)) return character;
+            return index < revealed ? character : randomChar();
+          })
+          .join('');
+      },
+      onComplete: () => {
+        if (ref.current) ref.current.textContent = target;
       },
     });
 
@@ -41,9 +58,61 @@ function AnimatedNumber({ value, suffix, trigger, reducedMotion }) {
   }, [value, trigger, reducedMotion]);
 
   return (
-    <span className="tabular-nums">
+    <span className="font-mono tabular-nums tracking-[0.08em]">
       <span ref={ref}>0</span>
       {suffix}
+    </span>
+  );
+}
+
+function InfinityMetric({ trigger, reducedMotion }) {
+  const numRef = useRef(null);
+  const infinityRef = useRef(null);
+
+  useEffect(() => {
+    if (!numRef.current || !infinityRef.current) return undefined;
+
+    if (reducedMotion) {
+      gsap.set(numRef.current, { autoAlpha: 0 });
+      gsap.set(infinityRef.current, { autoAlpha: 1, scale: 1 });
+      return undefined;
+    }
+
+    const randomChar = () => ASCII_CHARS[Math.floor(Math.random() * ASCII_CHARS.length)];
+    gsap.set(numRef.current, { autoAlpha: 1 });
+    gsap.set(infinityRef.current, { autoAlpha: 0, scale: 0.6 });
+    numRef.current.textContent = randomChar();
+
+    const counter = { value: 0 };
+    const tween = gsap.to(counter, {
+      value: 999,
+      duration: 0.55,
+      ease: 'power2.out',
+      onUpdate: () => {
+        if (numRef.current) numRef.current.textContent = Math.floor(counter.value).toLocaleString();
+      },
+      onComplete: () => {
+        gsap.to(numRef.current, { autoAlpha: 0, duration: 0.12 });
+        gsap.fromTo(
+          infinityRef.current,
+          { autoAlpha: 0, scale: 0.5 },
+          { autoAlpha: 1, scale: 1, duration: 0.35, ease: 'back.out(2)' }
+        );
+      },
+    });
+
+    return () => tween.kill();
+  }, [trigger, reducedMotion]);
+
+  return (
+    <span className="relative inline-flex items-center justify-center font-mono tabular-nums tracking-[0.08em]">
+      <span className="invisible">000</span>
+      <span ref={numRef} aria-hidden="true" className="absolute inset-0 flex items-center justify-center">
+        0
+      </span>
+      <span ref={infinityRef} aria-label="infinity" className="absolute inset-0 flex items-center justify-center opacity-0">
+        &infin;
+      </span>
     </span>
   );
 }
@@ -66,34 +135,97 @@ export default function ImpactStats() {
       const step = 1 / (total - 1);
 
       const track = gsap.to(trackRef.current, {
-        // The track is several viewports tall. Translate it in pixels so each
-        // scroll step reveals exactly one full metric panel.
         y: () => -window.innerHeight * (total - 1),
         ease: 'none',
         scrollTrigger: {
           trigger: sectionRef.current,
           start: 'top top',
           end: () => `+=${(total - 1) * window.innerHeight * SCROLL_VH_PER_PANEL}`,
-          scrub: 0.28,
+          // No smoothing lag: background and metric both read this same
+          // progress value directly, so they can never drift apart.
+          scrub: true,
           pin: viewportRef.current,
           anticipatePin: 1,
           invalidateOnRefresh: true,
-          snap: {
-            snapTo: (progress) => Math.round(progress / step) * step,
-            duration: { min: 0.16, max: 0.38 },
-            ease: 'power2.inOut',
-          },
+          // activeIndex is derived from the SAME progress that drives the
+          // background — single source of truth, always in lockstep.
           onUpdate: (self) => {
-            const nextIndex = Math.min(total - 1, Math.round(self.progress / step));
-            if (nextIndex !== lastIndexRef.current) {
-              lastIndexRef.current = nextIndex;
-              setActiveIndex(nextIndex);
+            const idx = Math.min(total - 1, Math.round(self.progress / step));
+            if (idx !== lastIndexRef.current) {
+              lastIndexRef.current = idx;
+              setActiveIndex(idx);
             }
           },
         },
       });
 
-      return () => track.scrollTrigger?.kill();
+      const st = track.scrollTrigger;
+      const lockRef = { current: false };
+
+      // One scroll gesture = one metric: jump the real scroll position to
+      // the next/previous panel's exact point. `scrub: true` + `onUpdate`
+      // above then animates the background AND updates the text together,
+      // in real time, as this tween plays — not after it.
+      const stepOnce = (direction) => {
+        if (lockRef.current || !st.isActive) return false;
+
+        const currentIndex = Math.round(st.progress / step);
+        const next = currentIndex + direction;
+        if (next < 0 || next > total - 1) return false;
+
+        lockRef.current = true;
+        const targetY = st.start + (next / (total - 1)) * (st.end - st.start);
+        gsap.to(window, {
+          duration: 0.6,
+          ease: 'power3.inOut',
+          scrollTo: targetY,
+          onComplete: () => {
+            lockRef.current = false;
+          },
+        });
+        return true;
+      };
+
+      const onWheel = (e) => {
+        if (!st.isActive) return;
+        if (lockRef.current) {
+          e.preventDefault();
+          return;
+        }
+        if (Math.abs(e.deltaY) < 4) return;
+        const handled = stepOnce(e.deltaY > 0 ? 1 : -1);
+        if (handled) e.preventDefault();
+      };
+
+      let touchStartY = null;
+      const onTouchStart = (e) => {
+        touchStartY = e.touches[0].clientY;
+      };
+      const onTouchMove = (e) => {
+        if (!st.isActive || touchStartY == null) return;
+        if (lockRef.current) {
+          e.preventDefault();
+          return;
+        }
+        const dy = touchStartY - e.touches[0].clientY;
+        if (Math.abs(dy) < 40) return;
+        const handled = stepOnce(dy > 0 ? 1 : -1);
+        if (handled) {
+          e.preventDefault();
+          touchStartY = e.touches[0].clientY;
+        }
+      };
+
+      window.addEventListener('wheel', onWheel, { passive: false });
+      window.addEventListener('touchstart', onTouchStart, { passive: true });
+      window.addEventListener('touchmove', onTouchMove, { passive: false });
+
+      return () => {
+        window.removeEventListener('wheel', onWheel);
+        window.removeEventListener('touchstart', onTouchStart);
+        window.removeEventListener('touchmove', onTouchMove);
+        track.scrollTrigger?.kill();
+      };
     }, sectionRef);
 
     return () => context.revert();
@@ -120,7 +252,7 @@ export default function ImpactStats() {
     >
       <div
         ref={viewportRef}
-        className="relative left-1/2 -ml-[50vw] h-screen w-screen overflow-hidden"
+        className="relative left-1/2 h-screen w-[100dvw] max-w-none -translate-x-1/2 overflow-hidden"
       >
         <div ref={trackRef} className="absolute inset-x-0 top-0" style={{ height: `${STATS.length * 100}vh` }}>
           {STATS.map((stat, index) => (
@@ -164,14 +296,14 @@ export default function ImpactStats() {
               }`}
             >
               {current.value != null ? (
-                <AnimatedNumber
+                <AsciiNumber
                   value={current.value}
                   suffix={current.suffix}
                   trigger={activeIndex}
                   reducedMotion={reducedMotion}
                 />
               ) : (
-                <span aria-label="infinity">&infin;</span>
+                <InfinityMetric trigger={activeIndex} reducedMotion={reducedMotion} />
               )}
             </div>
             <p className={`label-mono mt-4 transition-colors duration-300 ${current.dark ? 'text-accent-ink/80' : 'text-ink-2'}`}>
