@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
+import { Link } from 'react-router-dom'
 import HeroImg from '/src/assets/images/devops.png'
 import MapSvg from '@/components/MapSvg'
 import { Users } from 'lucide-react'
@@ -54,7 +55,9 @@ const DevOpsHero = React.forwardRef(function DevOpsHero(props, forwardedRef) {
           <SweepButton onClick={() => {/* join handler */}}>
             Join the community
           </SweepButton>
-          <button className="btn-ghost">See upcoming meetups &rarr;</button>
+          <SweepButton as={Link} to="/about" variant="outline">
+            Learn More
+          </SweepButton>
         </div>
       </div>
 

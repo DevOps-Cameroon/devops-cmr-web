@@ -7,13 +7,15 @@ import React from 'react';
  * exactly as the sweep passes over it.
  */
 const SweepButton = React.forwardRef(function SweepButton(
-  { children, as: Tag = 'button', className = '', overlayClassName = '', ...rest },
+  { children, as: Tag = 'button', className = '', overlayClassName = '', variant = 'solid', ...rest },
   ref
 ) {
+  const isOutline = variant === 'outline';
+
   return (
     <Tag
       ref={ref}
-      className={`btn-primary group relative z-1 overflow-hidden rounded-none border-none cursor-pointer ${className}`}
+      className={`btn-sweep ${isOutline ? 'btn-outline' : 'btn-primary border-none'} group relative z-1 overflow-hidden rounded-none cursor-pointer ${className}`}
       {...rest}
     >
       <span
@@ -25,7 +27,7 @@ const SweepButton = React.forwardRef(function SweepButton(
         </span>
       </span>
 
-      <span className="label-default relative z-1 block whitespace-nowrap px-[1.7rem] py-[0.85rem] text-white">
+      <span className={`label-default relative z-1 block whitespace-nowrap px-[1.7rem] py-[0.85rem] ${isOutline ? 'text-ink' : 'text-white'}`}>
         {children}
       </span>
     </Tag>

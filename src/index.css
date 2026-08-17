@@ -167,6 +167,14 @@
     -webkit-tap-highlight-color: transparent;
     transition: color 220ms ease;
   }
+  .btn-sweep { @apply p-0; -webkit-tap-highlight-color: transparent; }
+  .btn-outline {
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--ink);
+    transition: border-color 220ms ease;
+  }
+  .btn-outline:hover { border-color: var(--accent); }
   /* Button overlay technique: a sliding green overlay contains the black label
      while the default label (white) remains beneath it. This allows characters
      covered by the overlay to appear black while uncovered characters stay white. */
