@@ -118,7 +118,7 @@ export default function WhyDevOps() {
 function Card({ card, className }) {
   const Icon = card.icon;
   return (
-    <div className={`flex flex-col items-start w-full gap-32 relative justify-between rounded-2xl p-7 ${card.bg} ${card.text} ${className}`}>
+    <div className={`flex flex-col items-start w-full gap-28 rounded-xl relative justify-between p-7 ${card.bg} ${card.text} ${className}`}>
       <Icon className="content-animation h-10 w-10" strokeWidth={2} />
       <div className="mt-8">
         <h3 className="content-animation text-3xl font-extrabold uppercase leading-tight">{card.title}</h3>

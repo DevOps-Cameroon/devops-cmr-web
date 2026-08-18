@@ -12,6 +12,7 @@ import HeroSection from '@/components/pages/home/hero'
 import ImpactStats from '@/components/pages/home/ImpactStats'
 import WhyDevOps from '@/components/pages/home/whyDevOps'
 import SweepButton from '@/components/ui/SweepButton'
+import CommunityBuilds from '@/components/pages/home/CommunityBuilds'
 
 function EventSpotlight() {
   const next = events.find((e) => e.status === 'open')
@@ -126,9 +127,11 @@ export default function Home() {
   return (
     <>
       <HeroSection ref={heroRef} />
-      <WhyDevOps />
       <ImpactStats />
+      <WhyDevOps />
+      {/* <CommunityBuilds /> */}
       {/* <EventSpotlight /> */}
+      {/* <CommunityCTA /> */}
     </>
   )
 }
