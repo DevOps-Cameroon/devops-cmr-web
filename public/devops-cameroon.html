@@ -70,8 +70,6 @@
     text-transform: uppercase;
     color: var(--primary-dim);
     margin-bottom: 1.6rem;
-    opacity: 0;
-    animation: rise 0.7s ease forwards;
   }
  
   .eyebrow .dot {
@@ -90,8 +88,6 @@
     letter-spacing: -0.03em;
     margin: 0 0 1.5rem 0;
     color: var(--ink);
-    opacity: 0;
-    animation: rise 0.8s ease 0.12s forwards;
   }
  
   h1 .accent {
@@ -107,8 +103,6 @@
     max-width: 30ch;
     margin: 0 0 2.4rem 0;
     font-weight: 450;
-    opacity: 0;
-    animation: rise 0.8s ease 0.24s forwards;
   }
  
   p.lede .accent {
@@ -120,8 +114,6 @@
     display: flex;
     align-items: center;
     gap: 1.4rem;
-    opacity: 0;
-    animation: rise 0.8s ease 0.36s forwards;
   }
  
   .btn-primary {
@@ -175,18 +167,8 @@
     font-size: 11px;
     fill: var(--ink-soft);
     letter-spacing: 0.04em;
-    opacity: 0;
-    animation: fadeIn 0.6s ease 2.1s forwards;
   }
  
-  @keyframes rise {
-    from { opacity: 0; transform: translateY(14px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
- 
-  @keyframes fadeIn {
-    to { opacity: 0.8; }
-  }
  
   @media (max-width: 860px) {
     .hero {
@@ -199,10 +181,7 @@
     p.lede { max-width: none; }
   }
  
-  @media (prefers-reduced-motion: reduce) {
-    .eyebrow, h1, p.lede, .cta-row { animation: none; opacity: 1; }
-    #reveal-rect { animation: none !important; }
-  }
+
 </style>
 </head>
 <body>
@@ -228,9 +207,7 @@
           <feComposite in="ringColor" in2="ring" operator="in"/>
         </filter>
         <clipPath id="revealClip">
-          <rect id="reveal-rect" x="-40" y="-40" width="880" height="0">
-            <animate attributeName="height" from="0" to="1250" begin="0.3s" dur="2.1s" fill="freeze" calcMode="spline" keySplines="0.22 1 0.36 1"/>
-          </rect>
+          <rect id="reveal-rect" x="-40" y="-40" width="880" height="1250" />
         </clipPath>
       </defs>
  
