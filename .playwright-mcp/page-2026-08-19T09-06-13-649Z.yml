@@ -1,0 +1,174 @@
+- generic [ref=e3]:
+  - link "Skip to content" [ref=e4] [cursor=pointer]:
+    - /url: "#main"
+  - main [ref=e5]:
+    - generic [ref=e6]:
+      - navigation [ref=e8]:
+        - link "DC / DevOps Cameroon" [ref=e9] [cursor=pointer]:
+          - /url: /
+          - generic [ref=e10]: DC
+          - generic [ref=e11]: /
+          - generic [ref=e12]: DevOps Cameroon
+        - generic [ref=e13]:
+          - link "home" [ref=e14] [cursor=pointer]:
+            - /url: /
+          - link "about" [ref=e15] [cursor=pointer]:
+            - /url: /about
+          - link "› events" [ref=e16] [cursor=pointer]:
+            - /url: /events
+            - generic [ref=e17]: ›
+            - text: events
+          - link "partners" [ref=e18] [cursor=pointer]:
+            - /url: "#partners"
+          - link "faq" [ref=e19] [cursor=pointer]:
+            - /url: "#faq"
+          - link "join" [ref=e20] [cursor=pointer]:
+            - /url: /join
+      - generic [ref=e21]:
+        - generic [ref=e24]:
+          - generic [ref=e25]: Events · DevOps Cameroon
+          - heading "Upcoming Events" [level=1] [ref=e26]: UpcomingEvents
+          - generic [ref=e27]:
+            - paragraph [ref=e28]: Live infrastructure talks, hands-on labs, and hiring conversations — across Cameroon, all year round.
+            - generic [ref=e29]:
+              - generic [ref=e30]: ◎
+              - generic [ref=e31]:
+                - generic [ref=e32]: 4 events this season
+                - text: Douala & Yaoundé, Cameroon
+        - generic [ref=e33]: SCROLL DOWN
+      - generic [ref=e34]:
+        - generic: ★
+        - generic [ref=e35]:
+          - generic [ref=e36]:
+            - heading "Featured Event" [level=2] [ref=e37]
+            - paragraph [ref=e38]: The one everyone's watching. Don't sleep on this.
+          - 'link "Cloud · Infrastructure DevOps Showcase2026 The most anticipated edition yet: 18 talks, hands-on labs, live incident drills, and hiring conversations with our partners. 21 November 2026 · Douala Polytechnic, Cameroon · 300 seats View Event →" [ref=e39] [cursor=pointer]':
+            - /url: /events/devops-showcase-2026
+            - generic [ref=e44]:
+              - generic [ref=e45]: Cloud · Infrastructure
+              - heading "DevOps Showcase2026" [level=3] [ref=e46]
+              - paragraph [ref=e47]: "The most anticipated edition yet: 18 talks, hands-on labs, live incident drills, and hiring conversations with our partners."
+              - generic [ref=e48]:
+                - generic [ref=e49]: 21 November 2026
+                - generic [ref=e50]: ·
+                - generic [ref=e51]: Douala Polytechnic, Cameroon
+                - generic [ref=e52]: ·
+                - generic [ref=e53]: 300 seats
+              - generic [ref=e54]: View Event →
+      - generic [ref=e56]:
+        - generic: "{ }"
+        - generic [ref=e57]:
+          - generic [ref=e58]:
+            - heading "Upcoming Events" [level=2] [ref=e59]
+            - paragraph [ref=e60]: Every edition, talk, and lab on the calendar. Open any event to see speakers, schedule, and how to RSVP.
+          - list "Upcoming events" [ref=e61]:
+            - listitem "Open details for SRE · Observability edition 2026" [ref=e62] [cursor=pointer]:
+              - generic [ref=e66]:
+                - heading "SRE · Observability Day 2026" [level=3] [ref=e67]
+                - paragraph [ref=e68]:
+                  - generic [ref=e69]: 29 August 2026
+                  - generic [ref=e70]: ·
+                  - generic [ref=e71]: 240 seats
+              - generic [ref=e72]:
+                - heading "SRE · Observability ›" [level=4] [ref=e73]:
+                  - text: SRE · Observability
+                  - generic [ref=e74]: ›
+                - paragraph [ref=e75]: Deep dives into on-call culture, monitoring, and the reliability engineering behind growing stacks.
+            - listitem "Open details for Kubernetes · CI/CD edition 2026" [ref=e76] [cursor=pointer]:
+              - generic [ref=e81]:
+                - heading "Kubernetes · CI/CD Week 2026" [level=3] [ref=e82]
+                - paragraph [ref=e83]:
+                  - generic [ref=e84]: 11 July 2026
+                  - generic [ref=e85]: ·
+                  - generic [ref=e86]: 180 seats
+              - generic [ref=e87]:
+                - heading "Kubernetes · CI/CD ›" [level=4] [ref=e88]:
+                  - text: Kubernetes · CI/CD
+                  - generic [ref=e89]: ›
+                - paragraph [ref=e90]: A week-long deep dive into building, testing, and deploying — from first commit to a running cluster.
+            - listitem "Open details for Cloud · Infrastructure edition 2026" [ref=e91] [cursor=pointer]:
+              - generic [ref=e95]:
+                - heading "Cloud Summit 2026" [level=3] [ref=e96]
+                - paragraph [ref=e97]:
+                  - generic [ref=e98]: 7 November 2026
+                  - generic [ref=e99]: ·
+                  - generic [ref=e100]: 150 seats
+              - generic [ref=e101]:
+                - heading "Cloud · Infrastructure ›" [level=4] [ref=e102]:
+                  - text: Cloud · Infrastructure
+                  - generic [ref=e103]: ›
+                - paragraph [ref=e104]: Hands-on labs and talks on cloud fundamentals, cost optimization, and getting teams to production safely.
+      - generic [ref=e105]:
+        - generic: "?"
+        - generic [ref=e107]:
+          - generic [ref=e108]:
+            - heading "FAQ" [level=2] [ref=e109]
+            - paragraph [ref=e111]: Do you have another question?
+            - link "Contact Us →" [ref=e112] [cursor=pointer]:
+              - /url: "#contact"
+          - generic [ref=e113]:
+            - generic [ref=e114]:
+              - button "What is DevOps Showcase and how does it help engineers? ⌄" [expanded] [ref=e115] [cursor=pointer]:
+                - generic [ref=e116]: What is DevOps Showcase and how does it help engineers?
+                - generic [ref=e117]: ⌄
+              - paragraph [ref=e120]: It's DevOps Cameroon's flagship annual event, bringing together the country's top infrastructure engineers for talks, workshops, and direct access to hiring teams.
+            - generic [ref=e121]:
+              - button "Who can participate in these events? ⌄" [ref=e122] [cursor=pointer]:
+                - generic [ref=e123]: Who can participate in these events?
+                - generic [ref=e124]: ⌄
+              - paragraph [ref=e125]: Any engineer working with cloud, infrastructure, or automation — from students shipping their first pipeline to senior SREs running production at scale.
+            - generic [ref=e126]:
+              - button "What opportunities do the events offer engineers? ⌄" [ref=e127] [cursor=pointer]:
+                - generic [ref=e128]: What opportunities do the events offer engineers?
+                - generic [ref=e129]: ⌄
+              - paragraph [ref=e130]: Direct conversations with hiring companies, hands-on workshop credit, and visibility with the sponsors and partners funding Cameroon's DevOps talent pipeline.
+            - generic [ref=e131]:
+              - button "Will there be support for finding job opportunities? ⌄" [ref=e132] [cursor=pointer]:
+                - generic [ref=e133]: Will there be support for finding job opportunities?
+                - generic [ref=e134]: ⌄
+              - paragraph [ref=e135]: Yes — partner companies host a career fair on-site, and our Slack community stays active with job postings and referrals year-round.
+            - generic [ref=e136]:
+              - button "How do these events impact engineers' careers? ⌄" [ref=e137] [cursor=pointer]:
+                - generic [ref=e138]: How do these events impact engineers' careers?
+                - generic [ref=e139]: ⌄
+              - paragraph [ref=e140]: Past attendees have landed roles, freelance contracts, and speaking invitations directly from connections made at the events.
+      - generic [ref=e142]:
+        - generic [ref=e143]:
+          - generic [ref=e144]:
+            - heading "Maximizing Cameroon's DevOps Talent" [level=2] [ref=e145]
+            - generic [ref=e146]:
+              - generic [ref=e147]: Become a partner
+              - paragraph [ref=e148]: Interested in sponsorship or partnering with DevOps Cameroon? Get in touch.
+              - link "Contact Us →" [ref=e149] [cursor=pointer]:
+                - /url: "#contact"
+          - generic [ref=e150]:
+            - generic [ref=e151]:
+              - generic [ref=e152]: For Help
+              - generic [ref=e153]: info@devopscameroon.com
+            - generic [ref=e154]:
+              - generic [ref=e155]: For Media
+              - generic [ref=e156]: press@devopscameroon.com
+            - generic [ref=e157]:
+              - link "Sign up" [ref=e158] [cursor=pointer]:
+                - /url: "#signup"
+              - link "RSVP" [ref=e159] [cursor=pointer]:
+                - /url: /join
+        - generic [ref=e161]:
+          - heading "Devops Cameroon" [level=2] [ref=e162]
+          - generic [ref=e163]:
+            - link "X" [ref=e164] [cursor=pointer]:
+              - /url: "#x"
+              - text: 𝕏
+            - link "LinkedIn" [ref=e165] [cursor=pointer]:
+              - /url: "#in"
+              - text: in
+            - link "GitHub" [ref=e166] [cursor=pointer]:
+              - /url: "#gh"
+              - text: gh
+        - generic [ref=e167]:
+          - generic [ref=e168]: Copyright DevOps Cameroon 2026
+          - generic [ref=e169]:
+            - link "Privacy Policy" [ref=e170] [cursor=pointer]:
+              - /url: "#privacy"
+            - link "Terms" [ref=e171] [cursor=pointer]:
+              - /url: "#terms"

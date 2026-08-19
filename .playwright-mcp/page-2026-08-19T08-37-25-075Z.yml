@@ -1,0 +1,272 @@
+- generic [ref=e3]:
+  - link "Skip to content" [ref=e4] [cursor=pointer]:
+    - /url: "#main"
+  - main [ref=e5]:
+    - generic [ref=e6]:
+      - navigation [ref=e8]:
+        - link "DC / DevOps Cameroon" [ref=e9] [cursor=pointer]:
+          - /url: /
+          - generic [ref=e10]: DC
+          - generic [ref=e11]: /
+          - generic [ref=e12]: DevOps Cameroon
+        - generic [ref=e13]:
+          - link "home" [ref=e14] [cursor=pointer]:
+            - /url: /
+          - link "about" [ref=e15] [cursor=pointer]:
+            - /url: /about
+          - link "› events" [ref=e16] [cursor=pointer]:
+            - /url: /events
+            - generic [ref=e17]: ›
+            - text: events
+          - link "partners" [ref=e18] [cursor=pointer]:
+            - /url: "#partners"
+          - link "join" [ref=e19] [cursor=pointer]:
+            - /url: /join
+      - generic [ref=e20]:
+        - generic [ref=e23]:
+          - generic [ref=e24]:
+            - text: Events · DevOps Cameroon
+            - generic [ref=e25]: / Cloud · Infrastructure
+          - heading "DevOps Showcase 2026" [level=1] [ref=e26]: DevOps Showcase2026
+          - generic [ref=e27]:
+            - timer [ref=e28]:
+              - generic [ref=e29]:
+                - generic [ref=e30]: "93"
+                - generic [ref=e31]: Days
+              - generic [ref=e32]:
+                - generic [ref=e33]: "23"
+                - generic [ref=e34]: Hours
+              - generic [ref=e35]:
+                - generic [ref=e36]: "22"
+                - generic [ref=e37]: Min
+              - generic [ref=e38]:
+                - generic [ref=e39]: "35"
+                - generic [ref=e40]: Sec
+            - generic [ref=e45]:
+              - generic [ref=e46]: 21 November 2026
+              - text: Douala Polytechnic, Cameroon
+        - generic [ref=e47]: SCROLL DOWN
+      - generic [ref=e48]:
+        - generic: </>
+        - generic [ref=e50]:
+          - generic [ref=e51]:
+            - heading "About this event" [level=2] [ref=e52]
+            - paragraph [ref=e53]: "The most anticipated edition yet: 18 talks, hands-on labs, live incident drills, and hiring conversations with our partners."
+          - list [ref=e54]:
+            - listitem [ref=e55]: → 18 talks and lightning demos from the country’s top infra teams
+            - listitem [ref=e56]: → Hands-on workshops on Terraform, Kubernetes, and observability
+            - listitem [ref=e57]: → Career fair with hiring teams from partner companies
+            - listitem [ref=e58]: → A live incident-response drill on a real production system
+          - generic [ref=e59]:
+            - generic [ref=e60]:
+              - heading "Who it's for" [level=5] [ref=e61]
+              - paragraph [ref=e62]: Built for the engineers, SREs, and platform teams behind Cameroon's growing stacks — a stage to demonstrate real skill and stand out.
+            - generic [ref=e63]:
+              - heading "Format" [level=5] [ref=e64]
+              - paragraph [ref=e65]: Talks · Workshops · Career Fair. Live walkthroughs, hiring conversations, and networking that turns into real offers.
+              - paragraph [ref=e66]: 300 seats available
+      - generic [ref=e69]:
+        - generic [ref=e72]:
+          - heading "DevOps Showcase 2026" [level=3] [ref=e74]: DevOps Showcase2026
+          - generic [ref=e75]:
+            - link "RSVP" [ref=e76] [cursor=pointer]:
+              - /url: /join
+            - paragraph [ref=e77]:
+              - text: 21 November 2026 ·
+              - strong [ref=e78]: 300 seats
+        - generic [ref=e79]:
+          - generic [ref=e80]:
+            - generic [ref=e81]: "09"
+            - generic [ref=e82]: Speakers
+          - generic [ref=e83]:
+            - generic [ref=e84]: "04"
+            - generic [ref=e85]: Workshops
+          - generic [ref=e86]:
+            - generic [ref=e87]: "01"
+            - generic [ref=e88]: Event
+      - generic [ref=e91]:
+        - generic [ref=e92]:
+          - heading "Location" [level=2] [ref=e93]
+          - generic [ref=e94]:
+            - generic [ref=e95]: ◎
+            - generic [ref=e96]:
+              - generic [ref=e97]: 21 November 2026
+              - text: Douala Polytechnic, Cameroon
+            - link "Open Map" [ref=e98] [cursor=pointer]:
+              - /url: "#map"
+        - generic [ref=e101]:
+          - button "Previous venue photo" [ref=e102] [cursor=pointer]: ‹
+          - button "Next venue photo" [ref=e103] [cursor=pointer]: ›
+      - generic [ref=e104]:
+        - generic: "#"
+        - generic [ref=e105]:
+          - heading "Partners" [level=2] [ref=e106]
+          - generic [ref=e107]:
+            - generic [ref=e108]: AWS
+            - generic [ref=e109]: Google Cloud
+            - generic [ref=e110]: MTN
+            - generic [ref=e111]: Orange
+            - generic [ref=e112]: GitHub
+            - generic [ref=e113]: Docker
+            - generic [ref=e114]: HashiCorp
+            - generic [ref=e115]: Datadog
+            - generic [ref=e116]: Microsoft Azure
+            - generic [ref=e117]: Canonical
+      - region "Speakers" [ref=e118]:
+        - generic [ref=e119]:
+          - generic [ref=e120]: lineup
+          - heading "We Bring Bold Voices, Fresh Ideas, and Stories that Matter to You." [level=2] [ref=e121]: We Bring Bold Voices, Fresh Ideas, andStories that Matter to You.
+          - generic [ref=e122]:
+            - generic: Speakers
+            - img "Nadine Mbala" [ref=e124]
+            - generic [ref=e126]:
+              - heading "Nadine Mbala" [level=3] [ref=e127]
+              - paragraph [ref=e128]: Staff SRE · MTN
+              - generic [ref=e129]:
+                - paragraph [ref=e130]: Nadine keeps MTN’s mobile-money stack online around the clock — measurable, boring, and fast.
+                - paragraph [ref=e131]: She’ll walk through the incident that took down services in three regions, and the runbook that stopped it from ever recurring.
+              - generic [ref=e132]:
+                - link "linkedin" [ref=e133] [cursor=pointer]:
+                  - /url: "#"
+                - link "github" [ref=e136] [cursor=pointer]:
+                  - /url: "#"
+          - generic [ref=e140]:
+            - button "Nadine Mbala — Staff SRE · MTN" [pressed] [ref=e141] [cursor=pointer]:
+              - generic:
+                - paragraph: Nadine Mbala
+                - paragraph: Staff SRE · MTN
+              - img "Nadine Mbala" [ref=e142]
+            - button "Kevin Talla — Platform Lead · Orange Cameroun" [ref=e143] [cursor=pointer]:
+              - generic:
+                - paragraph: Kevin Talla
+                - paragraph: Platform Lead · Orange Cameroun
+              - img "Kevin Talla" [ref=e144]
+            - button "Arielle Foko — Cloud Architect · Kudi" [ref=e145] [cursor=pointer]:
+              - generic:
+                - paragraph: Arielle Foko
+                - paragraph: Cloud Architect · Kudi
+              - img "Arielle Foko" [ref=e146]
+            - button "Brice Nganou — Co-founder · Infra Labs" [ref=e147] [cursor=pointer]:
+              - generic:
+                - paragraph: Brice Nganou
+                - paragraph: Co-founder · Infra Labs
+              - img "Brice Nganou" [ref=e148]
+            - button "Clarisse Ndongo — CTO · Cauri" [ref=e149] [cursor=pointer]:
+              - generic:
+                - paragraph: Clarisse Ndongo
+                - paragraph: CTO · Cauri
+              - img "Clarisse Ndongo" [ref=e150]
+            - button "Fabrice Song — Cloud Consultant · Google Cloud" [ref=e151] [cursor=pointer]:
+              - generic:
+                - paragraph: Fabrice Song
+                - paragraph: Cloud Consultant · Google Cloud
+              - img "Fabrice Song" [ref=e152]
+            - button "Mireille Abena — DevOps Lead · Ndovu Labs" [ref=e153] [cursor=pointer]:
+              - generic:
+                - paragraph: Mireille Abena
+                - paragraph: DevOps Lead · Ndovu Labs
+              - img "Mireille Abena" [ref=e154]
+            - button "Hugo Essomba — Systems Engineer · Canal+" [ref=e155] [cursor=pointer]:
+              - generic:
+                - paragraph: Hugo Essomba
+                - paragraph: Systems Engineer · Canal+
+              - img "Hugo Essomba" [ref=e156]
+            - button "Diane Nkoulou — Cloud Security Engineer · WiPay" [ref=e157] [cursor=pointer]:
+              - generic:
+                - paragraph: Diane Nkoulou
+                - paragraph: Cloud Security Engineer · WiPay
+              - img "Diane Nkoulou" [ref=e158]
+            - button [ref=e159] [cursor=pointer]:
+              - generic:
+                - paragraph: Nadine Mbala
+                - paragraph: Staff SRE · MTN
+            - button [ref=e161] [cursor=pointer]:
+              - generic:
+                - paragraph: Kevin Talla
+                - paragraph: Platform Lead · Orange Cameroun
+            - button [ref=e163] [cursor=pointer]:
+              - generic:
+                - paragraph: Arielle Foko
+                - paragraph: Cloud Architect · Kudi
+            - button [ref=e165] [cursor=pointer]:
+              - generic:
+                - paragraph: Brice Nganou
+                - paragraph: Co-founder · Infra Labs
+            - button [ref=e167] [cursor=pointer]:
+              - generic:
+                - paragraph: Clarisse Ndongo
+                - paragraph: CTO · Cauri
+            - button [ref=e169] [cursor=pointer]:
+              - generic:
+                - paragraph: Fabrice Song
+                - paragraph: Cloud Consultant · Google Cloud
+            - button [ref=e171] [cursor=pointer]:
+              - generic:
+                - paragraph: Mireille Abena
+                - paragraph: DevOps Lead · Ndovu Labs
+            - button [ref=e173] [cursor=pointer]:
+              - generic:
+                - paragraph: Hugo Essomba
+                - paragraph: Systems Engineer · Canal+
+            - button [ref=e175] [cursor=pointer]:
+              - generic:
+                - paragraph: Diane Nkoulou
+                - paragraph: Cloud Security Engineer · WiPay
+      - generic [ref=e177]:
+        - generic: "#"
+        - generic [ref=e178]:
+          - generic [ref=e179]:
+            - heading "Organizers" [level=2] [ref=e180]
+            - paragraph [ref=e181]: The crew running this edition.
+          - generic [ref=e182]:
+            - article [ref=e183]:
+              - generic [ref=e184]: DC
+              - heading "DevOps Cameroon" [level=3] [ref=e185]
+              - paragraph [ref=e186]: Community Organizers · Core team
+            - article [ref=e187]:
+              - generic [ref=e188]: VC
+              - heading "Volunteer Crew" [level=3] [ref=e189]
+              - paragraph [ref=e190]: Oversight, logistics & AV
+      - generic [ref=e192]:
+        - generic [ref=e193]:
+          - generic [ref=e194]:
+            - heading "Maximizing Cameroon's DevOps Talent" [level=2] [ref=e195]
+            - generic [ref=e196]:
+              - generic [ref=e197]: Become a partner
+              - paragraph [ref=e198]: Interested in sponsorship or partnering with DevOps Cameroon? Get in touch.
+              - link "Contact Us →" [ref=e199] [cursor=pointer]:
+                - /url: "#contact"
+          - generic [ref=e200]:
+            - generic [ref=e201]:
+              - generic [ref=e202]: For Help
+              - generic [ref=e203]: info@devopscameroon.com
+            - generic [ref=e204]:
+              - generic [ref=e205]: For Media
+              - generic [ref=e206]: press@devopscameroon.com
+            - generic [ref=e207]:
+              - generic [ref=e208]: 21 November 2026
+              - generic [ref=e209]: Douala Polytechnic, Cameroon
+            - generic [ref=e210]:
+              - link "Sign up" [ref=e211] [cursor=pointer]:
+                - /url: "#signup"
+              - link "RSVP" [ref=e212] [cursor=pointer]:
+                - /url: /join
+        - generic [ref=e214]:
+          - heading "Devops Cameroon" [level=2] [ref=e215]
+          - generic [ref=e216]:
+            - link "X" [ref=e217] [cursor=pointer]:
+              - /url: "#x"
+              - text: 𝕏
+            - link "LinkedIn" [ref=e218] [cursor=pointer]:
+              - /url: "#in"
+              - text: in
+            - link "GitHub" [ref=e219] [cursor=pointer]:
+              - /url: "#gh"
+              - text: gh
+        - generic [ref=e220]:
+          - generic [ref=e221]: Copyright DevOps Cameroon 2026
+          - generic [ref=e222]:
+            - link "Privacy Policy" [ref=e223] [cursor=pointer]:
+              - /url: "#privacy"
+            - link "Terms" [ref=e224] [cursor=pointer]:
+              - /url: "#terms"

@@ -1,0 +1,105 @@
+- generic [ref=f2e3]:
+  - link "Skip to content" [ref=f2e4] [cursor=pointer]:
+    - /url: "#main"
+  - main [ref=f2e5]:
+    - generic [ref=f2e6]:
+      - navigation [ref=f2e8]:
+        - link "DC / DevOps Cameroon" [ref=f2e9] [cursor=pointer]:
+          - /url: /
+          - generic [ref=f2e10]: DC
+          - generic [ref=f2e11]: /
+          - generic [ref=f2e12]: DevOps Cameroon
+        - generic [ref=f2e13]:
+          - link "home" [ref=f2e14] [cursor=pointer]:
+            - /url: /
+          - link "about" [ref=f2e15] [cursor=pointer]:
+            - /url: /about
+          - link "› events" [ref=f2e16] [cursor=pointer]:
+            - /url: /events
+            - generic [ref=f2e17]: ›
+            - text: events
+          - link "partners" [ref=f2e18] [cursor=pointer]:
+            - /url: "#partners"
+          - link "faq" [ref=f2e19] [cursor=pointer]:
+            - /url: "#faq"
+          - link "join" [ref=f2e20] [cursor=pointer]:
+            - /url: /join
+      - generic [ref=f2e21]:
+        - generic [ref=f2e24]:
+          - generic [ref=f2e25]: Events · DevOps Cameroon
+          - heading "Upcoming Events" [level=1] [ref=f2e26]: UpcomingEvents
+          - generic [ref=f2e27]:
+            - paragraph [ref=f2e28]: Live infrastructure talks, hands-on labs, and hiring conversations — across Cameroon, all year round.
+            - generic [ref=f2e29]:
+              - generic [ref=f2e30]: ◎
+              - generic [ref=f2e31]:
+                - generic [ref=f2e32]: 0 events this season
+                - text: Douala & Yaoundé, Cameroon
+        - generic [ref=f2e33]: SCROLL DOWN
+      - generic [ref=f2e34]:
+        - generic: ★
+        - generic [ref=f2e35]:
+          - generic [ref=f2e36]:
+            - heading "Featured Event" [level=2] [ref=f2e37]
+            - paragraph [ref=f2e38]: The one everyone's watching. Don't sleep on this.
+          - link "· · View Event →" [ref=f2e39] [cursor=pointer]:
+            - /url: /events/
+            - generic [ref=f2e42]:
+              - heading [level=3]
+              - paragraph
+              - generic [ref=f2e43]:
+                - generic [ref=f2e44]: ·
+                - generic [ref=f2e45]: ·
+              - generic [ref=f2e46]: View Event →
+      - generic [ref=f2e48]:
+        - generic: "{ }"
+        - generic [ref=f2e50]:
+          - heading "Upcoming Events" [level=2] [ref=f2e51]
+          - paragraph [ref=f2e52]: Every edition, talk, and lab on the calendar. Open any event to see speakers, schedule, and how to RSVP.
+      - generic [ref=f2e53]:
+        - generic: "?"
+        - generic [ref=f2e56]:
+          - heading "FAQ" [level=2] [ref=f2e57]
+          - paragraph [ref=f2e59]: Do you have another question?
+          - link "Contact Us →" [ref=f2e60] [cursor=pointer]:
+            - /url: "#contact"
+      - generic [ref=f2e62]:
+        - generic [ref=f2e63]:
+          - generic [ref=f2e64]:
+            - heading "Maximizing Cameroon's DevOps Talent" [level=2] [ref=f2e65]
+            - generic [ref=f2e66]:
+              - generic [ref=f2e67]: Become a partner
+              - paragraph [ref=f2e68]: Interested in sponsorship or partnering with DevOps Cameroon? Get in touch.
+              - link "Contact Us →" [ref=f2e69] [cursor=pointer]:
+                - /url: "#contact"
+          - generic [ref=f2e70]:
+            - generic [ref=f2e71]:
+              - generic [ref=f2e72]: For Help
+              - generic [ref=f2e73]: info@devopscameroon.com
+            - generic [ref=f2e74]:
+              - generic [ref=f2e75]: For Media
+              - generic [ref=f2e76]: press@devopscameroon.com
+            - generic [ref=f2e77]:
+              - link "Sign up" [ref=f2e78] [cursor=pointer]:
+                - /url: "#signup"
+              - link "RSVP" [ref=f2e79] [cursor=pointer]:
+                - /url: /join
+        - generic [ref=f2e81]:
+          - heading "Devops Cameroon" [level=2] [ref=f2e82]
+          - generic [ref=f2e83]:
+            - link "X" [ref=f2e84] [cursor=pointer]:
+              - /url: "#x"
+              - text: 𝕏
+            - link "LinkedIn" [ref=f2e85] [cursor=pointer]:
+              - /url: "#in"
+              - text: in
+            - link "GitHub" [ref=f2e86] [cursor=pointer]:
+              - /url: "#gh"
+              - text: gh
+        - generic [ref=f2e87]:
+          - generic [ref=f2e88]: Copyright DevOps Cameroon 2026
+          - generic [ref=f2e89]:
+            - link "Privacy Policy" [ref=f2e90] [cursor=pointer]:
+              - /url: "#privacy"
+            - link "Terms" [ref=f2e91] [cursor=pointer]:
+              - /url: "#terms"

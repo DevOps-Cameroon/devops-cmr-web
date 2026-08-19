@@ -1,0 +1,248 @@
+- generic [ref=e3]:
+  - link "Skip to content" [ref=e4] [cursor=pointer]:
+    - /url: "#main"
+  - main [ref=e5]:
+    - generic [ref=e6]:
+      - navigation [ref=e8]:
+        - link "DC / DevOps Cameroon" [ref=e9] [cursor=pointer]:
+          - /url: /
+          - generic [ref=e10]: DC
+          - generic [ref=e11]: /
+          - generic [ref=e12]: DevOps Cameroon
+        - generic [ref=e13]:
+          - link "home" [ref=e14] [cursor=pointer]:
+            - /url: /
+          - link "about" [ref=e15] [cursor=pointer]:
+            - /url: /about
+          - link "› events" [ref=e16] [cursor=pointer]:
+            - /url: /events
+            - generic [ref=e17]: ›
+            - text: events
+          - link "previous" [ref=e18] [cursor=pointer]:
+            - /url: "#previous"
+          - link "partners" [ref=e19] [cursor=pointer]:
+            - /url: "#partners"
+          - link "faq" [ref=e20] [cursor=pointer]:
+            - /url: "#faq"
+          - link "join" [ref=e21] [cursor=pointer]:
+            - /url: /join
+      - generic [ref=e22]:
+        - generic [ref=e25]:
+          - generic [ref=e26]: DevOps Cameroon
+          - heading "DevOps Showcase" [level=1] [ref=e27]: DevOpsShowcase
+          - generic [ref=e28]:
+            - generic [ref=e29]:
+              - timer [ref=e30]:
+                - generic [ref=e31]:
+                  - generic [ref=e32]: "99"
+                  - generic [ref=e33]: Days
+                - generic [ref=e34]:
+                  - generic [ref=e35]: "03"
+                  - generic [ref=e36]: Hours
+                - generic [ref=e37]:
+                  - generic [ref=e38]: "54"
+                  - generic [ref=e39]: Min
+                - generic [ref=e40]:
+                  - generic [ref=e41]: "20"
+                  - generic [ref=e42]: Sec
+              - paragraph [ref=e43]: Meet some of the top engineers and speakers headlining DevOps Showcase.
+            - generic [ref=e44]:
+              - generic [ref=e45]: ◎
+              - generic [ref=e46]:
+                - generic [ref=e47]: 21 November 2026
+                - text: Douala Polytechnic, Cameroon
+        - generic [ref=e48]: SCROLL DOWN
+      - generic [ref=e49]:
+        - generic: "{ }"
+        - generic [ref=e50]:
+          - generic [ref=e51]:
+            - heading "Previous Events" [level=2] [ref=e52]
+            - paragraph [ref=e53]: Take a look at some of the engineers and teams who've taken the stage at past DevOps Showcase editions, sharing real infrastructure, real incidents, and real wins.
+          - generic "Previous event speakers" [ref=e55]:
+            - generic [ref=e56]:
+              - generic [ref=e57]:
+                - generic [ref=e58]: Speaker Photo
+                - generic [ref=e61]: Speaker
+                - generic [ref=e62]:
+                  - generic [ref=e63]: Ronnie Ndiaye
+                  - text: Co-founder · Infrastructure
+              - generic [ref=e64]:
+                - generic [ref=e65]: Speaker Photo
+                - generic [ref=e68]: Talk
+                - generic [ref=e69]:
+                  - generic [ref=e70]: Bernard Nicodemus
+                  - text: Co-founder · Community
+              - generic [ref=e71]:
+                - generic [ref=e72]: Speaker Photo
+                - generic [ref=e75]: Workshop
+                - generic [ref=e76]:
+                  - generic [ref=e77]: Grace Akono
+                  - text: Organizer · Labs Lead
+              - generic [ref=e78]:
+                - generic [ref=e79]: Speaker Photo
+                - generic [ref=e82]: Talk
+                - generic [ref=e83]:
+                  - generic [ref=e84]: Brice Keutcha
+                  - text: Organizer · Ops Lead
+              - generic [ref=e85]:
+                - generic [ref=e86]: Speaker Photo
+                - generic [ref=e89]: Organizer
+                - generic [ref=e90]:
+                  - generic [ref=e91]: Estelle Mvondo
+                  - text: Organizer · Partnerships
+              - generic [ref=e92]:
+                - generic [ref=e93]: Speaker Photo
+                - generic [ref=e96]: Speaker
+                - generic [ref=e97]:
+                  - generic [ref=e98]: Fouapon Stephy
+                  - text: Organizer · Content
+      - generic [ref=e99]:
+        - generic: "::"
+        - generic [ref=e100]:
+          - generic [ref=e101]: Powered by
+          - generic [ref=e102]:
+            - generic [ref=e103]: aws
+            - generic [ref=e104]: gcloud
+      - generic [ref=e105]:
+        - generic: </>
+        - generic [ref=e107]:
+          - generic [ref=e108]:
+            - heading "About" [level=2] [ref=e109]
+            - paragraph [ref=e110]: DevOps Showcase is the premier event for top cloud and infrastructure engineers, directly connecting Cameroon's best talent to greater career opportunities.
+          - generic [ref=e111]:
+            - generic [ref=e112]:
+              - heading "Who it's for" [level=5] [ref=e113]
+              - paragraph [ref=e114]: DevOps Showcase is built entirely for the top engineers, SREs, and platform teams across Cameroon's growing tech industry, offering a stage to demonstrate real skill, ship real fixes, and stand out.
+            - generic [ref=e115]:
+              - heading "What to expect" [level=5] [ref=e116]
+              - paragraph [ref=e117]: Live infrastructure walkthroughs, hiring conversations, incident-response drills, and off-stage networking that turns into real job offers and freelance contracts.
+      - generic [ref=e120]:
+        - generic [ref=e123]:
+          - heading "Premier Event For Cloud Engineers" [level=3] [ref=e125]: PremierEvent ForCloudEngineers
+          - generic [ref=e126]:
+            - link "Livestream ▷" [ref=e127] [cursor=pointer]:
+              - /url: "#rsvp"
+            - paragraph [ref=e128]: Sign up to watch the livestream for free
+        - generic [ref=e129]:
+          - generic [ref=e130]:
+            - generic [ref=e131]: "03"
+            - generic [ref=e132]: Months
+          - generic [ref=e133]:
+            - generic [ref=e134]: "15"
+            - generic [ref=e135]: Speakers
+          - generic [ref=e136]:
+            - generic [ref=e137]: "12"
+            - generic [ref=e138]: Workshops
+      - generic [ref=e141]:
+        - generic [ref=e142]:
+          - heading "Location" [level=2] [ref=e143]
+          - generic [ref=e144]:
+            - generic [ref=e145]: ◎
+            - generic [ref=e146]:
+              - generic [ref=e147]: 21 November 2026
+              - text: Douala Polytechnic, Cameroon
+            - link "Open Map" [ref=e148] [cursor=pointer]:
+              - /url: "#map"
+        - generic [ref=e151]:
+          - button "Previous venue photo" [ref=e152] [cursor=pointer]: ‹
+          - button "Next venue photo" [ref=e153] [cursor=pointer]: ›
+      - generic [ref=e154]:
+        - generic: "#"
+        - generic [ref=e155]:
+          - heading "Our Partners" [level=2] [ref=e156]
+          - generic [ref=e157]:
+            - generic [ref=e158]: AWS
+            - generic [ref=e159]: Google Cloud
+            - generic [ref=e160]: MTN
+            - generic [ref=e161]: Orange
+            - generic [ref=e162]: GitHub
+            - generic [ref=e163]: Docker
+            - generic [ref=e164]: HashiCorp
+            - generic [ref=e165]: Datadog
+            - generic [ref=e166]: Microsoft Azure
+            - generic [ref=e167]: Canonical
+      - generic [ref=e171]:
+        - heading "Do you want to watch top engineers share their playbooks?" [level=3] [ref=e172]
+        - paragraph [ref=e173]: Join the list of teams who are tuning in for the community's best infrastructure talks.
+        - generic [ref=e174]:
+          - link "Sign up" [ref=e175] [cursor=pointer]:
+            - /url: "#signup"
+          - link "Livestream ▷" [ref=e176] [cursor=pointer]:
+            - /url: "#rsvp"
+      - generic [ref=e179]:
+        - generic: "?"
+        - generic [ref=e181]:
+          - generic [ref=e182]:
+            - heading "FAQ" [level=2] [ref=e183]
+            - paragraph [ref=e185]: Do you have another question?
+            - link "Contact Us →" [ref=e186] [cursor=pointer]:
+              - /url: "#contact"
+          - generic [ref=e187]:
+            - generic [ref=e188]:
+              - button "What is DevOps Showcase and how does it help engineers? ⌄" [expanded] [ref=e189] [cursor=pointer]:
+                - generic [ref=e190]: What is DevOps Showcase and how does it help engineers?
+                - generic [ref=e191]: ⌄
+              - paragraph [ref=e194]: It's DevOps Cameroon's flagship annual event, bringing together the country's top infrastructure engineers for talks, workshops, and direct access to hiring teams.
+            - generic [ref=e195]:
+              - button "Who can participate in this event? ⌄" [ref=e196] [cursor=pointer]:
+                - generic [ref=e197]: Who can participate in this event?
+                - generic [ref=e198]: ⌄
+              - paragraph [ref=e199]: Any engineer working with cloud, infrastructure, or automation — from students shipping their first pipeline to senior SREs running production at scale.
+            - generic [ref=e200]:
+              - button "What opportunities does DevOps Showcase offer engineers? ⌄" [ref=e201] [cursor=pointer]:
+                - generic [ref=e202]: What opportunities does DevOps Showcase offer engineers?
+                - generic [ref=e203]: ⌄
+              - paragraph [ref=e204]: Direct conversations with hiring companies, hands-on workshop credit, and visibility with the sponsors and partners funding Cameroon's DevOps talent pipeline.
+            - generic [ref=e205]:
+              - button "Will there be support for finding job opportunities? ⌄" [ref=e206] [cursor=pointer]:
+                - generic [ref=e207]: Will there be support for finding job opportunities?
+                - generic [ref=e208]: ⌄
+              - paragraph [ref=e209]: Yes — partner companies host a career fair on-site, and our Slack community stays active with job postings and referrals year-round.
+            - generic [ref=e210]:
+              - button "How does DevOps Showcase impact engineers' careers? ⌄" [ref=e211] [cursor=pointer]:
+                - generic [ref=e212]: How does DevOps Showcase impact engineers' careers?
+                - generic [ref=e213]: ⌄
+              - paragraph [ref=e214]: Past attendees have landed roles, freelance contracts, and speaking invitations directly from connections made at the event.
+      - generic [ref=e216]:
+        - generic [ref=e217]:
+          - generic [ref=e218]:
+            - heading "Maximizing Cameroon's DevOps Talent" [level=2] [ref=e219]
+            - generic [ref=e220]:
+              - generic [ref=e221]: Become a partner
+              - paragraph [ref=e222]: Interested in sponsorship or partnering with DevOps Showcase? Get in touch.
+              - link "Contact Us →" [ref=e223] [cursor=pointer]:
+                - /url: "#contact"
+          - generic [ref=e224]:
+            - generic [ref=e225]:
+              - generic [ref=e226]: For Help
+              - generic [ref=e227]: info@devopscameroon.com
+            - generic [ref=e228]:
+              - generic [ref=e229]: For Media
+              - generic [ref=e230]: press@devopscameroon.com
+            - generic [ref=e231]:
+              - generic [ref=e232]: 21 November 2026
+              - generic [ref=e233]: Douala Polytechnic, Cameroon
+            - generic [ref=e234]:
+              - link "Sign up" [ref=e235] [cursor=pointer]:
+                - /url: "#signup"
+              - link "Livestream ▷" [ref=e236] [cursor=pointer]:
+                - /url: "#rsvp"
+        - generic [ref=e238]:
+          - heading "Devops Cameroon" [level=2] [ref=e239]
+          - generic [ref=e240]:
+            - link "X" [ref=e241] [cursor=pointer]:
+              - /url: "#x"
+              - text: 𝕏
+            - link "LinkedIn" [ref=e242] [cursor=pointer]:
+              - /url: "#in"
+              - text: in
+            - link "GitHub" [ref=e243] [cursor=pointer]:
+              - /url: "#gh"
+              - text: gh
+        - generic [ref=e244]:
+          - generic [ref=e245]: Copyright DevOps Showcase 2026
+          - generic [ref=e246]:
+            - link "Privacy Policy" [ref=e247] [cursor=pointer]:
+              - /url: "#privacy"
+            - link "Terms" [ref=e248] [cursor=pointer]:
+              - /url: "#terms"
