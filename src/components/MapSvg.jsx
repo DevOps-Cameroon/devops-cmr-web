@@ -13,7 +13,7 @@ const MapSvg = () => {
       if (!container) return;
 
       try {
-        const resp = await fetch('/devops-cameroon%20(1).html');
+        const resp = await fetch('/devops-cameroon.html');
         if (!resp.ok) return;
         const html = await resp.text();
         console.debug('MapSvg: loaded HTML length', html.length);
