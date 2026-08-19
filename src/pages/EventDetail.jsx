@@ -1,49 +1,24 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { gsap, useGSAP } from '../lib/gsap'
-import { useReducedMotion } from '../hooks/useReducedMotion'
-import { useShowcaseEvent } from '../hooks/useShowcase'
-import { showcaseEventIcon } from '../lib/eventIcons'
-import ShowcaseHeader from '../components/ShowcaseHeader'
-import ShowcaseFooter from '../components/ShowcaseFooter'
-import SpeakersSection from '../components/SpeakersSection'
-import '../events-showcase.css'
-
-const navItems = [
-  { label: 'home', to: '/', type: 'route' },
-  { label: 'about', to: '/about', type: 'route' },
-  { label: 'events', to: '/events', type: 'route', active: true },
-  { label: 'partners', to: '#partners', type: 'anchor' },
-  { label: 'join', to: '/join', type: 'route' },
-]
+import { gsap, useGSAP } from '@/lib/gsap'
+import { useReducedMotion } from '@/hooks/useReducedMotion'
+import { useShowcaseEvent } from '@/hooks/useShowcase'
+import { showcaseEventIcon } from '@/lib/eventIcons'
+import Container from '@/components/ui/container'
+import SweepButton from '@/components/ui/SweepButton'
+import ScrollReveal from '@/components/ScrollReveal'
+import Watermark from '@/components/pages/events/Watermark'
+import SpeakersSection from '@/components/pages/events/SpeakersSection'
+import Countdown from '@/components/pages/events/Countdown'
+import SectionHeading from '@/components/pages/events/SectionHeading'
 
 const partners = ['AWS', 'Google Cloud', 'MTN', 'Orange', 'GitHub', 'Docker', 'HashiCorp', 'Datadog', 'Microsoft Azure', 'Canonical']
-
-function useCountdown(target) {
-  const [now, setNow] = useState(() => Date.now())
-  useEffect(() => {
-    const id = setInterval(() => setNow(Date.now()), 1000)
-    return () => clearInterval(id)
-  }, [])
-  const diff = Math.max(0, target - now)
-  return {
-    days: Math.floor(diff / 86400000),
-    hours: Math.floor((diff % 86400000) / 3600000),
-    minutes: Math.floor((diff % 3600000) / 60000),
-    seconds: Math.floor((diff % 60000) / 1000),
-  }
-}
 
 export default function EventDetail() {
   const { id } = useParams()
   const rootRef = useRef(null)
   const reduced = useReducedMotion()
   const { event, photos, loading: eventLoading } = useShowcaseEvent(id)
-
-  const targetDate = new Date(event?.dateISO || Date.now()).getTime()
-  const { days, hours, minutes, seconds } = useCountdown(targetDate)
-
-  const pad = (n) => String(n).padStart(2, '0')
 
   useEffect(() => {
     const onPop = () => {
@@ -62,51 +37,6 @@ export default function EventDetail() {
       if (reduced) return
       if (!event) return
 
-      gsap.utils.toArray('[data-reveal]').forEach((el) => {
-        gsap.fromTo(
-          el,
-          { y: 36, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 0.7,
-            ease: 'power3.out',
-            scrollTrigger: { trigger: el, start: 'top 88%', once: true },
-          },
-        )
-      })
-
-      gsap.utils.toArray('[data-scrub-text]').forEach((el) => {
-        gsap.fromTo(
-          el,
-          { opacity: 0.1, filter: 'grayscale(1)' },
-          {
-            opacity: 1,
-            filter: 'grayscale(0)',
-            ease: 'none',
-            scrollTrigger: {
-              trigger: el,
-              start: 'top 92%',
-              end: 'top 30%',
-              scrub: 0.5,
-            },
-          },
-        )
-      })
-
-      gsap.utils.toArray('.dc-showcase .wm').forEach((wm) => {
-        gsap.to(wm, {
-          y: () => gsap.utils.random(-40, 60),
-          ease: 'none',
-          scrollTrigger: {
-            trigger: wm.closest('.wm-section') || wm,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: 0.6,
-          },
-        })
-      })
-
       const heroPhoto = rootRef.current?.querySelector('.detail-hero .photo')
       if (heroPhoto) {
         gsap.fromTo(
@@ -116,7 +46,7 @@ export default function EventDetail() {
             y: 40,
             ease: 'none',
             scrollTrigger: {
-              trigger: '.dc-showcase .detail-hero',
+              trigger: '.detail-hero',
               start: 'top top',
               end: 'bottom top',
               scrub: 0.6,
@@ -136,8 +66,8 @@ export default function EventDetail() {
         })
       }
 
-      gsap.fromTo(
-        '.dc-showcase .detail-hero-content > *',
+gsap.fromTo(
+        '.detail-hero-content > *',
         { y: 40, opacity: 0 },
         { y: 0, opacity: 1, duration: 0.8, stagger: 0.1, ease: 'power3.out' },
       )
@@ -147,214 +77,303 @@ export default function EventDetail() {
 
   if (eventLoading || !event) {
     return (
-      <div className="dc-showcase" id="top" ref={rootRef} style={{ minHeight: '100vh' }}>
-        <ShowcaseHeader items={navItems} />
-        <div className="wrap" style={{ padding: '120px 24px', color: '#8b8f98' }}>Loading event…</div>
+      <div id="top" ref={rootRef} className="min-h-screen bg-base text-ink">
+        <Container className="px-6 py-32">
+          <p className="font-mono text-sm text-ink-3">Loading event…</p>
+        </Container>
       </div>
     )
   }
 
   return (
-    <div className="dc-showcase" id="top" ref={rootRef}>
-      <ShowcaseHeader items={navItems} />
-
+    <div id="top" ref={rootRef} className="overflow-x-clip bg-base text-ink">
       {/* ================= HERO ================= */}
-      <section className="detail-hero hero" id="events" style={{ '--ev-accent': event.accent }}>
-        <div className="photo" style={{ backgroundImage: `url(${event.img})` }} aria-hidden="true" />
-        <div className="hero-overlay" />
+      <section id="events" className="detail-hero relative min-h-[520px] overflow-hidden md:min-h-[574px]" style={{ '--ev-accent': event.accent }}>
+        <div
+          aria-hidden="true"
+          className="photo absolute inset-0 bg-cover bg-center will-change-transform"
+          style={{ backgroundImage: `url(${event.img})` }}
+        />
+        <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-[#060709]/92 via-[#060709]/70 to-[#060709]/20" />
 
-        <div className="hero-content detail-hero-content wrap">
-          <div className="hero-eyebrow">
-            Events · DevOps Cameroon <span className="detail-hero-tag">/ {event.tag}</span>
+        <Container className="detail-hero-content relative z-[2] flex min-h-[520px] flex-col justify-end pb-16 pt-20 md:min-h-[574px]">
+          <div className="mb-3.5 font-sans text-[13px] font-medium text-white/85">
+            Events · DevOps Cameroon{' '}
+            <span className="font-semibold uppercase tracking-wide text-[var(--ev-accent)]">/ {event.tag}</span>
           </div>
-          <h1>
+          <h1 className="font-sans text-[clamp(3.25rem,8.6vw,6.75rem)] font-extrabold uppercase leading-[0.98] tracking-tight text-white">
             {event.title}
             <br />
-            <span className="hero-accent">{event.year}</span>
+            <span className="text-accent">{event.year}</span>
           </h1>
 
-          <div className="hero-bottom">
-            <div className="countdown" role="timer" aria-live="off">
-              <div className="cell">
-                <div className="num">{pad(days)}</div>
-                <div className="lbl">Days</div>
-              </div>
-              <div className="cell">
-                <div className="num">{pad(hours)}</div>
-                <div className="lbl">Hours</div>
-              </div>
-              <div className="cell">
-                <div className="num">{pad(minutes)}</div>
-                <div className="lbl">Min</div>
-              </div>
-              <div className="cell">
-                <div className="num">{pad(seconds)}</div>
-                <div className="lbl">Sec</div>
-              </div>
-            </div>
+          <div className="mt-10 flex flex-wrap items-end justify-between gap-6">
+            <Countdown target={event.dateISO} />
 
-            <div className="hero-date">
-              <div className="date-badge">{showcaseEventIcon[event.tag]}</div>
+            <div className="flex items-center gap-3">
+              <div className="flex h-11 w-11 flex-none items-center justify-center bg-accent text-ink">
+                {showcaseEventIcon[event.tag]}
+              </div>
               <div>
-                <b>{event.dateLabel}</b>
-                <span>{event.venue}</span>
+                <b className="block font-sans text-sm font-bold text-white">{event.dateLabel}</b>
+                <span className="text-xs text-white/60">{event.venue}</span>
               </div>
             </div>
           </div>
-        </div>
+        </Container>
 
-        <div className="scroll-hint">SCROLL DOWN</div>
+        <div className="scroll-hint absolute bottom-0 left-1/2 z-[3] -translate-x-1/2 bg-surface px-5 pb-1 pt-2 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-ink-3">
+          SCROLL DOWN
+        </div>
       </section>
 
       {/* ================= ABOUT THIS EVENT ================= */}
-      <section className="wm-section">
-        <div className="wm" style={{ bottom: '-70px', left: '-30px', fontSize: 'clamp(140px,18vw,240px)', transform: 'rotate(-6deg)' }}>
+      <section className="wm-section relative overflow-hidden py-16 lg:py-24">
+        <Watermark
+          className="bottom-[-70px] left-[-30px] text-[clamp(140px,18vw,240px)]"
+          style={{ transform: 'rotate(-6deg)' }}
+        >
           {'</>'}
-        </div>
-        <div className="wrap">
-          <div className="about-card" data-reveal>
-            <div className="about-top wrap" style={{ padding: '0 24px' }}>
-              <h2 data-scrub-text>About this event</h2>
-              <p className="about-statement" data-scrub-text>
+        </Watermark>
+        <Container>
+          <ScrollReveal as="div" variant="block" className="rounded-t border border-line">
+            <div className="flex flex-wrap items-start justify-between gap-10 px-6 pt-14 lg:px-8">
+              <ScrollReveal
+                as="h2"
+                variant="scrub"
+                className="font-sans text-[2.4rem] font-extrabold uppercase leading-none tracking-tight text-accent"
+              >
+                About this event
+              </ScrollReveal>
+              <ScrollReveal
+                as="p"
+                variant="scrub"
+                className="about-statement max-w-[640px] text-left font-sans text-[clamp(1.25rem,2.4vw,1.7rem)] font-extrabold uppercase leading-[1.32] tracking-tight text-ink"
+              >
                 {event.summary}
-              </p>
+              </ScrollReveal>
             </div>
 
-            <ul className="about-highlights wrap" style={{ padding: '0 24px' }} data-scrub-text>
+            <ScrollReveal as="ul" variant="scrub" className="mt-10 border-y border-line">
               {event.highlights.map((h) => (
-                <li key={h}>{h}</li>
+                <li
+                  key={h}
+                  className="relative border-b border-line py-[17px] pl-8 pr-4 text-sm font-semibold text-ink last:border-b-0"
+                >
+                  <span aria-hidden="true" className="absolute left-2 top-1/2 -translate-y-1/2 font-bold text-accent">
+                    →
+                  </span>
+                  {h}
+                </li>
               ))}
-            </ul>
+            </ScrollReveal>
 
-            <div className="about-cols wrap" style={{ paddingLeft: '24px', paddingRight: '24px' }}>
+            <div className="grid grid-cols-1 gap-10 px-6 py-11 md:grid-cols-2 lg:px-8">
               <div>
-                <h5 data-scrub-text>Who it's for</h5>
-                <p data-scrub-text>
-                  Built for the engineers, SREs, and platform teams behind Cameroon's growing stacks — a stage to
+                <ScrollReveal
+                  as="h5"
+                  variant="scrub"
+                  className="mb-2.5 font-mono text-xs font-semibold uppercase tracking-[0.04em] text-ink"
+                >
+                  Who it&apos;s for
+                </ScrollReveal>
+                <ScrollReveal as="p" variant="scrub" className="text-[13.5px] leading-[1.75] text-ink-2">
+                  Built for the engineers, SREs, and platform teams behind Cameroon&apos;s growing stacks — a stage to
                   demonstrate real skill and stand out.
-                </p>
+                </ScrollReveal>
               </div>
               <div>
-                <h5 data-scrub-text>Format</h5>
-                <p data-scrub-text>{event.format}. Live walkthroughs, hiring conversations, and networking that turns into real offers.</p>
-                <p data-scrub-text className="about-seats">{event.seats} available</p>
+                <ScrollReveal
+                  as="h5"
+                  variant="scrub"
+                  className="mb-2.5 font-mono text-xs font-semibold uppercase tracking-[0.04em] text-ink"
+                >
+                  Format
+                </ScrollReveal>
+                <ScrollReveal as="p" variant="scrub" className="text-[13.5px] leading-[1.75] text-ink-2">
+                  {event.format}. Live walkthroughs, hiring conversations, and networking that turns into real offers.
+                </ScrollReveal>
+                <ScrollReveal
+                  as="p"
+                  variant="scrub"
+                  className="mt-3 inline-block bg-accent px-3.5 py-[7px] font-mono text-xs font-bold uppercase tracking-[0.04em] text-ink"
+                >
+                  {event.seats} available
+                </ScrollReveal>
               </div>
             </div>
-          </div>
-        </div>
+          </ScrollReveal>
+        </Container>
       </section>
 
       {/* ================= CTA ================= */}
-      <section>
-        <div className="wrap">
-          <div className="cta-card" data-reveal>
-            <div className="photo" style={{ backgroundImage: `url(${photos.cta})` }} aria-hidden="true" />
-            <div className="cta-shade" />
-            <div className="cta-body">
+      <section className="py-16 lg:py-24">
+        <Container>
+          <ScrollReveal as="div" variant="block" className="relative grid min-h-[400px] overflow-hidden">
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 bg-cover bg-center"
+              style={{ backgroundImage: `url(${photos.cta})` }}
+            />
+            <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-r from-[#060709]/90 via-[#060709]/50 to-[#060709]/15" />
+            <div className="cta-body relative z-[2] flex min-h-[400px] flex-col justify-between p-11">
               <div>
-                <h3 data-scrub-text>
+                <ScrollReveal
+                  as="h3"
+                  variant="scrub"
+                  className="max-w-[360px] font-sans text-[clamp(1.875rem,4.2vw,2.875rem)] font-extrabold uppercase leading-tight tracking-tight text-white"
+                >
                   {event.title}
                   <br />
                   {event.year}
-                </h3>
+                </ScrollReveal>
               </div>
-              <div className="cta-foot">
-                <Link to="/join" className="btn btn-white">
+              <div className="flex flex-wrap items-center gap-4">
+                <SweepButton
+                  as={Link}
+                  to="/join"
+                  variant="outline"
+                  className="border-white/80 text-white [&_.label-default]:text-white"
+                >
                   RSVP
-                </Link>
-                <p>{event.dateLabel} · <strong className="cta-seats">{event.seats}</strong></p>
+                </SweepButton>
+                <p className="max-w-[170px] text-[12.5px] leading-relaxed text-white/65">
+                  {event.dateLabel} · <strong className="text-accent">{event.seats}</strong>
+                </p>
               </div>
             </div>
-            <div className="cta-stats">
-              <div className="stat">
-                <div className="n">{String(event.speakers.length).padStart(2, '0')}</div>
-                <div className="l">Speakers</div>
-              </div>
-              <div className="stat">
-                <div className="n">04</div>
-                <div className="l">Workshops</div>
-              </div>
-              <div className="stat">
-                <div className="n">01</div>
-                <div className="l">Event</div>
+            <div className="cta-stats z-[3] bg-accent shadow-[0_20px_50px_rgba(0,0,0,0.45)] md:absolute md:right-9 md:top-1/2 md:w-[170px] md:-translate-y-1/2">
+              <div className="flex md:block">
+                {[
+                  { n: String(event.speakers.length).padStart(2, '0'), l: 'Speakers' },
+                  { n: '04', l: 'Workshops' },
+                  { n: '01', l: 'Event' },
+                ].map((stat, i) => (
+                  <div
+                    key={stat.l}
+                    className={`flex-1 border-ink/15 px-3 py-4 text-center md:flex-none md:border-b md:px-5 md:text-left ${
+                      i > 0 ? 'border-l md:border-l-0' : ''
+                    } ${i < 2 ? 'md:border-b' : ''}`}
+                  >
+                    <div className="font-sans text-[2rem] font-extrabold leading-none text-ink">{stat.n}</div>
+                    <div className="mt-0.5 text-[11px] text-ink/65">{stat.l}</div>
+                  </div>
+                ))}
               </div>
             </div>
-          </div>
-        </div>
+          </ScrollReveal>
+        </Container>
       </section>
 
       {/* ================= LOCATION ================= */}
-      <section id="location">
-        <div className="wrap">
-          <div className="location-card" data-reveal>
-            <div className="location-info">
-              <h2 data-scrub-text>Location</h2>
-              <div className="loc-date">
-                <div className="date-badge">◎</div>
-                <div>
-                  <b>{event.dateLabel}</b>
-                  <span>{event.venue}</span>
+      <section id="location" className="py-16 lg:py-24">
+        <Container>
+          <ScrollReveal as="div" variant="block" className="grid min-h-[340px] grid-cols-1 overflow-hidden bg-ink text-white lg:grid-cols-[0.85fr_1.15fr]">
+            <div className="flex flex-col justify-between gap-6 p-10 lg:p-11">
+              <ScrollReveal
+                as="h2"
+                variant="scrub"
+                className="font-sans text-[2rem] font-extrabold uppercase leading-tight tracking-tight text-white"
+              >
+                Location
+              </ScrollReveal>
+              <div className="flex flex-col items-start gap-3.5 lg:items-start">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-11 w-11 flex-none items-center justify-center bg-accent text-ink">◎</div>
+                  <div>
+                    <b className="block font-sans text-base font-bold text-white">{event.dateLabel}</b>
+                    <span className="text-[12.5px] text-ink-3">{event.venue}</span>
+                  </div>
                 </div>
-                <a href="#map" onClick={(e) => e.preventDefault()} className="btn btn-white">
+                <SweepButton
+                  as="a"
+                  href="#map"
+                  onClick={(e) => e.preventDefault()}
+                  variant="outline"
+                  className="border-white/80 text-white [&_.label-default]:text-white"
+                >
                   Open Map
-                </a>
+                </SweepButton>
               </div>
             </div>
-            <div className="location-img">
-              <div className="photo" style={{ backgroundImage: `url(${photos.location})` }} aria-hidden="true" />
-              <div className="map-nav">
-                <button type="button" aria-label="Previous venue photo">‹</button>
-                <button type="button" aria-label="Next venue photo">›</button>
+            <div className="relative min-h-[240px] overflow-hidden lg:ml-0 lg:min-h-0 lg:rounded-r-lg lg:m-5 lg:mr-5">
+              <div
+                aria-hidden="true"
+                className="absolute inset-0 bg-cover bg-center"
+                style={{ backgroundImage: `url(${photos.location})` }}
+              />
+              <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-r from-ink via-ink/55 to-transparent" />
+              <div className="absolute bottom-3.5 right-3.5 z-[2] flex gap-2">
+                {['‹', '›'].map((g, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    aria-label={i === 0 ? 'Previous venue photo' : 'Next venue photo'}
+                    className="flex h-9 w-9 items-center justify-center bg-white text-sm text-ink transition-colors hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                  >
+                    {g}
+                  </button>
+                ))}
               </div>
             </div>
-          </div>
-        </div>
+          </ScrollReveal>
+        </Container>
       </section>
 
-      {/* ================= PARTNERS pyramid ================= */}
-      <section className="partners-section wm-section" id="partners">
-        <div className="wm" style={{ top: '-90px', left: '50%', transform: 'translateX(-50%)', fontSize: 'clamp(180px,24vw,300px)' }}>
-          #
-        </div>
-        <div className="wrap">
-          <h2 style={{ fontSize: '34px' }} data-scrub-text>
+      {/* ================= PARTNERS ================= */}
+      <section id="partners" className="wm-section relative overflow-hidden py-16 text-center lg:py-24">
+        <Watermark className="left-1/2 top-[-90px] -translate-x-1/2 text-[clamp(180px,24vw,300px)]">#</Watermark>
+        <Container>
+          <ScrollReveal
+            as="h2"
+            variant="scrub"
+            className="text-center font-sans text-[2.1rem] font-extrabold uppercase leading-tight tracking-tight text-ink"
+          >
             Partners
-          </h2>
-          <div className="partners-grid" data-reveal>
+          </ScrollReveal>
+          <ScrollReveal
+            as="div"
+            variant="block"
+            className="mt-10 grid grid-cols-2 gap-px overflow-hidden rounded border border-line bg-line md:grid-cols-3 lg:grid-cols-5"
+          >
             {partners.map((p) => (
-              <div key={p}>{p}</div>
+              <div
+                key={p}
+                className="flex items-center justify-center bg-surface px-2.5 py-8 font-mono text-sm font-semibold uppercase tracking-[0.01em] text-ink-2 transition-colors hover:bg-base hover:text-ink"
+              >
+                {p}
+              </div>
             ))}
-          </div>
-        </div>
+          </ScrollReveal>
+        </Container>
       </section>
 
       {/* ================= SPEAKERS ================= */}
       <SpeakersSection speakers={event.speakers} accent={event.accent} />
 
       {/* ================= ORGANIZERS ================= */}
-      <section className="wm-section">
-        <div className="wm" style={{ bottom: '-70px', right: '-30px', fontSize: 'clamp(140px,18vw,240px)' }}>
-          #
-        </div>
-        <div className="wrap">
-          <div className="sec-head" data-reveal>
-            <h2 data-scrub-text>Organizers</h2>
-            <p data-scrub-text>The crew running this edition.</p>
-          </div>
+      <section className="wm-section relative overflow-hidden py-16 lg:py-24">
+        <Watermark className="bottom-[-70px] right-[-30px] text-[clamp(140px,18vw,240px)]">#</Watermark>
+        <Container>
+          <SectionHeading title="Organizers" sub="The crew running this edition." />
 
-          <div className="organizer-grid" data-reveal>
+          <ScrollReveal
+            as="div"
+            variant="block"
+            className="grid grid-cols-1 gap-[18px] sm:grid-cols-2 lg:grid-cols-3"
+          >
             {event.organizers.map((o) => (
-              <article key={o.name} className="organizer-card">
-                <div className="organizer-avatar">{o.initials}</div>
-                <h3 className="organizer-name">{o.name}</h3>
-                <p className="organizer-role">{o.role}</p>
+              <article key={o.name} className="rounded bg-accent p-7 text-left transition-transform duration-300 hover:-translate-y-1">
+                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded bg-ink font-mono text-lg font-bold text-accent">
+                  {o.initials}
+                </div>
+                <h3 className="font-sans text-lg font-extrabold uppercase leading-tight tracking-tight text-ink">{o.name}</h3>
+                <p className="mt-1 text-[12.5px] font-medium text-ink/70">{o.role}</p>
               </article>
             ))}
-          </div>
-        </div>
+          </ScrollReveal>
+        </Container>
       </section>
-
-      <ShowcaseFooter event={event} />
     </div>
   )
 }

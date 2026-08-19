@@ -27,3 +27,6 @@ dist-ssr
 #Miscellaneous
 
 devops-cameroon.html
+
+#Playwright QA artifacts
+.playwright-mcp/
