@@ -25,9 +25,6 @@ const MapSvg = () => {
 
         // clone the verbatim SVG from the HTML file and insert it
         const svgNode = svg.cloneNode(true);
-        // ensure clip rect is expanded if animate isn't present
-        const clipRect = svgNode.querySelector('#reveal-rect');
-        if (clipRect) clipRect.setAttribute('height', '1250');
 
         // clear container and append
         container.innerHTML = '';
@@ -69,7 +66,7 @@ const MapSvg = () => {
             const len = p.getTotalLength();
             p.style.strokeDasharray = len;
             p.style.strokeDashoffset = len;
-            tl.to(p, { strokeDashoffset: 0, duration: 0.9, ease: 'power1.out' }, i * 0.02);
+            tl.to(p, { strokeDashoffset: 0, duration: 1.8, ease: 'power1.out' }, i * 0.06);
           } catch (e) {}
         });
 
