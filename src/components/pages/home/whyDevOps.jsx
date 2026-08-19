@@ -1,9 +1,6 @@
 // src/components/WhyDevOps.jsx
 import React from 'react';
 import { Layers, Link2, ArrowUpDown, Terminal} from 'lucide-react';
-import dec4 from '../../../assets/images/dec4.png';
-import dec5 from '../../../assets/images/dec5.png';
-import dec3 from '../../../assets/images/dec3.png';
 
 const CARDS = [
   {
@@ -32,18 +29,10 @@ const CARDS = [
   },
 ];
 
-const DECO_IMAGES = [dec4, dec5, dec3];
-
-function Deco({ className = '', index = 0 }) {
-  const src = DECO_IMAGES[index % DECO_IMAGES.length];
-  return (
-    <img
-      src={src}
-      alt=""
-      className={`w-full h-full object-contain ${className} opacity-25 pointer-events-none select-none`}
-      aria-hidden="true"
-    />
-  );
+// Decorative placeholder blocks — plain squares for now, will be swapped
+// for the notched/quarter-circle SVG shapes later.
+function Deco({ className = '' }) {
+  return <div className={`rounded-2xl bg-surface-2 ${className}`} aria-hidden="true" />;
 }
 
 export default function WhyDevOps() {
@@ -86,7 +75,7 @@ export default function WhyDevOps() {
         />
 
         {/* ---------- Top-right decorative — xl only ---------- */}
-        <Deco index={0} className="hidden xl:block xl:col-start-4 xl:row-start-1" />
+        <Deco className="hidden xl:block xl:col-start-4 xl:row-start-1" />
 
         {/* ---------- Card 2 — Dark / ink ---------- */}
         <Card
@@ -100,11 +89,10 @@ export default function WhyDevOps() {
         />
 
         {/* ---------- Bottom-left decorative — xl only ---------- */}
-        <Deco index={1} className="hidden xl:block xl:col-start-1 xl:row-start-2" />
+        <Deco className="hidden xl:block xl:col-start-1 xl:row-start-2" />
 
         {/* ---------- Middle decorative — lg AND xl ---------- */}
         <Deco
-          index={2}
           className="
             hidden
             lg:block lg:col-start-2 lg:row-start-2
