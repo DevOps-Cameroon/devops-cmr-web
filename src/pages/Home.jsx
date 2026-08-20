@@ -130,7 +130,7 @@ export default function Home() {
       <HeroSection ref={heroRef} />
       <ImpactStats />
       <WhyDevOps />
-      {/* <ProjectShowcase /> */}
+      <ProjectShowcase />
       {/* <CommunityBuilds /> */}
       {/* <EventSpotlight /> */}
       {/* <CommunityCTA /> */}
