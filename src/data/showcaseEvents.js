@@ -9,7 +9,7 @@ const speakerData = {
   cloudSpeakers: [
     {
       name: 'Nadine Mbala', role: 'Staff SRE · MTN', topic: 'Keeping 12M users online at 2am', initials: 'NM',
-      img: 'https://i.pravatar.cc/600?img=5', thumb: 'https://i.pravatar.cc/300?img=5',
+      img: '/images/org1.png', thumb: '/images/org1.png',
       bio: [
         'Nadine keeps MTN’s mobile-money stack online around the clock — measurable, boring, and fast.',
         'She’ll walk through the incident that took down services in three regions, and the runbook that stopped it from ever recurring.',
@@ -18,7 +18,7 @@ const speakerData = {
     },
     {
       name: 'Kevin Talla', role: 'Platform Lead · Orange Cameroun', topic: 'From Kubernetes toys to production fleets', initials: 'KT',
-      img: 'https://i.pravatar.cc/600?img=15', thumb: 'https://i.pravatar.cc/300?img=15',
+      img: '/images/org2.png', thumb: '/images/org2.png',
       bio: [
         'Kevin runs the platform team that moved Orange Cameroun’s workloads onto production Kubernetes.',
         'He talks about the boring decisions that made the migration stick, and the three mistakes he hopes you won’t repeat.',
@@ -27,7 +27,7 @@ const speakerData = {
     },
     {
       name: 'Arielle Foko', role: 'Cloud Architect · Kudi', topic: 'Designing for failure in African fintech', initials: 'AF',
-      img: 'https://i.pravatar.cc/600?img=32', thumb: 'https://i.pravatar.cc/300?img=32',
+      img: '/images/org3.png', thumb: '/images/org3.png',
       bio: [
         'Arielle designs fintech architectures that assume the worst and stay fast anyway.',
         'Her talk maps a multi-region AWS design built on a shoestring budget, fault injection included.',
@@ -36,7 +36,7 @@ const speakerData = {
     },
     {
       name: 'Brice Nganou', role: 'Co-founder · Infra Labs', topic: 'Terraform at team scale without the tears', initials: 'BN',
-      img: 'https://i.pravatar.cc/600?img=12', thumb: 'https://i.pravatar.cc/300?img=12',
+      img: '/images/org4.png', thumb: '/images/org4.png',
       bio: [
         'Brice co-founded Infra Labs to give local startups infrastructure muscle on a budget.',
         'He demonstrates Terraform workflows that scale across teams without turning your repos into war zones.',
@@ -45,7 +45,7 @@ const speakerData = {
     },
     {
       name: 'Clarisse Ndongo', role: 'CTO · Cauri', topic: 'Building multi-cloud on a startup budget', initials: 'CN',
-      img: 'https://i.pravatar.cc/600?img=26', thumb: 'https://i.pravatar.cc/300?img=26',
+      img: '/images/org5.png', thumb: '/images/org5.png',
       bio: [
         'Clarisse ships products on three clouds without letting cost control the roadmap.',
         'She’s here to show how small teams stay multi-cloud without the multi-cloud headaches.',
@@ -54,7 +54,7 @@ const speakerData = {
     },
     {
       name: 'Fabrice Song', role: 'Cloud Consultant · Google Cloud', topic: 'Right-sizing every workload you run', initials: 'FS',
-      img: 'https://i.pravatar.cc/600?img=60', thumb: 'https://i.pravatar.cc/300?img=60',
+      img: '/images/IMG2.png', thumb: '/images/IMG2.png',
       bio: [
         'Fabrice helps companies pay for capacity they actually use, not capacity they’re afraid of running out of.',
         'Expect a live cost-optimization clinic on real customer bills.',
@@ -63,7 +63,7 @@ const speakerData = {
     },
     {
       name: 'Mireille Abena', role: 'DevOps Lead · Ndovu Labs', topic: 'Shipping observability before launch day', initials: 'MA',
-      img: 'https://i.pravatar.cc/600?img=44', thumb: 'https://i.pravatar.cc/300?img=44',
+      img: '/images/org1.png', thumb: '/images/org1.png',
       bio: [
         'Mireille leads DevOps at Ndovu Labs, where observability is a launch requirement, not an afterthought.',
         'She’ll share the instrumentation checklist her teams ship before any go-live.',
@@ -72,7 +72,7 @@ const speakerData = {
     },
     {
       name: 'Hugo Essomba', role: 'Systems Engineer · Canal+', topic: 'Bare metal that refuses to break', initials: 'HE',
-      img: 'https://i.pravatar.cc/600?img=20', thumb: 'https://i.pravatar.cc/300?img=20',
+      img: '/images/org2.png', thumb: '/images/org2.png',
       bio: [
         'Hugo keeps broadcast infrastructure alive in environments where the cloud isn’t an option.',
         'He defends boring, well-tested systems with surprising enthusiasm.',
@@ -81,7 +81,7 @@ const speakerData = {
     },
     {
       name: 'Diane Nkoulou', role: 'Cloud Security Engineer · WiPay', topic: 'Securing the pipeline end to end', initials: 'DN',
-      img: 'https://i.pravatar.cc/600?img=3', thumb: 'https://i.pravatar.cc/300?img=3',
+      img: '/images/org3.png', thumb: '/images/org3.png',
       bio: [
         'Diane bakes security into the pipeline so releases stop being a trust exercise.',
         'Her session covers workload identity, secret handling, and the audits that actually catch things.',
@@ -92,7 +92,7 @@ const speakerData = {
   sreSpeakers: [
     {
       name: 'Carmen Atangana', role: 'Head of Observability · MTN', topic: 'Metrics, logs, traces — pick your fight', initials: 'CA',
-      img: 'https://i.pravatar.cc/600?img=5', thumb: 'https://i.pravatar.cc/300?img=5',
+      img: '/images/org4.png', thumb: '/images/org4.png',
       bio: [
         'Carmen runs observability for MTN’s most critical platforms, from KPIs to on-call discipline.',
         'She’ll show what changes when you stop collecting everything and start collecting the right things.',
@@ -101,7 +101,7 @@ const speakerData = {
     },
     {
       name: 'Serge Ekollo', role: 'On-call Lead · Wave', topic: 'Burnout-free on-call rotations', initials: 'SE',
-      img: 'https://i.pravatar.cc/600?img=15', thumb: 'https://i.pravatar.cc/300?img=15',
+      img: '/images/org5.png', thumb: '/images/org5.png',
       bio: [
         'Serge designed Wave’s on-call program around alert fatigue, follow-the-sun rotations, and sleep.',
         'He’s here to prove reliability and a healthy team aren’t in conflict.',
@@ -110,7 +110,7 @@ const speakerData = {
     },
     {
       name: 'Yann Djomga', role: 'Incident Commander · Diginext', topic: 'Running the postmortem without blame', initials: 'YD',
-      img: 'https://i.pravatar.cc/600?img=60', thumb: 'https://i.pravatar.cc/300?img=60',
+      img: '/images/IMG2.png', thumb: '/images/IMG2.png',
       bio: [
         'Yann leads incident response at Diginext and has commanded some genuinely scary firefights.',
         'His postmortem framework turns outages into system fixes instead of excuses.',
@@ -119,7 +119,7 @@ const speakerData = {
     },
     {
       name: 'Rosine Makembe', role: 'SRE · Tangerine Finance', topic: 'SLIs/SLOs your team will actually keep', initials: 'RM',
-      img: 'https://i.pravatar.cc/600?img=32', thumb: 'https://i.pravatar.cc/300?img=32',
+      img: '/images/org1.png', thumb: '/images/org1.png',
       bio: [
         'Rosine translates business risk into SLIs/SLOs that don’t get abandoned after the first quarter.',
         'She’ll walk through the SLO process her fintech team adopted and still uses.',
@@ -128,7 +128,7 @@ const speakerData = {
     },
     {
       name: 'Loïc Kamdem', role: 'Reliability Engineer · AfrikPay', topic: 'Turning chaos days on and off', initials: 'LK',
-      img: 'https://i.pravatar.cc/600?img=12', thumb: 'https://i.pravatar.cc/300?img=12',
+      img: '/images/org2.png', thumb: '/images/org2.png',
       bio: [
         'Loïc runs chaos experiments at AfrikPay, deliberately breaking the platform to keep it honest.',
         'He’ll demo a controlled blast-radius failure exercise on a staging production clone.',
@@ -137,7 +137,7 @@ const speakerData = {
     },
     {
       name: 'Chantal Mbouombouo', role: 'SRE · Energy of Cameroon', topic: 'Reliability for critical national services', initials: 'CM',
-      img: 'https://i.pravatar.cc/600?img=26', thumb: 'https://i.pravatar.cc/300?img=26',
+      img: '/images/org3.png', thumb: '/images/org3.png',
       bio: [
         'Chantal works on infrastructure where downtime has national consequences.',
         'She speaks to the weight of reliability when your users aren’t optional.',
@@ -146,7 +146,7 @@ const speakerData = {
     },
     {
       name: 'Patrick Nana', role: 'Observability Engineer · Orange', topic: 'Dashboards people actually look at', initials: 'PN',
-      img: 'https://i.pravatar.cc/600?img=20', thumb: 'https://i.pravatar.cc/300?img=20',
+      img: '/images/org4.png', thumb: '/images/org4.png',
       bio: [
         'Patrick designs dashboards that answer questions before anyone has to ask them.',
         'Expect a live critique of real, terrible dashboards — his own included.',
@@ -155,7 +155,7 @@ const speakerData = {
     },
     {
       name: 'Sandrine Owona', role: 'Platform SRE · Kortex', topic: 'Self-service reliability for product teams', initials: 'SO',
-      img: 'https://i.pravatar.cc/600?img=44', thumb: 'https://i.pravatar.cc/300?img=44',
+      img: '/images/org5.png', thumb: '/images/org5.png',
       bio: [
         'Sandrine builds the guardrails that let product teams ship without an SRE babysitting every deploy.',
         'Her platform gives teams ownership and safety at the same time.',
@@ -164,7 +164,7 @@ const speakerData = {
     },
     {
       name: 'Cedric Bengono', role: 'Chaos Engineer · Kudi', topic: 'Fault injection without the drama', initials: 'CB',
-      img: 'https://i.pravatar.cc/600?img=3', thumb: 'https://i.pravatar.cc/300?img=3',
+      img: '/images/IMG2.png', thumb: '/images/IMG2.png',
       bio: [
         'Cedric breaks systems on purpose, on a schedule, and records what happens.',
         'He’ll share the failure taxonomy his team uses to pick what to break next.',
@@ -175,7 +175,7 @@ const speakerData = {
   kubeSpeakers: [
     {
       name: 'Paul Essongue', role: 'CNCF Ambassador', topic: 'Kubernetes networking, demystified', initials: 'PE',
-      img: '/images/IMG%202.png', thumb: '/images/IMG%202.png',
+      img: '/images/IMG2.png', thumb: '/images/IMG%202.png',
       bio: [
         'Paul is a CNCF Ambassador who has run Kubernetes clusters for everyone from startups to telecoms.',
         'His session untangles service meshes, CNIs, and egress policies without the jargon.',
@@ -184,7 +184,7 @@ const speakerData = {
     },
     {
       name: 'Larissa Njo', role: 'DevOps Engineer · Saasili', topic: 'CI/CD pipelines that survive Mondays', initials: 'LN',
-      img: 'https://i.pravatar.cc/600?img=32', thumb: 'https://i.pravatar.cc/300?img=32',
+      img: '/images/org1.png', thumb: '/images/org1.png',
       bio: [
         'Larissa builds pipelines at Saasili that deploy on Fridays without drama.',
         'She’ll walk through the pipeline that turns a merge into a monitored production release.',
@@ -193,7 +193,7 @@ const speakerData = {
     },
     {
       name: 'Didier Mvondo', role: 'Cluster Admin · Telephony Lab', topic: 'GitOps your entire platform', initials: 'DM',
-      img: 'https://i.pravatar.cc/600?img=12', thumb: 'https://i.pravatar.cc/300?img=12',
+      img: '/images/org2.png', thumb: '/images/org2.png',
       bio: [
         'Didier manages clusters where a misapplied config has real-world consequences.',
         'He’ll demo a full GitOps loop where nothing touches a cluster except a pull request.',
@@ -202,7 +202,7 @@ const speakerData = {
     },
     {
       name: 'Grace Bidjeck', role: 'DevEx Engineer', topic: 'Platform engineering for humans', initials: 'GB',
-      img: 'https://i.pravatar.cc/600?img=5', thumb: 'https://i.pravatar.cc/300?img=5',
+      img: '/images/org3.png', thumb: '/images/org3.png',
       bio: [
         'Grace reduces the distance between developers and the platform they deploy to.',
         'She treats developer experience as a product with users, not a service with tickets.',
@@ -211,7 +211,7 @@ const speakerData = {
     },
     {
       name: 'Vanessa Mbarga', role: 'Kubernetes Engineer · AWS', topic: 'Scaling stateful workloads', initials: 'VM',
-      img: 'https://i.pravatar.cc/600?img=26', thumb: 'https://i.pravatar.cc/300?img=26',
+      img: '/images/org4.png', thumb: '/images/org4.png',
       bio: [
         'Vanessa runs stateful workloads on Kubernetes at AWS and has seen every storage trap there is.',
         'Her talk is the stateful scaling playbook she wishes she’d had as a beginner.',
@@ -220,7 +220,7 @@ const speakerData = {
     },
     {
       name: 'Jean-Claude Biya', role: 'Platform Engineer · MTN', topic: 'Ruthless cost control on clusters', initials: 'JB',
-      img: 'https://i.pravatar.cc/600?img=15', thumb: 'https://i.pravatar.cc/300?img=15',
+      img: '/images/org5.png', thumb: '/images/org5.png',
       bio: [
         'Jean-Claude optimizes cluster spend at MTN, where every idle CPU has a price tag.',
         'He’ll show the autoscaling policies that cut their cloud bill without touching service quality.',
@@ -229,7 +229,7 @@ const speakerData = {
     },
     {
       name: 'Josiane Effa', role: 'CI/CD Engineer · Orange', topic: 'Deploying hundreds of services safely', initials: 'JE',
-      img: 'https://i.pravatar.cc/600?img=44', thumb: 'https://i.pravatar.cc/300?img=44',
+      img: '/images/IMG2.png', thumb: '/images/IMG2.png',
       bio: [
         'Josiane orchestrates hundreds of service deploys every week at Orange.',
         'Her session covers progressive delivery: canaries, rollbacks, and confidence gates.',
@@ -238,7 +238,7 @@ const speakerData = {
     },
     {
       name: 'Stephane Abena', role: 'GitOps Lead · Kudi', topic: 'Reviewing configs like code', initials: 'SA',
-      img: 'https://i.pravatar.cc/600?img=20', thumb: 'https://i.pravatar.cc/300?img=20',
+      img: '/images/org1.png', thumb: '/images/org1.png',
       bio: [
         'Stephane leads GitOps adoption at Kudi, where every manifest change goes through review.',
         'He’ll share the policy engines and tests that keep bad configs out of clusters.',
@@ -247,7 +247,7 @@ const speakerData = {
     },
     {
       name: 'Marlène Titti', role: 'SRE · Ndovu', topic: 'Day-2 Kubernetes operations', initials: 'MT',
-      img: 'https://i.pravatar.cc/600?img=3', thumb: 'https://i.pravatar.cc/300?img=3',
+      img: '/images/org2.png', thumb: '/images/org2.png',
       bio: [
         'Marlène runs day-2 operations at Ndovu, where the interesting work starts after the cluster is up.',
         'She’ll cover upgrades, security patching, and capacity planning nobody plans for.',
@@ -258,8 +258,12 @@ const speakerData = {
 }
 
 const organizerBase = [
-  { name: 'DevOps Cameroon', role: 'Community Organizers · Core team', initials: 'DC' },
-  { name: 'Volunteer Crew', role: 'Oversight, logistics & AV', initials: 'VC' },
+  { name: 'DevOps Cameroon', role: 'Community Organizers · Core team', initials: 'DC', photo: '/images/org1.png' },
+  { name: 'Volunteer Crew', role: 'Oversight, logistics & AV', initials: 'VC', photo: '/images/org2.png' },
+  { name: 'Cloud Partners', role: 'Sponsors & cloud credits', initials: 'CP', photo: '/images/org3.png' },
+  { name: 'Logistics Team', role: 'Venue, catering & setup', initials: 'LT', photo: '/images/org4.png' },
+  { name: 'Marketing & Comms', role: 'Social, press & outreach', initials: 'MC', photo: '/images/org5.png' },
+  { name: 'Tech Operations', role: 'Infra, AV & on-site support', initials: 'TO', photo: '/images/IMG2.png' },
 ]
 
 export const showcaseEvents = [
@@ -361,6 +365,31 @@ export const showcaseEvents = [
       'Mentorship corner with senior infrastructure engineers',
     ],
     speakers: speakerData.cloudSpeakers,
+    organizers: organizerBase,
+  },
+  {
+    id: 'kube-cicd-week-2026-bis',
+    year: '2026',
+    title: 'Kube · CI/CD Week',
+    tag: 'Kubernetes · CI/CD',
+    accent: '#cfa342',
+    dateISO: '2026-12-11T09:00:00',
+    dateLabel: '11 December 2026',
+    venue: 'Douala · bSpace coworking',
+    format: 'Bootcamps · Labs · GitOps',
+    seats: '200 seats',
+    featured: false,
+    status: 'open',
+    img: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=900&q=80',
+    desc: 'A second week of pipeline bootcamps, Kubernetes labs, and GitOps sessions — for those who missed the first edition.',
+    summary: 'Repeat edition: pipeline bootcamps, Kubernetes labs, and GitOps sessions for engineers new to containers.',
+    highlights: [
+      'Pipeline bootcamps for engineers new to containers',
+      'Hands-on Kubernetes labs with local mentors',
+      'GitOps sessions and a live demo loop',
+      'Networking mixer with partner hiring teams',
+    ],
+    speakers: speakerData.kubeSpeakers,
     organizers: organizerBase,
   },
 ]

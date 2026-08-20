@@ -10,6 +10,7 @@ import ScrollReveal from '@/components/ScrollReveal'
 import Watermark from '@/components/pages/events/Watermark'
 import SectionHeading from '@/components/pages/events/SectionHeading'
 import EventCard from '@/components/pages/events/EventCard'
+import ViewMoreCard from '@/components/pages/events/ViewMoreCard'
 
 export default function EventsOverview() {
   const [openFaq, setOpenFaq] = useState(0)
@@ -142,7 +143,7 @@ export default function EventsOverview() {
                 as="span"
                 aria-hidden="true"
                 variant="outline"
-                className="pointer-events-none border-white/80 text-white [&_.label-default]:text-white"
+                className="mt-1 border-white/80 text-white [&_.label-default]:text-white"
               >
                 View Event →
               </SweepButton>
@@ -162,9 +163,10 @@ export default function EventsOverview() {
 
           {ready && (
             <ScrollReveal as="div" variant="block" className="mt-2 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3" role="list" aria-label="Upcoming events">
-              {upcoming.map((ev) => (
+              {upcoming.slice(0, upcoming.length > 3 ? 2 : 3).map((ev) => (
                 <EventCard key={ev.id} event={ev} />
               ))}
+              {upcoming.length > 3 && <ViewMoreCard count={upcoming.length - 2} />}
             </ScrollReveal>
           )}
         </Container>

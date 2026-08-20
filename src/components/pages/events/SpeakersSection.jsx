@@ -41,6 +41,7 @@ export default function SpeakersSection({ speakers = [], accent = "#3ddc84" }) {
   const swapTl = useRef(null);
   const marqueeTl = useRef(null);
   const pausedRef = useRef(false);
+  const dragRef = useRef({ active: false, pointerId: -1, startX: 0, startTime: 0, moved: 0, suppress: false });
 
   const reduced = useReducedMotion();
   const [activeIndex, setActiveIndex] = useState(0);
@@ -189,7 +190,87 @@ export default function SpeakersSection({ speakers = [], accent = "#3ddc84" }) {
     { scope: rootRef, dependencies: [reduced] },
   );
 
+  // Manual scrub of the running marquee: grab to drag, release to resume auto-scroll.
+  useEffect(() => {
+    const viewport = viewportRef.current;
+    if (!viewport) return;
+    const d = dragRef.current;
+
+    const onDown = (e) => {
+      const tl = marqueeTl.current;
+      if (!tl || reduced) return;
+      d.active = true;
+      d.pointerId = e.pointerId;
+      d.startX = e.clientX;
+      d.startTime = tl.time();
+      d.moved = 0;
+      d.suppress = false;
+      try {
+        viewport.setPointerCapture(e.pointerId);
+      } catch {}
+      tl.pause();
+    };
+
+    const onMove = (e) => {
+      if (!d.active || e.pointerId !== d.pointerId) return;
+      const tl = marqueeTl.current;
+      const row = rowRef.current;
+      if (!tl || !row) return;
+      const delta = e.clientX - d.startX;
+      d.moved = Math.max(d.moved, Math.abs(delta));
+      const half = row.scrollWidth / 2;
+      const duration = tl.duration();
+      if (half <= 0 || !duration) return;
+      const newTime = gsap.utils.clamp(0, duration, d.startTime - (delta / half) * duration);
+      tl.time(newTime);
+    };
+
+    const onUp = () => {
+      if (!d.active) return;
+      d.active = false;
+      if (d.moved > 6) d.suppress = true;
+    };
+
+    const onClickCapture = (e) => {
+      if (d.suppress) {
+        e.preventDefault();
+        e.stopPropagation();
+        d.suppress = false;
+      }
+    };
+
+    const onWheel = (e) => {
+      const tl = marqueeTl.current;
+      const row = rowRef.current;
+      if (!tl || reduced || !row) return;
+      const half = row.scrollWidth / 2;
+      const duration = tl.duration();
+      if (half <= 0 || !duration) return;
+      const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+      e.preventDefault();
+      const newTime = gsap.utils.clamp(0, duration, tl.time() + (delta / half) * duration);
+      tl.time(newTime);
+    };
+
+    viewport.addEventListener("pointerdown", onDown);
+    viewport.addEventListener("pointermove", onMove);
+    viewport.addEventListener("pointerup", onUp);
+    viewport.addEventListener("pointercancel", onUp);
+    viewport.addEventListener("click", onClickCapture, true);
+    viewport.addEventListener("wheel", onWheel, { passive: false });
+
+    return () => {
+      viewport.removeEventListener("pointerdown", onDown);
+      viewport.removeEventListener("pointermove", onMove);
+      viewport.removeEventListener("pointerup", onUp);
+      viewport.removeEventListener("pointercancel", onUp);
+      viewport.removeEventListener("click", onClickCapture, true);
+      viewport.removeEventListener("wheel", onWheel);
+    };
+  }, [reduced, animated]);
+
   const selectSpeaker = (i) => {
+    if (dragRef.current.active) return;
     if (reduced) {
       setActiveIndex(i);
       setDisplayIndex(i);
@@ -252,7 +333,7 @@ export default function SpeakersSection({ speakers = [], accent = "#3ddc84" }) {
         src={s.thumb}
         alt={s.name}
         loading="lazy"
-        className={`h-[150px] w-full object-cover transition-[filter] duration-[400ms] ${
+        className={`h-[150px] w-full object-cover object-top brightness-[1.08] contrast-[1.06] saturate-[1.05] transition-[filter] duration-[400ms] ${
           i === activeIndex ? "grayscale-0" : "grayscale"
         }`}
       />
@@ -304,7 +385,7 @@ export default function SpeakersSection({ speakers = [], accent = "#3ddc84" }) {
             <img
               src={featured.img}
               alt={featured.name}
-              className="h-full w-full object-cover"
+              className="h-full w-full object-cover object-top brightness-[1.08] contrast-[1.06] saturate-[1.05]"
               style={{ borderRadius: 2 }}
             />
           </div>
@@ -344,9 +425,10 @@ export default function SpeakersSection({ speakers = [], accent = "#3ddc84" }) {
         </div>
 
         <div
-          className={`relative z-0 overflow-hidden py-20 before:pointer-events-none before:absolute before:inset-y-0 before:left-0 before:z-20 before:w-16 before:bg-gradient-to-r before:from-base after:pointer-events-none after:absolute after:inset-y-0 after:right-0 after:z-20 after:w-16 after:bg-gradient-to-l after:from-primary-100`}
+          className={`relative z-0 cursor-grab select-none overflow-hidden py-20 active:cursor-grabbing before:pointer-events-none before:absolute before:inset-y-0 before:left-0 before:z-20 before:w-16 before:bg-gradient-to-r before:from-base after:pointer-events-none after:absolute after:inset-y-0 after:right-0 after:z-20 after:w-16 after:bg-gradient-to-l after:from-primary-100`}
           ref={viewportRef}
           data-sp-row
+          style={{ touchAction: "pan-y" }}
           onMouseEnter={() => {
             pausedRef.current = true;
             marqueeTl.current?.pause();

@@ -9,8 +9,8 @@ import SweepButton from '@/components/ui/SweepButton'
 import ScrollReveal from '@/components/ScrollReveal'
 import Watermark from '@/components/pages/events/Watermark'
 import SpeakersSection from '@/components/pages/events/SpeakersSection'
+import OrganizersSection from '@/components/pages/events/OrganizersSection'
 import Countdown from '@/components/pages/events/Countdown'
-import SectionHeading from '@/components/pages/events/SectionHeading'
 
 const partners = ['AWS', 'Google Cloud', 'MTN', 'Orange', 'GitHub', 'Docker', 'HashiCorp', 'Datadog', 'Microsoft Azure', 'Canonical']
 
@@ -352,28 +352,7 @@ gsap.fromTo(
       <SpeakersSection speakers={event.speakers} accent={event.accent} />
 
       {/* ================= ORGANIZERS ================= */}
-      <section className="wm-section relative overflow-hidden py-16 lg:py-24">
-        <Watermark className="bottom-[-70px] right-[-30px] text-[clamp(140px,18vw,240px)]">#</Watermark>
-        <Container>
-          <SectionHeading title="Organizers" sub="The crew running this edition." />
-
-          <ScrollReveal
-            as="div"
-            variant="block"
-            className="grid grid-cols-1 gap-[18px] sm:grid-cols-2 lg:grid-cols-3"
-          >
-            {event.organizers.map((o) => (
-              <article key={o.name} className="rounded bg-accent p-7 text-left transition-transform duration-300 hover:-translate-y-1">
-                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded bg-ink font-mono text-lg font-bold text-accent">
-                  {o.initials}
-                </div>
-                <h3 className="font-sans text-lg font-extrabold uppercase leading-tight tracking-tight text-ink">{o.name}</h3>
-                <p className="mt-1 text-[12.5px] font-medium text-ink/70">{o.role}</p>
-              </article>
-            ))}
-          </ScrollReveal>
-        </Container>
-      </section>
+      <OrganizersSection organizers={event.organizers} />
     </div>
   )
 }
