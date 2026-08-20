@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
+import svgMarkup from '@/assets/cameroon-map.svg?raw';
 
 const MapSvg = () => {
   const ref = useRef(null);
@@ -8,30 +9,19 @@ const MapSvg = () => {
     let tl = null;
     let mounted = true;
 
-    async function loadAndAnimate() {
+    function animate() {
       const container = ref.current;
       if (!container) return;
 
       try {
-        const resp = await fetch('/devops-cameroon.html');
-        if (!resp.ok) return;
-        const html = await resp.text();
-        console.debug('MapSvg: loaded HTML length', html.length);
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
-        const svg = doc.querySelector('svg.map-svg');
-        console.debug('MapSvg: svg found in parsed HTML?', !!svg);
-        if (!svg) return;
+        // inject the SVG markup into the container
+        container.innerHTML = svgMarkup;
+        const svgNode = container.querySelector('svg');
+        if (!svgNode) return;
 
-        // clone the verbatim SVG from the HTML file and insert it
-        const svgNode = svg.cloneNode(true);
         // ensure clip rect is expanded if animate isn't present
         const clipRect = svgNode.querySelector('#reveal-rect');
         if (clipRect) clipRect.setAttribute('height', '1250');
-
-        // clear container and append
-        container.innerHTML = '';
-        container.appendChild(svgNode);
 
         // set responsive attributes
         svgNode.setAttribute('preserveAspectRatio', 'xMidYMid meet');
@@ -112,7 +102,7 @@ const MapSvg = () => {
       }
     }
 
-    loadAndAnimate();
+    animate();
 
     return () => {
       mounted = false;
