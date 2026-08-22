@@ -16,6 +16,14 @@ function GithubIcon({ className = '' }) {
   );
 }
 
+/* ── SVG noise data-URI — accent-colored grain ── */
+const noiseSvg = encodeURIComponent(
+  `<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'>
+    <filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='5' stitchTiles='stitch'/></filter>
+    <rect width='300' height='300' filter='url(#n)' opacity='0.6'/>
+  </svg>`
+);
+
 const PROJECTS = [
   {
     key: 'poultryops',
@@ -107,11 +115,23 @@ function ProjectCard({ project }) {
         </div>
       </div>
 
-      {/* Hover overlay -- CSS-only arc sweep from bottom-left, hidden on mobile */}
+      {/* Hover overlay -- noise pattern sweep from bottom-left, hidden on mobile */}
       <div
-        className="card-overlay absolute inset-0 z-20 hidden sm:flex items-center justify-center bg-accent"
-        style={{ clipPath: 'circle(0% at 0% 100%)', transition: 'clip-path 0.9s cubic-bezier(.2,.8,.2,1)' }}
+        className="card-overlay absolute inset-0 z-20 hidden sm:flex items-center justify-center"
+        style={{
+          clipPath: 'circle(0% at 0% 100%)',
+          transition: 'clip-path 0.9s cubic-bezier(.2,.8,.2,1)',
+        }}
       >
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,${noiseSvg}")`,
+            backgroundSize: '150px 150px',
+            backgroundColor: 'var(--accent)',
+            opacity: 1,
+          }}
+        />
         <div
           className="card-overlay-content flex flex-col items-center gap-4 px-6 text-center"
           style={{ opacity: 0, transform: 'translateY(12px)', transition: 'opacity 0.5s ease, transform 0.5s ease' }}
@@ -189,7 +209,7 @@ export default function ProjectShowcase() {
   const TOTAL = PROJECTS.length + 1; /* +1 for the CTA card */
 
   return (
-    <section className="bg-base min-h-screen px-6 py-24 sm:py-28">
+    <section className="bg-base min-h-screen py-24">
       {/* Header */}
       <div className="grid gap-6 sm:grid-cols-[1fr_auto] sm:items-end sm:justify-between mb-16 sm:mb-24 md:mb-32">
         <div>
@@ -221,7 +241,7 @@ export default function ProjectShowcase() {
             {'01' + ' / ' + String(TOTAL).padStart(2, '0')}
           </span>
           <div className="flex gap-3">
-            {/* Prev -- arc sweep from bottom-left */}
+            {/* Prev */}
             <button
               type="button"
               onClick={() => scroll(-1)}
@@ -252,7 +272,7 @@ export default function ProjectShowcase() {
               </span>
             </button>
 
-            {/* Next -- arc sweep from bottom-left */}
+            {/* Next */}
             <button
               type="button"
               onClick={() => scroll(1)}

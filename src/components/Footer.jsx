@@ -148,10 +148,11 @@ export default function Footer() {
                 </div>
                 <button
                   type="button"
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-primary-400 text-lg font-bold text-primary-900 cursor-pointer transition-colors hover:bg-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2"
+                  className="inline-flex gap-2 px-2 h-10 items-center justify-center rounded-full bg-primary-400 text-sm font-medium text-ink cursor-pointer transition-colors hover:bg-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2"
                   aria-label="Subscribe"
                 >
-                  <MoveRight className="text-primary-900" />
+                  Join Us
+                  <MoveRight className="text-ink" />
                 </button>
               </div>
 
