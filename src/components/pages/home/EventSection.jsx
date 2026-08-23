@@ -385,7 +385,7 @@ export default function EventSection() {
         .ticket-container {
           width: 100%;
           max-width: 100%;
-          background-color: var(--color-primary-500);
+          background-color: var(--color-primary);
           box-shadow: 0 8px 40px rgba(0,0,0,.12), 0 2px 8px rgba(0,0,0,.06);
           mask-image:
             radial-gradient(circle 16px at 75% 0px, transparent 99%, #000 100%),
