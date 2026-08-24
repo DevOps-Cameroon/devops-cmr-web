@@ -22,3 +22,11 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+
+#Miscellaneous
+
+devops-cameroon.html
+
+#Playwright QA artifacts
+.playwright-mcp/

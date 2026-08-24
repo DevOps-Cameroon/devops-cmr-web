@@ -15,6 +15,7 @@ import { projects } from '../data/projects'
 import { resources } from '../data/resources'
 import { team } from '../data/team'
 import { milestones } from '../data/milestones'
+import { showcaseEvents, showcaseFaqs, showcasePhotos } from '../data/showcaseEvents'
 
 const USE_MOCK = true
 
@@ -70,5 +71,21 @@ export const api = {
   async getMilestones() {
     if (!USE_MOCK) return fetchApi('/milestones/')
     return mock(milestones)
+  },
+  async getShowcaseEvents() {
+    if (!USE_MOCK) return fetchApi('/showcase/events/')
+    return mock(showcaseEvents)
+  },
+  async getShowcaseEvent(id) {
+    if (!USE_MOCK) return fetchApi(`/showcase/events/${id}/`)
+    return mock(showcaseEvents.find((e) => e.id === id) || showcaseEvents[0])
+  },
+  async getShowcaseFaqs() {
+    if (!USE_MOCK) return fetchApi('/showcase/faqs/')
+    return mock(showcaseFaqs)
+  },
+  async getShowcasePhotos() {
+    if (!USE_MOCK) return fetchApi('/showcase/photos/')
+    return mock(showcasePhotos)
   },
 }
