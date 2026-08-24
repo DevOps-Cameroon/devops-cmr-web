@@ -23,72 +23,72 @@ function FeaturedSpotlight() {
       {/* Ticket container — CSS radial-gradient mask creates scalloped edges */}
       <div className="ticket-container grid sm:grid-cols-[3fr_1fr]">
         {/* ── Left: event info ── */}
-        <div className="flex flex-col justify-center px-6 py-6 sm:px-8 sm:py-8 lg:pl-12 lg:pr-8 border-b sm:border-b-0 sm:border-r border-dashed border-ink/15">
+        <div className="flex flex-col justify-center px-6 py-6 sm:px-8 sm:py-8 lg:pl-12 lg:pr-8 border-b sm:border-b-0 sm:border-r border-dashed border-white/30">
         
           {/* Featured badge */}
           <div className="mb-3 inline-flex w-fit items-center gap-2 py-1">
             {/* <Zap className="h-3 w-3 fill-accent text-ink" /> */}
-            <span className="font-mono text-[0.6rem] font-bold uppercase tracking-widest text-ink">
+            <span className="font-mono text-[0.6rem] font-bold uppercase tracking-widest text-accent">
               Featured Event  
             </span>
           </div>
 
           {/* Type badge */}
-          <div className="mb-3 inline-flex w-fit items-center gap-2 border border-ink/20 bg-accent/5 px-2 py-1">
+          <div className="mb-3 inline-flex w-fit items-center gap-2 border border-white/20 bg-accent/5 px-2 py-1">
             {/* <Zap className="h-3 w-3 fill-accent text-ink" /> */}
-            <span className="font-mono text-[0.6rem] font-bold uppercase tracking-widest text-ink">
+            <span className="font-mono text-[0.6rem] font-bold uppercase tracking-widest text-accent">
               {next.type}  
             </span>
           </div>
 
           {/* Title */}
-          <h3 className="text-xl font-extrabold leading-tight text-ink md:text-2xl lg:text-4xl">
+          <h3 className="text-xl font-extrabold leading-tight text-white md:text-2xl lg:text-4xl">
             {next.title}
           </h3>
 
           {/* Description */}
-          <p className="mt-2 max-w-lg text-md leading-relaxed text-ink-2">
+          <p className="mt-2 max-w-lg text-md leading-relaxed text-white/80">
             {next.description}
           </p>
 
           {/* When / Where / Seats grid */}
           <dl className="mt-4 grid grid-cols-3 gap-x-4 gap-y-3">
             <div>
-              <dt className="mb-1 flex items-center gap-1.5 font-mono text-[0.6rem] font-bold uppercase tracking-widest text-ink-2">
-                <Calendar className="h-3 w-3 text-ink-2" />
+              <dt className="mb-1 flex items-center gap-1.5 font-mono text-[0.6rem] font-bold uppercase tracking-widest text-whiet/80">
+                <Calendar className="h-3 w-3 text-white/80" />
                 When
               </dt>
-              <dd className="font-mono text-xs font-semibold text-ink">
+              <dd className="font-mono text-xs font-semibold text-white">
                 {date.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' })}
               </dd>
-              <dd className="font-mono text-[0.65rem] text-ink-2">{next.time}</dd>
+              <dd className="font-mono text-[0.65rem] text-white/80">{next.time}</dd>
             </div>
             <div>
-              <dt className="mb-1 flex items-center gap-1.5 font-mono text-[0.6rem] font-bold uppercase tracking-widest text-ink-2">
-                <MapPin className="h-3 w-3 text-ink-2" />
+              <dt className="mb-1 flex items-center gap-1.5 font-mono text-[0.6rem] font-bold uppercase tracking-widest text-white/80">
+                <MapPin className="h-3 w-3 text-white/80" />
                 Where
               </dt>
-              <dd className="font-mono text-xs font-semibold text-ink">{next.location}</dd>
-              <dd className="font-mono text-[0.65rem] text-ink-2">{next.mode}</dd>
+              <dd className="font-mono text-xs font-semibold text-white/80">{next.location}</dd>
+              <dd className="font-mono text-[0.65rem] text-white/80">{next.mode}</dd>
             </div>
             <div>
-              <dt className="mb-1 flex items-center gap-1.5 font-mono text-[0.6rem] font-bold uppercase tracking-widest text-ink-2">
-                <Users className="h-3 w-3 text-ink-2" />
+              <dt className="mb-1 flex items-center gap-1.5 font-mono text-[0.6rem] font-bold uppercase tracking-widest text-white/80">
+                <Users className="h-3 w-3 text-white/80" />
                 Seats
               </dt>
-              <dd className="font-mono text-xs font-semibold text-ink">
+              <dd className="font-mono text-xs font-semibold text-white">
                 {taken}/{next.capacity} filled
               </dd>
-              <dd className="font-mono text-[0.65rem] text-ink-3">{next.capacity - taken} left</dd>
+              <dd className="font-mono text-[0.65rem] text-white/70">{next.capacity - taken} left</dd>
             </div>
           </dl>
 
           {/* Capacity bar */}
           <div className="mt-4 max-w-sm">
-            <div className="h-1.5 w-full bg-ink/20">
-              <div className="h-full bg-ink" style={{ width: `${fill}%` }} />
+            <div className="h-1.5 w-full bg-accent/20">
+              <div className="h-full bg-accent" style={{ width: `${fill}%` }} />
             </div>
-            <div className="mt-1.5 flex justify-between font-mono text-[0.6rem] uppercase tracking-widest text-ink-3">
+            <div className="mt-1.5 flex justify-between font-mono text-[0.6rem] uppercase tracking-widest text-white/70">
               <span>{fill}% full</span>
               <span>{next.capacity - taken} seats left</span>
             </div>
@@ -385,7 +385,7 @@ export default function EventSection() {
         .ticket-container {
           width: 100%;
           max-width: 100%;
-          background-color: var(--color-primary);
+          background-color: var(--color-ink);
           box-shadow: 0 8px 40px rgba(0,0,0,.12), 0 2px 8px rgba(0,0,0,.06);
           mask-image:
             radial-gradient(circle 16px at 75% 0px, transparent 99%, #000 100%),

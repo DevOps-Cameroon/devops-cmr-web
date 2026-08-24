@@ -16,13 +16,7 @@ function GithubIcon({ className = '' }) {
   );
 }
 
-/* ── SVG noise data-URI — accent-colored grain ── */
-const noiseSvg = encodeURIComponent(
-  `<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'>
-    <filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='5' stitchTiles='stitch'/></filter>
-    <rect width='300' height='300' filter='url(#n)' opacity='0.6'/>
-  </svg>`
-);
+
 
 const PROJECTS = [
   {
@@ -123,15 +117,7 @@ function ProjectCard({ project }) {
           transition: 'clip-path 0.9s cubic-bezier(.2,.8,.2,1)',
         }}
       >
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,${noiseSvg}")`,
-            backgroundSize: '150px 150px',
-            backgroundColor: 'var(--accent)',
-            opacity: 1,
-          }}
-        />
+        <div className="absolute inset-0 bg-accent" />
         <div
           className="card-overlay-content flex flex-col items-center gap-4 px-6 text-center"
           style={{ opacity: 0, transform: 'translateY(12px)', transition: 'opacity 0.5s ease, transform 0.5s ease' }}

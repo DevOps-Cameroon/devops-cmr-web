@@ -15,6 +15,8 @@ import SweepButton from '@/components/ui/SweepButton'
 import CommunityBuilds from '@/components/pages/home/CommunityBuilds'
 import ProjectShowcase from '@/components/pages/home/ProjectShowcase'
 import EventSection from '@/components/pages/home/EventSection'
+import CTASection from '@/components/pages/home/CTASection'
+import FAQSection from '@/components/pages/home/FAQSection'
 
 function EventSpotlight() {
   const next = events.find((e) => e.status === 'open')
@@ -133,6 +135,8 @@ export default function Home() {
       <WhyDevOps />
       <ProjectShowcase />
       <EventSection />
+      <FAQSection />
+      <CTASection />
       {/* <CommunityBuilds /> */}
       {/* <CommunityCTA /> */}
     </>
