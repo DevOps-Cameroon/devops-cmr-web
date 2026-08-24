@@ -80,7 +80,7 @@ export default function CTASection() {
                 target="_blank"
                 rel="noreferrer"
                 aria-label={social.label}
-                className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-white/10 text-white/60 transition-colors hover:border-accent hover:text-accent"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-white/30 text-white/70 transition-colors hover:border-accent hover:text-accent"
               >
                 {social.svg}
               </a>
