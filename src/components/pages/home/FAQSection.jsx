@@ -1,5 +1,5 @@
 // src/components/FAQSection.jsx
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { Terminal } from 'lucide-react';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
@@ -31,26 +31,24 @@ const FAQS = [
   },
 ];
 
-function FAQItem({ item, index }) {
-  const [open, setOpen] = useState(false);
+function FAQItem({ item, index, isOpen, onToggle }) {
   const panelRef = useRef(null);
   const innerRef = useRef(null);
   const reducedMotion = useReducedMotion();
 
-  const toggle = () => {
-    const next = !open;
-    setOpen(next);
-
+  // Reacts to isOpen instead of owning it — so a parent-driven close
+  // (another item opening) animates exactly the same way a click would.
+  useEffect(() => {
     const panel = panelRef.current;
     const inner = innerRef.current;
     if (!panel || !inner) return;
 
     if (reducedMotion) {
-      gsap.set(panel, { height: next ? 'auto' : 0 });
+      gsap.set(panel, { height: isOpen ? 'auto' : 0 });
       return;
     }
 
-    if (next) {
+    if (isOpen) {
       const targetHeight = inner.scrollHeight;
       gsap.fromTo(
         panel,
@@ -64,22 +62,19 @@ function FAQItem({ item, index }) {
       );
       gsap.fromTo(inner, { opacity: 0, y: -6 }, { opacity: 1, y: 0, duration: 0.3, delay: 0.1, ease: 'power2.out' });
     } else {
-      gsap.to(panel, {
-        height: 0,
-        duration: 0.35,
-        ease: 'power2.inOut',
-      });
+      gsap.to(panel, { height: 0, duration: 0.35, ease: 'power2.inOut' });
       gsap.to(inner, { opacity: 0, duration: 0.15, ease: 'power1.in' });
     }
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen, reducedMotion]);
 
   return (
     <div className="border-b border-line">
       {/* ---- Question row, styled as a terminal command line ---- */}
       <button
         type="button"
-        onClick={toggle}
-        aria-expanded={open}
+        onClick={onToggle}
+        aria-expanded={isOpen}
         className="flex w-full items-center gap-3 py-5 text-left"
       >
         <span className="font-mono text-sm text-accent shrink-0">
@@ -88,7 +83,7 @@ function FAQItem({ item, index }) {
         <span className="font-mono text-xs text-ink-3 shrink-0 hidden sm:inline">~/devops-cameroon$</span>
         <span className="flex-1 font-medium text-ink">{item.q}</span>
         <span
-          className={`shrink-0 font-mono text-lg text-ink-3 transition-transform duration-300 ${open ? 'rotate-45 text-accent' : ''}`}
+          className={`shrink-0 font-mono text-lg text-ink-3 transition-transform duration-300 ${isOpen ? 'rotate-45 text-accent' : ''}`}
           aria-hidden="true"
         >
           +
@@ -112,18 +107,23 @@ function FAQItem({ item, index }) {
 }
 
 export default function FAQSection() {
+  const [openIndex, setOpenIndex] = useState(null);
+
+  const handleToggle = (index) => {
+    setOpenIndex((current) => (current === index ? null : index));
+  };
+
   return (
     <section className="bg-base px-6 py-24 sm:py-28">
-      <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[minmax(0,320px)_1fr] lg:gap-16">
+      <div className="mx-auto grid gap-12 lg:grid-cols-[minmax(0,320px)_1fr] lg:gap-16">
         {/* ---- Left: eyebrow + title, sticky on desktop ---- */}
         <div className="lg:sticky lg:top-28 lg:self-start">
-          <span className="label-mono inline-flex items-center gap-2 rounded-full bg-surface-2 px-3 py-1 text-ink-2">
+          <span className="label-mono inline-flex items-center gap-2 text-primary-500">
             <Terminal className="h-3.5 w-3.5" />
             FAQs
           </span>
-          <h2 className="mt-4 text-3xl font-extrabold leading-tight text-ink sm:text-4xl">
+          <h2 className="content-animation text-4xl font-extrabold uppercase leading-[1.05] tracking-tight text-ink sm:text-5xl">
             Frequently Asked
-            <br />
             Questions
           </h2>
         </div>
@@ -131,7 +131,13 @@ export default function FAQSection() {
         {/* ---- Right: question list ---- */}
         <div className="border-t border-line">
           {FAQS.map((item, i) => (
-            <FAQItem key={item.q} item={item} index={i} />
+            <FAQItem
+              key={item.q}
+              item={item}
+              index={i}
+              isOpen={openIndex === i}
+              onToggle={() => handleToggle(i)}
+            />
           ))}
         </div>
       </div>
