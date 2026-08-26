@@ -1,9 +1,9 @@
 import { useRef } from 'react'
 import { gsap, useGSAP } from '../lib/gsap'
 import { useReducedMotion } from '../hooks/useReducedMotion'
-import SectionHeading from '../components/SectionHeading'
-import Reveal from '../components/Reveal'
 import { projects } from '../data/projects'
+import EventHero from '../components/pages/events/EventHero'
+import GallerySection from '../components/pages/projects/GallerySection'
 
 const sizeClass = {
   lg: 'md:col-span-2 md:row-span-2',
@@ -68,22 +68,52 @@ export default function Projects() {
   )
 
   return (
-    <section className="grid-texture relative mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:py-28">
-      <Reveal>
-        <SectionHeading index="04" kicker="community tools" title="Open-source projects" />
-      </Reveal>
-      <Reveal delay={0.05}>
-        <p className="max-w-2xl text-ink-2">
-          Tools the community actually uses. Every project started from a real problem a Cameroonian team had. All
-          open source, all built in the open.
-        </p>
-      </Reveal>
+    <div className="overflow-x-clip bg-base text-ink">
+      <EventHero
+        image="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1800&q=80"
+        eyebrow="Projects · DevOps Cameroon"
+        title="Open-source"
+        accentTitle="projects"
+        bottomLeft={
+          <p className="max-w-[260px] text-[13px] leading-relaxed text-white/72">
+            Tools the community actually uses. Every project started from a real problem a Cameroonian team had.
+          </p>
+        }
+        bottomRight={
+          <div className="flex items-center gap-3">
+            <div className="flex h-11 w-11 flex-none items-center justify-center bg-accent text-ink">
+              ◎
+            </div>
+            <div>
+              <b className="block font-sans text-sm font-bold text-white">
+                {projects.length} active repos
+              </b>
+              <span className="text-xs text-white/60">
+                All open source, all built in the open
+              </span>
+            </div>
+          </div>
+        }
+      />
 
-      <div ref={gridRef} className="mt-12 grid gap-6 md:grid-cols-3 md:auto-rows-[13rem] lg:auto-rows-[14rem]">
-        {projects.map((project) => (
-          <ProjectCard key={project.id} project={project} />
-        ))}
-      </div>
-    </section>
+      <GallerySection />
+
+      <section className="grid-texture relative mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:py-28">
+        <div className="mb-12 max-w-[520px]">
+          <h2 className="font-sans text-[clamp(1.875rem,4vw,2.5rem)] font-extrabold uppercase leading-tight tracking-tight text-ink">
+            Community tools
+          </h2>
+          <p className="mt-4 text-sm leading-[1.7] text-ink-2">
+            Built in the open, maintained by the community.
+          </p>
+        </div>
+
+        <div ref={gridRef} className="grid gap-6 md:grid-cols-3 md:auto-rows-[13rem] lg:auto-rows-[14rem]">
+          {projects.map((project) => (
+            <ProjectCard key={project.id} project={project} />
+          ))}
+        </div>
+      </section>
+    </div>
   )
 }

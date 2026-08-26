@@ -5,7 +5,7 @@ export default function ViewMoreCard({ count = 0, to = '/events/archive' }) {
   return (
     <Link
       to={to}
-      className="group relative flex aspect-[4/3.1] flex-col items-center justify-center gap-5 overflow-hidden border border-ink/10 bg-accent text-ink"
+      className="group relative flex aspect-[4/4] flex-col items-center justify-center gap-5 overflow-hidden border border-ink/10 bg-accent text-ink"
       role="listitem"
       aria-label={`View all ${count} more events`}
     >
@@ -15,7 +15,7 @@ export default function ViewMoreCard({ count = 0, to = '/events/archive' }) {
       />
       <span
         aria-hidden="true"
-        className="pointer-events-none absolute -bottom-3 -right-3 font-sans text-[7rem] font-extrabold leading-none text-ink/10"
+        className="pointer-events-none absolute -bottom-7 -right-3 font-sans text-[7rem] font-extrabold leading-none text-ink/10"
       >
         +
       </span>

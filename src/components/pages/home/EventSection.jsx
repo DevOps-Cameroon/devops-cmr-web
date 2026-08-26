@@ -3,8 +3,39 @@ import { Link } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { Calendar, ArrowUpRight, ArrowLeft, ArrowRight, MapPin, Clock, Zap, Bell, Users, Ticket } from 'lucide-react';
 import { events } from '@/data/events';
-import cardBg from '/src/assets/images/Screenshot 2026-08-20 170951.png';
+import EventCard from '@/components/pages/events/EventCard';
 import SweepButton from '@/components/ui/SweepButton';
+
+const typeTag = {
+  workshop: 'Kubernetes · CI/CD',
+  meetup: 'SRE · Observability',
+  hackathon: 'Cloud · Infrastructure',
+}
+const typeAccent = {
+  workshop: '#2dd4bf',
+  meetup: '#60a5fa',
+  hackathon: '#3ddc84',
+}
+
+function toShowcase(ev) {
+  const d = new Date(`${ev.date}T09:00:00`)
+  return {
+    id: ev.id,
+    title: ev.title,
+    tag: typeTag[ev.type] || ev.type,
+    year: String(d.getFullYear()),
+    accent: typeAccent[ev.type] || '#3ddc84',
+    dateISO: d.toISOString(),
+    dateLabel: d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }),
+    venue: ev.location,
+    seats: `${ev.capacity} seats`,
+    capacity: ev.capacity,
+    taken: ev.taken ?? 0,
+    status: ev.status,
+    img: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=900&q=80',
+    desc: ev.description,
+  }
+}
 
 
 /* ── Featured event spotlight — ticket-style card ── */
@@ -122,103 +153,13 @@ function FeaturedSpotlight() {
   );
 }
 
-/* ── Event card — compact, image bg, noise overlay ── */
-function EventCard({ event }) {
-  const date = new Date(`${event.date}T09:00:00`);
-  const taken = event.taken ?? 0;
-  const fill = Math.min(100, Math.round((taken / event.capacity) * 100));
-  const isClosed = event.status === 'closed';
-
-  return (
-    <div
-      tabIndex={0}
-      className="event-card group relative shrink-0 snap-start overflow-hidden rounded-xl border border-line w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(25%-0.75rem)] outline-none"
-      style={{ aspectRatio: '4 / 5' }}
-    >
-      {/* Background image */}
-      <img src={cardBg} alt="" className="absolute inset-0 h-full w-full object-cover" draggable={false} />
-      {/* <div className="absolute inset-0 bg-ink/40" /> */}
-
-      {/* Natural state — content at bottom */}
-      <div className="absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-ink/90 via-ink/50 to-transparent p-3.5 pt-12">
-        <span className="label-mono mb-0.5 inline-block text-[0.55rem] text-accent">{event.type}</span>
-        <h3 className="text-lg font-extrabold leading-snug text-white">{event.title}</h3>
-        <p className="mt-0.5 text-xs leading-snug text-white/70 line-clamp-2">{event.description}</p>
-
-        <dl className="mt-1.5 grid grid-cols-2 gap-x-2 gap-y-0 font-mono text-[0.5rem] text-white/60 mt-4 mb-4">
-          <div className="flex items-center gap-1">
-            <Clock className="h-3 w-3 text-accent shrink-0" />
-            <span className='text-xs'>{date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}</span>
-          </div>
-          <div className="flex items-center gap-1">
-            <MapPin className="h-3 w-3 text-accent shrink-0" />
-            <span className='text-xs'>{event.mode}</span>
-          </div>
-        </dl>
-
-        <div className="mt-1.5" aria-hidden="true">
-          <div className="h-1 w-full bg-white/15">
-            <div className="h-full rounded-none bg-accent" style={{ width: `${fill}%` }} />
-          </div>
-          <div className="mt-0.5 flex justify-between font-mono text-[0.45rem] uppercase tracking-widest text-white/75">
-            <span>{taken}/{event.capacity}</span>
-            <span>{isClosed ? 'closed' : `${event.capacity - taken} left`}</span>
-          </div>
-        </div>
-
-        {/* Mobile: always-visible RSVP */}
-        <div className="mt-2 flex gap-1 sm:hidden">
-          <a
-            href="#rsvp"
-            onClick={(e) => e.stopPropagation()}
-            className="flex h-7 items-center gap-1 rounded-none bg-accent px-2 text-[0.55rem] font-semibold text-accent-ink"
-          >
-            {isClosed ? 'Closed' : 'RSVP'} <ArrowUpRight className="h-2.5 w-2.5" />
-          </a>
-        </div>
-      </div>
-
-      {/* Hover overlay — noise pattern sweep from bottom-left (tablet & desktop) */}
-      <div
-        className="card-overlay absolute inset-0 z-20 hidden sm:flex items-center justify-center"
-        style={{
-          clipPath: 'circle(0% at 0% 100%)',
-          transition: 'clip-path 0.9s cubic-bezier(.2,.8,.2,1)',
-        }}
-      >
-        <div
-          className="absolute inset-0 bg-accent"
-        />
-        <div
-          className="card-overlay-content relative z-10 flex flex-col items-center gap-2.5 px-4 text-center"
-          style={{ opacity: 0, transform: 'translateY(10px)', transition: 'opacity 0.5s ease, transform 0.5s ease' }}
-        >
-          <p className="flex items-center gap-1 text-xs font-semibold text-accent-ink">
-            {isClosed ? 'Event ended' : 'View details'}
-            <ArrowUpRight className="h-3 w-3" />
-          </p>
-          {!isClosed && (
-            <a
-              href="#rsvp"
-              onClick={(e) => e.stopPropagation()}
-              className="flex h-9 items-center gap-1 bg-ink px-3 text-[0.65rem] font-semibold text-white transition-transform hover:scale-105"
-            >
-              RSVP <ArrowUpRight className="h-2.5 w-2.5" />
-            </a>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-}
-
 /* ── "See more" CTA card ── */
 function SeeMoreCard() {
   return (
     <Link
       to="/events"
       className="group relative flex shrink-0 snap-start flex-col items-center justify-center overflow-hidden rounded-xl border border-line bg-ink transition-colors hover:border-accent/40 w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(25%-0.75rem)]"
-      style={{ aspectRatio: '4 / 5' }}
+      style={{ aspectRatio: '4 / 4' }}
     >
       <div className="flex flex-col items-center gap-2 px-4 text-center">
         <span className="flex h-9 w-9 items-center justify-center rounded-full border border-white/20 text-white/70 transition-colors group-hover:border-accent group-hover:text-accent">
@@ -291,7 +232,9 @@ export default function EventSection() {
           className="scrollbar-none flex gap-4 overflow-x-auto scroll-smooth pb-4 snap-x snap-mandatory"
         >
           {cards.map((ev) => (
-            <EventCard key={ev.id} event={ev} />
+            <div key={ev.id} className="shrink-0 snap-start w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(25%-0.75rem)]">
+              <EventCard event={toShowcase(ev)} />
+            </div>
           ))}
           <SeeMoreCard />
         </div>
@@ -366,22 +309,6 @@ export default function EventSection() {
       </div>
 
       <style>{`
-        .scrollbar-none::-webkit-scrollbar { display: none; }
-        .scrollbar-none { scrollbar-width: none; }
-        .event-card:hover .card-overlay,
-        .event-card:focus-visible .card-overlay {
-          clip-path: circle(150% at 0% 100%) !important;
-        }
-        .event-card:hover .card-overlay-content,
-        .event-card:focus-visible .card-overlay-content {
-          opacity: 1 !important;
-          transform: translateY(0) !important;
-          transition-delay: 0.25s !important;
-        }
-        .event-card:not(:hover):not(:focus-visible) .card-overlay-content {
-          transition-delay: 0s !important;
-        }
-        /* Ticket container — radial-gradient mask for scalloped edges */
         .ticket-container {
           width: 100%;
           max-width: 100%;

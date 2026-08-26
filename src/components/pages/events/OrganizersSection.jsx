@@ -12,7 +12,7 @@ export default function OrganizersSection({ organizers = [] }) {
         <SectionHeading title="Organizers" sub="The crew running this edition." />
       </div>
 
-      <div className="mx-auto mt-10 max-w-[1160px] overflow-x-auto px-4 scrollbar-none sm:px-6 lg:px-8">
+      <div className="mx-auto mt-10 max-w-[1160px] overflow-x-auto px-4 scrollbar-none sm:px-6  lg:px-8">
         <div className="flex gap-[2px]">
           {organizers.map((o, i) => (
             <article

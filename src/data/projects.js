@@ -11,6 +11,8 @@ export const projects = [
     size: 'lg',
     repo: 'https://github.com',
     doc: 'https://github.com',
+    img: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80',
+    live: null,
   },
   {
     id: 'pr-02',
@@ -23,6 +25,8 @@ export const projects = [
     lang: 'HCL',
     size: 'md',
     repo: 'https://github.com',
+    img: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800&q=80',
+    live: null,
   },
   {
     id: 'pr-03',
@@ -35,6 +39,8 @@ export const projects = [
     lang: 'TypeScript',
     size: 'md',
     repo: 'https://github.com',
+    img: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80',
+    live: 'https://uptime.devopscameroon.org',
   },
   {
     id: 'pr-04',
@@ -47,6 +53,8 @@ export const projects = [
     lang: 'YAML',
     size: 'sm',
     repo: 'https://github.com',
+    img: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80',
+    live: null,
   },
   {
     id: 'pr-05',
@@ -59,6 +67,8 @@ export const projects = [
     lang: 'Rust',
     size: 'md',
     repo: 'https://github.com',
+    img: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80',
+    live: null,
   },
   {
     id: 'pr-06',
@@ -71,6 +81,8 @@ export const projects = [
     lang: 'Python',
     size: 'sm',
     repo: 'https://github.com',
+    img: 'https://images.unsplash.com/photo-1667372393119-3d4c48d07fc9?auto=format&fit=crop&w=800&q=80',
+    live: 'https://probe.devopscameroon.org',
   },
 ]
 

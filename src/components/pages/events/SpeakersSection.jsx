@@ -371,7 +371,7 @@ export default function SpeakersSection({ speakers = [], accent = "#3ddc84" }) {
 <span
             data-sp-wm
             aria-hidden="true"
-            className="pointer-events-none absolute left-[300px] top-[40%] z-0 hidden -translate-y-1/2 select-none whitespace-nowrap font-sans font-extrabold uppercase leading-[0.86] text-primary-100/80 md:block"
+            className="pointer-events-none absolute left-[300px] z-0 hidden -translate-y-1/2 select-none whitespace-nowrap font-sans font-extrabold uppercase leading-[0.86] text-primary-100/80 md:block"
             style={{ fontSize: 'min(15vw, 150px)' }}
           >
             Speakers
@@ -407,7 +407,7 @@ export default function SpeakersSection({ speakers = [], accent = "#3ddc84" }) {
                 </p>
               ))}
             </div>
-            <div className="mt-5 flex items-center gap-3 md:justify-start">
+            <div className="mt-5 flex items-center  gap-3 md:items-center justify-center lg:justify-start">
               {Object.keys(featured.social).map((key) => (
                 <a
                   key={key}

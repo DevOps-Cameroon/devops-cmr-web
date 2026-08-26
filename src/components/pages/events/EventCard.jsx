@@ -1,11 +1,14 @@
 import { Link } from 'react-router-dom'
 import { showcaseEventIcon } from '@/lib/eventIcons'
 
-export default function EventCard({ event: ev }) {
+export default function EventCard({ event: ev, className = '' }) {
+  const taken = ev.taken ?? 0
+  const fill = ev.capacity ? Math.min(100, Math.round((taken / ev.capacity) * 100)) : 0
+
   return (
     <Link
       to={`/events/${ev.id}`}
-      className="group relative aspect-[4/3.1] overflow-hidden border border-ink/10 bg-ink"
+      className={`group relative block aspect-[4/4] w-full overflow-hidden border border-line ${className}`}
       role="listitem"
       style={{ '--ev-accent': ev.accent }}
       aria-label={`Open details for ${ev.tag} edition ${ev.year}`}
@@ -30,6 +33,17 @@ export default function EventCard({ event: ev }) {
           <span className="text-[var(--ev-accent)]">·</span>
           <span>{ev.seats}</span>
         </p>
+        {ev.capacity && (
+          <div className="mt-1.5" aria-hidden="true">
+            <div className="h-1 w-full bg-white/15">
+              <div className="h-full transition-all duration-500" style={{ width: `${fill}%`, background: 'var(--ev-accent)' }} />
+            </div>
+            <div className="mt-0.5 flex justify-between font-mono text-[9px] uppercase tracking-widest text-ink-3">
+              <span>{fill}% full</span>
+              <span>{ev.capacity - taken} seats left</span>
+            </div>
+          </div>
+        )}
       </div>
       <div
         className="absolute bottom-0 left-0 right-0 z-[3] flex h-[62%] translate-y-full flex-col justify-end p-5 transition-transform duration-[450ms] ease-[cubic-bezier(.22,1,.36,1)] group-hover:translate-y-0"
