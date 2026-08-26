@@ -136,10 +136,12 @@ function Panel({ project, isActive, onEnter }) {
 
 export default function GallerySection() {
   const [activeIdx, setActiveIdx] = useState(0);
+  const visibleProjects = projects.slice(0, 6);
+  const hasMoreProjects = projects.length > visibleProjects.length;
 
   return (
     <section className="relative mx-auto w-full px-4 py-8 sm:px-6 sm:py-10 lg:aspect-[11/4]">
-      <div className="flex min-h-[1370px] flex-col gap-6 border border-line bg-surface p-4 sm:p-7 lg:min-h-0 lg:aspect-[12/4] lg:flex-row lg:items-stretch">
+      <div className={`flex flex-col gap-6 border border-line bg-surface p-4 sm:p-7 lg:min-h-0 lg:aspect-[12/4] lg:flex-row lg:items-stretch ${visibleProjects.length > 1 ? "min-h-[1370px]" : ""}`}>
         {/* Left: heading + search */}
         <div className="flex shrink-0 flex-col justify-between py-2 lg:w-[300px]">
           <div>
@@ -150,6 +152,14 @@ export default function GallerySection() {
               <br />
               <span className="text-accent">Projects.</span>
             </h2>
+            {hasMoreProjects && (
+              <a
+                href="#community-tools"
+                className="mt-6 inline-flex text-xs font-semibold uppercase tracking-wide text-ink-3 underline decoration-line underline-offset-4 transition-colors hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+              >
+                View all {projects.length} projects
+              </a>
+            )}
           </div>
         </div>
 
@@ -158,7 +168,7 @@ export default function GallerySection() {
           className="flex min-h-0 flex-1 flex-col gap-1 overflow-visible rounded-2xl lg:flex-row lg:overflow-hidden"
           id="gallery"
         >
-          {projects.map((project, i) => (
+          {visibleProjects.map((project, i) => (
             <Panel
               key={project.id}
               project={project}

@@ -98,7 +98,7 @@ export default function Projects() {
 
       <GallerySection />
 
-      <section className="grid-texture relative mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:py-28">
+      <section id="community-tools" className="grid-texture relative mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:py-28">
         <div className="mb-12 max-w-[520px]">
           <h2 className="font-sans text-[clamp(1.875rem,4vw,2.5rem)] font-extrabold uppercase leading-tight tracking-tight text-ink">
             Community tools
