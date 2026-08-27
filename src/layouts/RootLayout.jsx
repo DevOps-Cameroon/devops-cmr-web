@@ -7,7 +7,7 @@ import Container from '@/components/ui/container'
 function RootLayout() {
   const location = useLocation()
   const isShowcase =
-    location.pathname === '/events' || location.pathname.startsWith('/events/')
+    location.pathname === '/events' || location.pathname.startsWith('/events/') || location.pathname === '/projects'
 
   if (isShowcase) {
     return (

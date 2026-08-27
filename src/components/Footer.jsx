@@ -105,9 +105,7 @@ const footerColumns = [
     title: 'Resources',
     items: [
       { label: 'Case Studies', href: '/projects' },
-      { label: 'Blog & Insights', href: '/resources' },
-      { label: 'Research', href: '/resources' },
-      { label: 'FAQ', href: '/resources' },
+      { label: 'FAQ', href: '/about' },
     ],
   },
   {

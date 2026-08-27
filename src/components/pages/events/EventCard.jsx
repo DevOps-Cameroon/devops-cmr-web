@@ -1,15 +1,13 @@
 import { Link } from 'react-router-dom'
 import { showcaseEventIcon } from '@/lib/eventIcons'
 
-export default function EventCard({ event: ev }) {
-  return (
-    <Link
-      to={`/events/${ev.id}`}
-      className="group relative aspect-[4/3.1] overflow-hidden border border-ink/10 bg-ink"
-      role="listitem"
-      style={{ '--ev-accent': ev.accent }}
-      aria-label={`Open details for ${ev.tag} edition ${ev.year}`}
-    >
+export default function EventCard({ event: ev, className = '', to }) {
+  const taken = ev.taken ?? 0
+  const fill = ev.capacity ? Math.min(100, Math.round((taken / ev.capacity) * 100)) : 0
+  const href = to || `/events/${ev.id}`
+
+  const content = (
+    <>
       <img
         className="absolute inset-0 h-full w-full object-cover transition-transform duration-[600ms] ease-[cubic-bezier(.22,1,.36,1)] group-hover:scale-105"
         src={ev.img}
@@ -30,6 +28,17 @@ export default function EventCard({ event: ev }) {
           <span className="text-[var(--ev-accent)]">·</span>
           <span>{ev.seats}</span>
         </p>
+        {ev.capacity && (
+          <div className="mt-1.5" aria-hidden="true">
+            <div className="h-1 w-full bg-white/15">
+              <div className="h-full transition-all duration-500" style={{ width: `${fill}%`, background: 'var(--ev-accent)' }} />
+            </div>
+            <div className="mt-0.5 flex justify-between font-mono text-[9px] uppercase tracking-widest text-ink-3">
+              <span>{fill}% full</span>
+              <span>{ev.capacity - taken} seats left</span>
+            </div>
+          </div>
+        )}
       </div>
       <div
         className="absolute bottom-0 left-0 right-0 z-[3] flex h-[62%] translate-y-full flex-col justify-end p-5 transition-transform duration-[450ms] ease-[cubic-bezier(.22,1,.36,1)] group-hover:translate-y-0"
@@ -43,6 +52,32 @@ export default function EventCard({ event: ev }) {
         </h4>
         <p className="text-[0.85rem] leading-relaxed text-ink-3">{ev.desc}</p>
       </div>
+    </>
+  )
+
+  const wrapperClass = `group relative block aspect-[4/5] w-full overflow-hidden border border-line ${className}`
+
+  if (to === false) {
+    return (
+      <div
+        className={wrapperClass}
+        role="listitem"
+        style={{ '--ev-accent': ev.accent }}
+      >
+        {content}
+      </div>
+    )
+  }
+
+  return (
+    <Link
+      to={href}
+      className={wrapperClass}
+      role="listitem"
+      style={{ '--ev-accent': ev.accent }}
+      aria-label={`Open details for ${ev.tag} edition ${ev.year}`}
+    >
+      {content}
     </Link>
   )
 }

@@ -1,8 +1,7 @@
-import React, { useRef, useCallback } from 'react';
-import { Link } from 'react-router-dom';
-import { gsap } from 'gsap';
-import { ExternalLink, ArrowUpRight, ArrowLeft, ArrowRight, Smartphone, Terminal, Cloud, Boxes, Radio, ScanFace } from 'lucide-react';
+import { useState } from 'react';
+import { ExternalLink, ArrowUpRight, ArrowLeft, ArrowRight, Smartphone, Terminal, Cloud, Boxes, Radio, ScanFace, Server, Shield, Gauge } from 'lucide-react';
 import cardBg from '/src/assets/images/Screenshot 2026-08-20 170951.png';
+import ViewMoreCard from '@/components/pages/events/ViewMoreCard';
 
 function GithubIcon({ className = '' }) {
   return (
@@ -15,8 +14,6 @@ function GithubIcon({ className = '' }) {
     </svg>
   );
 }
-
-
 
 const PROJECTS = [
   {
@@ -64,26 +61,59 @@ const PROJECTS = [
     github: 'https://github.com/devopscameroon/grabpic',
     live: null,
   },
+  {
+    key: 'cloudcheck',
+    title: 'CloudCheck',
+    description: 'Automated cloud cost audits \u2014 detects waste, recommends rightsizing, and tracks savings.',
+    icon: Cloud,
+    gradient: 'from-primary-600 to-accent',
+    github: 'https://github.com/devopscameroon/cloudcheck',
+    live: null,
+  },
+  {
+    key: 'deploywatch',
+    title: 'DeployWatch',
+    description: 'Real-time deployment monitor for Kubernetes \u2014 rollbacks, health checks, and alert routing.',
+    icon: Server,
+    gradient: 'from-ink to-primary-600',
+    github: 'https://github.com/devopscameroon/deploywatch',
+    live: 'https://deploywatch.devopscameroon.dev',
+  },
+  {
+    key: 'vaultlite',
+    title: 'VaultLite',
+    description: 'Lightweight secrets management for small teams \u2014 SOPS-compatible, Git-native, zero trust.',
+    icon: Shield,
+    gradient: 'from-primary-800 to-ink',
+    github: 'https://github.com/devopscameroon/vaultlite',
+    live: null,
+  },
+  {
+    key: 'sloboard',
+    title: 'SLOboard',
+    description: 'Shared SLO dashboards for Cameroon startups \u2014 error budgets, burn rates, and uptime at a glance.',
+    icon: Gauge,
+    gradient: 'from-accent to-primary-500',
+    github: 'https://github.com/devopscameroon/sloboard',
+    live: 'https://sloboard.devopscameroon.dev',
+  },
 ];
 
-function ProjectCard({ project }) {
-  const Icon = project.icon;
+const PER_PAGE = 6;
 
+function ProjectCard({ project }) {
   return (
     <div
       tabIndex={0}
-      className="project-card group relative aspect-[4/5] shrink-0 snap-start overflow-hidden rounded-2xl border border-line w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] outline-none"
+      className="project-card group relative aspect-[4/5] overflow-hidden rounded-2xl border border-line outline-none"
     >
-      {/* Background image */}
       <img src={cardBg} alt="" className="absolute inset-0 h-full w-full object-cover" draggable={false} />
       <div className="absolute inset-0 bg-ink/40" />
 
-      {/* Natural state -- title + description + mobile buttons */}
       <div className="absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-ink/90 via-ink/40 to-transparent p-6 pt-16">
         <h3 className="text-2xl font-extrabold leading-snug text-white">{project.title}</h3>
         <p className="mt-1.5 text-sm leading-snug text-white/75">{project.description}</p>
 
-        {/* Mobile only: always-visible squared buttons */}
         <div className="mt-4 flex gap-2 sm:hidden">
           <a
             href={project.github}
@@ -109,7 +139,6 @@ function ProjectCard({ project }) {
         </div>
       </div>
 
-      {/* Hover overlay -- noise pattern sweep from bottom-left, hidden on mobile */}
       <div
         className="card-overlay absolute inset-0 z-20 hidden sm:flex items-center justify-center"
         style={{
@@ -155,49 +184,18 @@ function ProjectCard({ project }) {
   );
 }
 
-/* Explore More CTA card */
-function ExploreMoreCard() {
-  return (
-    <Link
-      to="/projects"
-      className="group relative flex shrink-0 snap-start flex-col items-center justify-center overflow-hidden rounded-2xl border border-line bg-ink transition-colors hover:border-accent/40 w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] aspect-[4/5]"
-    >
-      <div className="flex flex-col items-center gap-4 px-8 text-center">
-        <span className="flex h-14 w-14 items-center justify-center rounded-full border border-white/20 text-white/70 transition-colors group-hover:border-accent group-hover:text-accent">
-          <ArrowRight className="h-5 w-5" />
-        </span>
-        <h3 className="text-xl font-extrabold leading-snug text-white">Explore More</h3>
-        <p className="text-sm leading-snug text-white/60">
-          See all community-built projects, docs, and case studies.
-        </p>
-        <span className="mt-2 inline-flex items-center gap-1.5 bg-accent px-5 py-2.5 text-sm font-semibold text-accent-ink transition-transform group-hover:scale-105">
-          Explore Projects <ArrowUpRight className="h-4 w-4" />
-        </span>
-      </div>
-    </Link>
-  );
-}
-
-export default function ProjectShowcase() {
-  const scrollRef = useRef(null);
-  const prevOverlayRef = useRef(null);
-  const nextOverlayRef = useRef(null);
-
-  const scroll = useCallback((dir) => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const card = el.querySelector(':scope > div');
-    if (!card) return;
-    const step = card.offsetWidth + 24; /* gap-6 = 1.5rem = 24px */
-    el.scrollBy({ left: dir * step, behavior: 'smooth' });
-  }, []);
-
-  const TOTAL = PROJECTS.length + 1; /* +1 for the CTA card */
+export default function ProjectShowcase({ max }) {
+  const [page, setPage] = useState(0);
+  const paginated = !max;
+  const displayProjects = paginated
+    ? PROJECTS.slice(page * PER_PAGE, (page + 1) * PER_PAGE)
+    : PROJECTS.slice(0, max - 1);
+  const totalPages = Math.ceil(PROJECTS.length / PER_PAGE);
 
   return (
-    <section className="bg-base min-h-screen py-24">
+    <section className="bg-base py-24">
       {/* Header */}
-      <div className="grid gap-6 sm:grid-cols-[1fr_auto] sm:items-end sm:justify-between mb-16 sm:mb-24 md:mb-32">
+      <div className="grid gap-6 sm:grid-cols-[1fr_auto] sm:items-end sm:justify-between mb-16 sm:mb-20 md:mb-24 px-4 sm:px-6">
         <div>
           <span className="eyebrow label-mono mb-6 content-animation"><Terminal />Community Build</span>
           <h2 className="content-animation text-4xl font-extrabold uppercase leading-[1.05] tracking-tight text-ink sm:text-5xl">
@@ -209,93 +207,56 @@ export default function ProjectShowcase() {
         </p>
       </div>
 
-      {/* Card track */}
-      <div className="relative">
-        <div
-          ref={scrollRef}
-          className="scrollbar-none flex gap-6 overflow-x-auto scroll-smooth pb-4 snap-x snap-mandatory"
-        >
-          {PROJECTS.map((project) => (
+      {/* Grid */}
+      <div className="px-4 sm:px-6">
+        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+          {displayProjects.map((project) => (
             <ProjectCard key={project.key} project={project} />
           ))}
-          <ExploreMoreCard />
+          {max && (
+            <ViewMoreCard
+              count={PROJECTS.length - max + 1}
+              to="/projects"
+              className="!aspect-[4/5]"
+            />
+          )}
         </div>
 
-        {/* Nav arrows */}
-        <div className="mt-8 flex items-center justify-between">
-          <span className="font-mono text-xs text-ink-3">
-            {'01' + ' / ' + String(TOTAL).padStart(2, '0')}
-          </span>
-          <div className="flex gap-3">
-            {/* Prev */}
-            <button
-              type="button"
-              onClick={() => scroll(-1)}
-              onMouseEnter={() => {
-                const el = prevOverlayRef.current;
-                if (!el) return;
-                const r = el.parentElement.getBoundingClientRect();
-                const diag = Math.hypot(r.width, r.height);
-                gsap.to(el, { clipPath: 'circle(' + diag + 'px at 0% 100%)', duration: 0.45, ease: 'power3.out' });
-              }}
-              onMouseLeave={() => {
-                const el = prevOverlayRef.current;
-                if (!el) return;
-                gsap.to(el, { clipPath: 'circle(0px at 0% 100%)', duration: 0.35, ease: 'power2.in' });
-              }}
-              aria-label="Previous projects"
-              className="relative h-11 w-11 overflow-hidden rounded-full border border-line cursor-pointer"
-            >
-              <span
-                ref={prevOverlayRef}
-                className="absolute inset-0 z-2 flex items-center justify-center bg-accent text-ink"
-                style={{ clipPath: 'circle(0px at 0% 100%)' }}
+        {/* Pagination */}
+        {paginated && totalPages > 1 && (
+          <div className="mt-10 flex items-center justify-between">
+            <span className="font-mono text-xs text-ink-3">
+              {String(page + 1).padStart(2, '0')} / {String(totalPages).padStart(2, '0')}
+            </span>
+            <div className="flex gap-2.5">
+              <button
+                type="button"
+                onClick={() => setPage((p) => Math.max(0, p - 1))}
+                disabled={page === 0}
+                aria-label="Previous page"
+                className="relative h-10 w-10 overflow-hidden rounded-full border border-line cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
               >
-                <ArrowLeft className="h-4 w-4" />
-              </span>
-              <span className="relative z-1 flex h-full w-full items-center justify-center text-ink">
-                <ArrowLeft className="h-4 w-4" />
-              </span>
-            </button>
-
-            {/* Next */}
-            <button
-              type="button"
-              onClick={() => scroll(1)}
-              onMouseEnter={() => {
-                const el = nextOverlayRef.current;
-                if (!el) return;
-                const r = el.parentElement.getBoundingClientRect();
-                const diag = Math.hypot(r.width, r.height);
-                gsap.to(el, { clipPath: 'circle(' + diag + 'px at 0% 100%)', duration: 0.45, ease: 'power3.out' });
-              }}
-              onMouseLeave={() => {
-                const el = nextOverlayRef.current;
-                if (!el) return;
-                gsap.to(el, { clipPath: 'circle(0px at 0% 100%)', duration: 0.35, ease: 'power2.in' });
-              }}
-              aria-label="Next projects"
-              className="relative h-11 w-11 overflow-hidden rounded-full bg-ink cursor-pointer"
-            >
-              <span
-                ref={nextOverlayRef}
-                className="absolute inset-0 z-2 flex items-center justify-center bg-accent text-ink"
-                style={{ clipPath: 'circle(0px at 0% 100%)' }}
+                <span className="flex h-full w-full items-center justify-center text-ink">
+                  <ArrowLeft className="h-3.5 w-3.5" />
+                </span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
+                disabled={page === totalPages - 1}
+                aria-label="Next page"
+                className="relative h-10 w-10 overflow-hidden rounded-full bg-ink cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
               >
-                <ArrowRight className="h-4 w-4" />
-              </span>
-              <span className="relative z-1 flex h-full w-full items-center justify-center text-white">
-                <ArrowRight className="h-4 w-4" />
-              </span>
-            </button>
+                <span className="flex h-full w-full items-center justify-center text-white">
+                  <ArrowRight className="h-3.5 w-3.5" />
+                </span>
+              </button>
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       <style>{`
-        .scrollbar-none::-webkit-scrollbar { display: none; }
-        .scrollbar-none { scrollbar-width: none; }
-        /* Card hover: CSS-only arc sweep from bottom-left */
         .project-card:hover .card-overlay,
         .project-card:focus-visible .card-overlay {
           clip-path: circle(150% at 0% 100%) !important;
@@ -306,7 +267,6 @@ export default function ProjectShowcase() {
           transform: translateY(0) !important;
           transition-delay: 0.25s !important;
         }
-        /* On leave: content disappears instantly, clip-path does the sweep-out */
         .project-card:not(:hover):not(:focus-visible) .card-overlay-content {
           transition-delay: 0s !important;
         }

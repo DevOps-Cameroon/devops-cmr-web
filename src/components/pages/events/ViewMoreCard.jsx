@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom'
 import SweepButton from '@/components/ui/SweepButton'
 
-export default function ViewMoreCard({ count = 0, to = '/events/archive' }) {
+export default function ViewMoreCard({ count = 0, to = '/events', className = '' }) {
   return (
     <Link
       to={to}
-      className="group relative flex aspect-[4/3.1] flex-col items-center justify-center gap-5 overflow-hidden border border-ink/10 bg-accent text-ink"
+      className={`group relative flex aspect-[4/4] flex-col items-center justify-center gap-5 overflow-hidden border border-ink/10 bg-accent text-ink ${className}`}
       role="listitem"
       aria-label={`View all ${count} more events`}
     >
@@ -15,7 +15,7 @@ export default function ViewMoreCard({ count = 0, to = '/events/archive' }) {
       />
       <span
         aria-hidden="true"
-        className="pointer-events-none absolute -bottom-3 -right-3 font-sans text-[7rem] font-extrabold leading-none text-ink/10"
+        className="pointer-events-none absolute -bottom-7 -right-3 font-sans text-[7rem] font-extrabold leading-none text-ink/10"
       >
         +
       </span>
@@ -36,7 +36,7 @@ export default function ViewMoreCard({ count = 0, to = '/events/archive' }) {
 
       <span className="relative z-[2] flex flex-col items-center px-6 text-center">
         <span className="font-sans text-lg font-extrabold uppercase leading-tight tracking-tight">
-          {count > 0 ? `+${count} more events` : 'More events'}
+          {count > 0 ? `+${count} more ` : 'View More'}
         </span>
       </span>
       <SweepButton as="span" aria-hidden="true" className="[&_.label-default]:text-ink">
