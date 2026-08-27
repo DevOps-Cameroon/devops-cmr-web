@@ -85,7 +85,7 @@ const EVENTS = [
 function SeeMoreCard() {
   return (
     <Link
-      to="/events"
+      to="/events/archive"
       className="group relative flex shrink-0 snap-start flex-col items-center justify-center overflow-hidden rounded-xl border border-line bg-ink transition-colors hover:border-accent/40 w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(25%-0.75rem)]"
       style={{ aspectRatio: '4 / 5' }}
     >

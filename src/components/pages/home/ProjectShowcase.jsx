@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { ExternalLink, ArrowUpRight, ArrowLeft, ArrowRight, Smartphone, Terminal, Cloud, Boxes, Radio, ScanFace, Server, Shield, Gauge } from 'lucide-react';
 import cardBg from '/src/assets/images/Screenshot 2026-08-20 170951.png';
+import ViewMoreCard from '@/components/pages/events/ViewMoreCard';
 
 function GithubIcon({ className = '' }) {
   return (
@@ -183,10 +185,13 @@ function ProjectCard({ project }) {
   );
 }
 
-export default function ProjectShowcase() {
+export default function ProjectShowcase({ max }) {
   const [page, setPage] = useState(0);
+  const paginated = !max;
+  const displayProjects = paginated
+    ? PROJECTS.slice(page * PER_PAGE, (page + 1) * PER_PAGE)
+    : PROJECTS.slice(0, max - 1);
   const totalPages = Math.ceil(PROJECTS.length / PER_PAGE);
-  const visible = PROJECTS.slice(page * PER_PAGE, (page + 1) * PER_PAGE);
 
   return (
     <section className="bg-base py-24">
@@ -206,13 +211,20 @@ export default function ProjectShowcase() {
       {/* Grid */}
       <div className="px-4 sm:px-6">
         <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-          {visible.map((project) => (
+          {displayProjects.map((project) => (
             <ProjectCard key={project.key} project={project} />
           ))}
+          {max && (
+            <ViewMoreCard
+              count={PROJECTS.length - max + 1}
+              to="/projects"
+              className="!aspect-[4/5]"
+            />
+          )}
         </div>
 
         {/* Pagination */}
-        {totalPages > 1 && (
+        {paginated && totalPages > 1 && (
           <div className="mt-10 flex items-center justify-between">
             <span className="font-mono text-xs text-ink-3">
               {String(page + 1).padStart(2, '0')} / {String(totalPages).padStart(2, '0')}

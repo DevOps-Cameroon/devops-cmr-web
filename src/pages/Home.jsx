@@ -154,7 +154,7 @@ export default function Home() {
       <HeroSection ref={heroRef} />
       <ImpactStats />
       <WhyDevOps />
-      <ProjectShowcase />
+      <ProjectShowcase max={3} />
      
       <EventSection />
       <FAQSection />
