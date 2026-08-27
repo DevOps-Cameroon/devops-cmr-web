@@ -12,8 +12,6 @@
 import { communityStats } from '../data/community'
 import { events } from '../data/events'
 import { projects } from '../data/projects'
-import { resources } from '../data/resources'
-import { team } from '../data/team'
 import { milestones } from '../data/milestones'
 import { showcaseEvents, showcaseFaqs, showcasePhotos } from '../data/showcaseEvents'
 
@@ -59,14 +57,6 @@ export const api = {
   async getProjects() {
     if (!USE_MOCK) return fetchApi('/projects/')
     return mock(projects)
-  },
-  async getResources() {
-    if (!USE_MOCK) return fetchApi('/resources/')
-    return mock(resources)
-  },
-  async getTeam() {
-    if (!USE_MOCK) return fetchApi('/team/')
-    return mock(team)
   },
   async getMilestones() {
     if (!USE_MOCK) return fetchApi('/milestones/')
