@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { ExternalLink, ArrowUpRight, ArrowLeft, ArrowRight, Smartphone, Terminal, Cloud, Boxes, Radio, ScanFace, Server, Shield, Gauge } from 'lucide-react';
 import cardBg from '/src/assets/images/Screenshot 2026-08-20 170951.png';
 import ViewMoreCard from '@/components/pages/events/ViewMoreCard';

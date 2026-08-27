@@ -1,4 +1,3 @@
-import React from 'react';
 import { Calendar, MapPin, Users, Ticket, Bell } from 'lucide-react';
 import { useShowcase } from '@/hooks/useShowcase';
 import EventShowcase from '@/components/pages/events/EventShowcase';

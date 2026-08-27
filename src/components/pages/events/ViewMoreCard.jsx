@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import SweepButton from '@/components/ui/SweepButton'
 
-export default function ViewMoreCard({ count = 0, to = '/events/archive', className = '' }) {
+export default function ViewMoreCard({ count = 0, to = '/events', className = '' }) {
   return (
     <Link
       to={to}
