@@ -9,6 +9,7 @@ import EventHero from "@/components/pages/events/EventHero";
 import FeaturedEventSection from "@/components/pages/events/FeaturedEventSection";
 import EventShowcase from "@/components/pages/events/EventShowcase";
 import EventCard from "@/components/pages/events/EventCard";
+import EmptyState from "@/components/ui/EmptyState";
 
 const ALL = "All events";
 
@@ -33,7 +34,8 @@ export default function EventsOverview() {
   }, [events]);
 
   const filtered = useMemo(() => {
-    const list = filter === ALL ? events : events.filter((e) => e.tag === filter);
+    const list =
+      filter === ALL ? events : events.filter((e) => e.tag === filter);
     return [...list].sort((a, b) => new Date(b.dateISO) - new Date(a.dateISO));
   }, [events, filter]);
 
@@ -71,7 +73,7 @@ export default function EventsOverview() {
       />
 
       {/* ================= FEATURED EVENT ================= */}
-      <FeaturedEventSection event={featured} />
+      {ready && <FeaturedEventSection event={featured} />}
 
       {/* ================= UPCOMING EVENTS ================= */}
       {ready && (
@@ -83,50 +85,75 @@ export default function EventsOverview() {
       )}
 
       {/* ================= ALL EVENTS ARCHIVE ================= */}
-      <section id="archive" className="wm-section relative overflow-hidden py-16 lg:py-24">
-        <Watermark className="right-[-40px] top-[-90px] text-[clamp(160px,22vw,280px)]">{'~/events'}</Watermark>
+      <section
+        id="archive"
+        className="wm-section relative overflow-hidden py-16 lg:py-24"
+      >
+        <Watermark className="right-[-40px] top-[-90px] text-[clamp(160px,22vw,280px)]">
+          {"~/events"}
+        </Watermark>
         <Container>
-          <SectionHeading title="All Events" sub="Filter by focus area. Tabs sort the full archive." />
+          <SectionHeading
+            title="All Events"
+            sub="Filter by focus area. Tabs sort the full archive."
+          />
 
-          {/* Tab bar */}
-          <div
-            role="tablist"
-            aria-label="Filter events by focus area"
-            className="mt-8 flex flex-wrap gap-1 border-b border-line pb-0"
-          >
-            {tabs.map((t) => (
-              <button
-                key={t}
-                type="button"
-                role="tab"
-                aria-selected={filter === t}
-                onClick={() => setFilter(t)}
-                className={`relative px-4 py-2.5 font-mono text-[12.5px] font-semibold uppercase tracking-[0.04em] transition-colors ${
-                  filter === t ? "bg-accent text-ink" : "text-ink-3 hover:bg-surface-2 hover:text-ink"
-                }`}
+          {events.length === 0 ? (
+            <EmptyState
+              className="mt-8"
+              title="The event calendar is between editions"
+              description="There are no events published right now. Join the community to hear first when the next workshop, meetup, or hackathon is announced."
+              actionLabel="Join the community"
+              actionTo="/join"
+            />
+          ) : (
+            <>
+              <div
+                role="tablist"
+                aria-label="Filter events by focus area"
+                className="mt-8 flex flex-wrap gap-1 border-b border-line pb-0"
               >
-                {t}
-              </button>
-            ))}
-          </div>
+                {tabs.map((t) => (
+                  <button
+                    key={t}
+                    type="button"
+                    role="tab"
+                    aria-selected={filter === t}
+                    onClick={() => setFilter(t)}
+                    className={`relative px-4 py-2.5 font-mono text-[12.5px] font-semibold uppercase tracking-[0.04em] transition-colors ${
+                      filter === t
+                        ? "bg-accent text-ink"
+                        : "text-ink-3 hover:bg-surface-2 hover:text-ink"
+                    }`}
+                  >
+                    {t}
+                  </button>
+                ))}
+              </div>
 
-          <ScrollReveal
-            as="div"
-            variant="block"
-            key={filter}
-            className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
-            role="list"
-            aria-label="All events"
-          >
-            {filtered.map((ev) => (
-              <EventCard key={ev.id} event={ev} />
-            ))}
-          </ScrollReveal>
-
-          {filtered.length === 0 && (
-            <p className="mt-10 py-10 text-center font-mono text-sm text-ink-3">
-              No events in this category yet.
-            </p>
+              {filtered.length > 0 ? (
+                <ScrollReveal
+                  as="div"
+                  variant="block"
+                  key={filter}
+                  className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+                  role="list"
+                  aria-label="All events"
+                >
+                  {filtered.map((ev) => (
+                    <EventCard key={ev.id} event={ev} />
+                  ))}
+                </ScrollReveal>
+              ) : (
+                <EmptyState
+                  className="mt-10"
+                  title={`No ${filter.toLowerCase()} events yet`}
+                  description="Try another focus area or return to the full event archive to see everything currently scheduled."
+                  actionLabel="Show all events"
+                  onAction={() => setFilter(ALL)}
+                />
+              )}
+            </>
           )}
         </Container>
       </section>

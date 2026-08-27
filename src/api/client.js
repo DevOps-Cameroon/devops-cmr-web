@@ -17,6 +17,7 @@ import { showcaseEvents, showcaseFaqs, showcasePhotos } from '../data/showcaseEv
 
 const USE_MOCK = true
 
+
 // Django will live here eventually.
 const API_BASE_URL = '/api/v1'
 

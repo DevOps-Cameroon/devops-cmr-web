@@ -4,18 +4,7 @@ import SweepButton from "@/components/ui/SweepButton";
 import ScrollReveal from "@/components/ScrollReveal";
 import Watermark from "@/components/pages/events/Watermark";
 import SectionHeading from "@/components/pages/events/SectionHeading";
-
-const DEFAULT_EVENT = {
-  id: 'devops-showcase-2026',
-  title: 'DevOps Showcase',
-  year: '2026',
-  summary: 'The most anticipated edition yet: 18 talks, hands-on labs, live incident drills, and hiring conversations with our partners.',
-  desc: "Cameroon's flagship cloud and infrastructure event — talks, workshops, and a hiring fair that turns real skill into real roles.",
-  img: 'https://images.unsplash.com/photo-1547658719-da2b51169166?auto=format&fit=crop&w=900&q=80',
-  dateLabel: '21 November 2026',
-  venue: 'Douala Polytechnic, Cameroon',
-  organizers: [{ name: 'DevOps Cameroon' }],
-};
+import EmptyState from "@/components/ui/EmptyState";
 
 const DetailIcon = ({ type }) => {
   if (type === "when")
@@ -59,8 +48,21 @@ const DetailIcon = ({ type }) => {
   );
 };
 
-export default function FeaturedEventSection({ event = DEFAULT_EVENT }) {
-  if (!event) return null;
+export default function FeaturedEventSection({ event }) {
+  if (!event) {
+    return (
+      <section className="bg-base py-16 lg:py-24">
+        <Container>
+          <EmptyState
+            title="No featured event yet"
+            description="The next featured event will appear here once the calendar is published."
+            actionLabel="Join the community"
+            actionTo="/join"
+          />
+        </Container>
+      </section>
+    );
+  }
 
   return (
     <section className="wm-section relative overflow-hidden py-16 lg:py-24">
