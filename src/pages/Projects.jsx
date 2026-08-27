@@ -1,15 +1,15 @@
-import { useRef } from 'react'
-import { gsap, useGSAP } from '../lib/gsap'
-import { useReducedMotion } from '../hooks/useReducedMotion'
-import { projects } from '../data/projects'
-import EventHero from '../components/pages/events/EventHero'
-import GallerySection from '../components/pages/projects/GallerySection'
+import { useRef } from "react";
+import { gsap, useGSAP } from "../lib/gsap";
+import { useReducedMotion } from "../hooks/useReducedMotion";
+import { projects } from "../data/projects";
+import EventHero from "../components/pages/events/EventHero";
+import GallerySection from "../components/pages/projects/GallerySection";
 
 const sizeClass = {
-  lg: 'md:col-span-2 md:row-span-2',
-  md: 'md:col-span-1 md:row-span-1',
-  sm: 'md:col-span-1 md:row-span-1',
-}
+  lg: "md:col-span-2 md:row-span-2",
+  md: "md:col-span-1 md:row-span-1",
+  sm: "md:col-span-1 md:row-span-1",
+};
 
 function ProjectCard({ project }) {
   return (
@@ -22,9 +22,13 @@ function ProjectCard({ project }) {
           <h3 className="font-mono text-lg font-bold uppercase tracking-tight text-ink group-hover:text-accent">
             {project.name}
           </h3>
-          <span className="font-mono text-xs uppercase tracking-widest text-ok">{project.lang}</span>
+          <span className="font-mono text-xs uppercase tracking-widest text-ok">
+            {project.lang}
+          </span>
         </div>
-        <p className="mt-3 text-sm leading-relaxed text-ink-2">{project.description}</p>
+        <p className="mt-3 text-sm leading-relaxed text-ink-2">
+          {project.description}
+        </p>
       </div>
 
       <div className="mt-6">
@@ -46,26 +50,33 @@ function ProjectCard({ project }) {
         </a>
       </div>
     </article>
-  )
+  );
 }
 
 export default function Projects() {
-  const gridRef = useRef(null)
-  const reduced = useReducedMotion()
+  const gridRef = useRef(null);
+  const reduced = useReducedMotion();
 
   useGSAP(
     () => {
-      if (reduced) return
-      const items = gridRef.current.querySelectorAll('[data-reveal-item]')
-      if (!items.length) return
+      if (reduced) return;
+      const items = gridRef.current.querySelectorAll("[data-reveal-item]");
+      if (!items.length) return;
       gsap.fromTo(
         items,
         { y: 28, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.6, stagger: 0.1, ease: 'power2.out', overwrite: 'auto' },
-      )
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.6,
+          stagger: 0.1,
+          ease: "power2.out",
+          overwrite: "auto",
+        },
+      );
     },
     { scope: gridRef, dependencies: [reduced] },
-  )
+  );
 
   return (
     <div className="overflow-x-clip bg-base text-ink">
@@ -76,7 +87,8 @@ export default function Projects() {
         accentTitle="projects"
         bottomLeft={
           <p className="max-w-[260px] text-[13px] leading-relaxed text-white/72">
-            Tools the community actually uses. Every project started from a real problem a Cameroonian team had.
+            Tools the community actually uses. Every project started from a real
+            problem a Cameroonian team had.
           </p>
         }
         bottomRight={
@@ -98,7 +110,10 @@ export default function Projects() {
 
       <GallerySection />
 
-      <section id="community-tools" className="grid-texture relative mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:py-28">
+      <section
+        id="community-tools"
+        className="grid-texture relative mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:py-28"
+      >
         <div className="mb-12 max-w-[520px]">
           <h2 className="font-sans text-[clamp(1.875rem,4vw,2.5rem)] font-extrabold uppercase leading-tight tracking-tight text-ink">
             Community tools
@@ -108,12 +123,15 @@ export default function Projects() {
           </p>
         </div>
 
-        <div ref={gridRef} className="grid gap-6 md:grid-cols-3 md:auto-rows-[13rem] lg:auto-rows-[14rem]">
+        <div
+          ref={gridRef}
+          className="grid gap-6 md:grid-cols-3 md:auto-rows-[13rem] lg:auto-rows-[14rem]"
+        >
           {projects.map((project) => (
             <ProjectCard key={project.id} project={project} />
           ))}
         </div>
       </section>
     </div>
-  )
+  );
 }
