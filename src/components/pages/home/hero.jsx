@@ -36,7 +36,7 @@ const DevOpsHero = React.forwardRef(function DevOpsHero(props, forwardedRef) {
         </div>
 
         <h1 className="content-animation text-4xl" data-hero-title>
-            DevOps{" "}
+          DevOps{" "}
           <span className="text-primary-600 relative whitespace-nowrap">Cameroon</span>
         </h1>
 
