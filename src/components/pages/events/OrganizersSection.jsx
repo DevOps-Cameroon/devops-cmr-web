@@ -1,7 +1,16 @@
 import { useState } from 'react'
 import SectionHeading from '@/components/pages/events/SectionHeading'
 
-export default function OrganizersSection({ organizers = [] }) {
+const DEFAULT_ORGANIZERS = [
+  { name: 'DevOps Cameroon', role: 'Community Organizers · Core team', initials: 'DC', photo: '/images/org1.png' },
+  { name: 'Volunteer Crew', role: 'Oversight, logistics & AV', initials: 'VC', photo: '/images/org2.png' },
+  { name: 'Cloud Partners', role: 'Sponsors & cloud credits', initials: 'CP', photo: '/images/org3.png' },
+  { name: 'Logistics Team', role: 'Venue, catering & setup', initials: 'LT', photo: '/images/org4.png' },
+  { name: 'Marketing & Comms', role: 'Social, press & outreach', initials: 'MC', photo: '/images/org5.png' },
+  { name: 'Tech Operations', role: 'Infra, AV & on-site support', initials: 'TO', photo: '/images/IMG2.png' },
+]
+
+export default function OrganizersSection({ organizers = DEFAULT_ORGANIZERS }) {
   const [active, setActive] = useState(-1)
 
   if (organizers.length === 0) return null

@@ -233,7 +233,7 @@ export default function EventSection() {
         >
           {cards.map((ev) => (
             <div key={ev.id} className="shrink-0 snap-start w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(25%-0.75rem)]">
-              <EventCard event={toShowcase(ev)} />
+              <EventCard event={toShowcase(ev)} to={false} />
             </div>
           ))}
           <SeeMoreCard />

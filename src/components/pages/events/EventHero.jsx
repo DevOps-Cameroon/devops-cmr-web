@@ -6,11 +6,18 @@ import Container from "@/components/ui/container";
 const defaultOverlay =
   "bg-gradient-to-b from-[#0a0b0e]/35 via-[#0a0b0e]/35 to-[#08090c]";
 
+const DEFAULTS = {
+  image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1800&q=80',
+  eyebrow: 'Events · DevOps Cameroon',
+  title: 'Upcoming',
+  accentTitle: 'Events',
+};
+
 export default function EventHero({
-  image,
-  eyebrow,
-  title,
-  accentTitle,
+  image = DEFAULTS.image,
+  eyebrow = DEFAULTS.eyebrow,
+  title = DEFAULTS.title,
+  accentTitle = DEFAULTS.accentTitle,
   bottomLeft,
   bottomRight,
   overlayClassName = defaultOverlay,

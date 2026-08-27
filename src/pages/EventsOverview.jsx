@@ -7,8 +7,7 @@ import Watermark from "@/components/pages/events/Watermark";
 import SectionHeading from "@/components/pages/events/SectionHeading";
 import EventHero from "@/components/pages/events/EventHero";
 import FeaturedEventSection from "@/components/pages/events/FeaturedEventSection";
-import EventCard from "@/components/pages/events/EventCard";
-import ViewMoreCard from "@/components/pages/events/ViewMoreCard";
+import EventShowcase from "@/components/pages/events/EventShowcase";
 
 export default function EventsOverview() {
   const [openFaq, setOpenFaq] = useState(0);
@@ -61,37 +60,13 @@ export default function EventsOverview() {
       <FeaturedEventSection event={featured} />
 
       {/* ================= UPCOMING EVENTS ================= */}
-      <section
-        id="upcoming"
-        className="wm-section relative overflow-hidden py-16 lg:py-24"
-      >
-        <Watermark className="right-[-40px] top-[-90px] text-[clamp(160px,22vw,280px)]">
-          {"{ }"}
-        </Watermark>
-        <Container>
-          <SectionHeading
-            title="Upcoming Events"
-            sub="Every edition, talk, and lab on the calendar. Open any event to see speakers, schedule, and how to RSVP."
-          />
-
-          {ready && (
-            <ScrollReveal
-              as="div"
-              variant="block"
-              className="mt-2 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
-              role="list"
-              aria-label="Upcoming events"
-            >
-              {upcoming.slice(0, upcoming.length > 3 ? 2 : 3).map((ev) => (
-                <EventCard key={ev.id} event={ev} />
-              ))}
-              {upcoming.length > 3 && (
-                <ViewMoreCard count={upcoming.length - 2} />
-              )}
-            </ScrollReveal>
-          )}
-        </Container>
-      </section>
+      {ready && (
+        <EventShowcase
+          events={upcoming}
+          title="Upcoming Events"
+          subtitle="Every edition, talk, and lab on the calendar. Open any event to see speakers, schedule, and how to RSVP."
+        />
+      )}
 
       {/* ================= FAQ =================
       <section

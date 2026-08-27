@@ -5,6 +5,18 @@ import ScrollReveal from "@/components/ScrollReveal";
 import Watermark from "@/components/pages/events/Watermark";
 import SectionHeading from "@/components/pages/events/SectionHeading";
 
+const DEFAULT_EVENT = {
+  id: 'devops-showcase-2026',
+  title: 'DevOps Showcase',
+  year: '2026',
+  summary: 'The most anticipated edition yet: 18 talks, hands-on labs, live incident drills, and hiring conversations with our partners.',
+  desc: "Cameroon's flagship cloud and infrastructure event — talks, workshops, and a hiring fair that turns real skill into real roles.",
+  img: 'https://images.unsplash.com/photo-1547658719-da2b51169166?auto=format&fit=crop&w=900&q=80',
+  dateLabel: '21 November 2026',
+  venue: 'Douala Polytechnic, Cameroon',
+  organizers: [{ name: 'DevOps Cameroon' }],
+};
+
 const DetailIcon = ({ type }) => {
   if (type === "when")
     return (
@@ -47,7 +59,7 @@ const DetailIcon = ({ type }) => {
   );
 };
 
-export default function FeaturedEventSection({ event }) {
+export default function FeaturedEventSection({ event = DEFAULT_EVENT }) {
   if (!event) return null;
 
   return (

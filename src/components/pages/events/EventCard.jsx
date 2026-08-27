@@ -1,18 +1,13 @@
 import { Link } from 'react-router-dom'
 import { showcaseEventIcon } from '@/lib/eventIcons'
 
-export default function EventCard({ event: ev, className = '' }) {
+export default function EventCard({ event: ev, className = '', to }) {
   const taken = ev.taken ?? 0
   const fill = ev.capacity ? Math.min(100, Math.round((taken / ev.capacity) * 100)) : 0
+  const href = to || `/events/${ev.id}`
 
-  return (
-    <Link
-      to={`/events/${ev.id}`}
-      className={`group relative block aspect-[4/4] w-full overflow-hidden border border-line ${className}`}
-      role="listitem"
-      style={{ '--ev-accent': ev.accent }}
-      aria-label={`Open details for ${ev.tag} edition ${ev.year}`}
-    >
+  const content = (
+    <>
       <img
         className="absolute inset-0 h-full w-full object-cover transition-transform duration-[600ms] ease-[cubic-bezier(.22,1,.36,1)] group-hover:scale-105"
         src={ev.img}
@@ -57,6 +52,32 @@ export default function EventCard({ event: ev, className = '' }) {
         </h4>
         <p className="text-[0.85rem] leading-relaxed text-ink-3">{ev.desc}</p>
       </div>
+    </>
+  )
+
+  const wrapperClass = `group relative block aspect-[4/5] w-full overflow-hidden border border-line ${className}`
+
+  if (to === false) {
+    return (
+      <div
+        className={wrapperClass}
+        role="listitem"
+        style={{ '--ev-accent': ev.accent }}
+      >
+        {content}
+      </div>
+    )
+  }
+
+  return (
+    <Link
+      to={href}
+      className={wrapperClass}
+      role="listitem"
+      style={{ '--ev-accent': ev.accent }}
+      aria-label={`Open details for ${ev.tag} edition ${ev.year}`}
+    >
+      {content}
     </Link>
   )
 }

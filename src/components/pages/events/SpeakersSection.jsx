@@ -2,6 +2,90 @@ import { useEffect, useRef, useState } from "react";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
+const DEFAULT_SPEAKERS = [
+  {
+    name: 'Nadine Mbala', role: 'Staff SRE · MTN', topic: 'Keeping 12M users online at 2am', initials: 'NM',
+    img: '/images/org1.png', thumb: '/images/org1.png',
+    bio: [
+      'Nadine keeps MTN\'s mobile-money stack online around the clock — measurable, boring, and fast.',
+      'She\'ll walk through the incident that took down services in three regions, and the runbook that stopped it from ever recurring.',
+    ],
+    social: { linkedin: '#', github: '#' },
+  },
+  {
+    name: 'Kevin Talla', role: 'Platform Lead · Orange Cameroun', topic: 'From Kubernetes toys to production fleets', initials: 'KT',
+    img: '/images/org2.png', thumb: '/images/org2.png',
+    bio: [
+      'Kevin runs the platform team that moved Orange Cameroun\'s workloads onto production Kubernetes.',
+      'He talks about the boring decisions that made the migration stick, and the three mistakes he hopes you won\'t repeat.',
+    ],
+    social: { linkedin: '#', website: '#' },
+  },
+  {
+    name: 'Arielle Foko', role: 'Cloud Architect · Kudi', topic: 'Designing for failure in African fintech', initials: 'AF',
+    img: '/images/org3.png', thumb: '/images/org3.png',
+    bio: [
+      'Arielle designs fintech architectures that assume the worst and stay fast anyway.',
+      'Her talk maps a multi-region AWS design built on a shoestring budget, fault injection included.',
+    ],
+    social: { linkedin: '#', github: '#' },
+  },
+  {
+    name: 'Brice Nganou', role: 'Co-founder · Infra Labs', topic: 'Terraform at team scale without the tears', initials: 'BN',
+    img: '/images/org4.png', thumb: '/images/org4.png',
+    bio: [
+      'Brice co-founded Infra Labs to give local startups infrastructure muscle on a budget.',
+      'He demonstrates Terraform workflows that scale across teams without turning your repos into war zones.',
+    ],
+    social: { linkedin: '#', website: '#' },
+  },
+  {
+    name: 'Clarisse Ndongo', role: 'CTO · Cauri', topic: 'Building multi-cloud on a startup budget', initials: 'CN',
+    img: '/images/org5.png', thumb: '/images/org5.png',
+    bio: [
+      'Clarisse ships products on three clouds without letting cost control the roadmap.',
+      'She\'s here to show how small teams stay multi-cloud without the multi-cloud headaches.',
+    ],
+    social: { linkedin: '#', website: '#' },
+  },
+  {
+    name: 'Fabrice Song', role: 'Cloud Consultant · Google Cloud', topic: 'Right-sizing every workload you run', initials: 'FS',
+    img: '/images/IMG2.png', thumb: '/images/IMG2.png',
+    bio: [
+      'Fabrice helps companies pay for capacity they actually use, not capacity they\'re afraid of running out of.',
+      'Expect a live cost-optimization clinic on real customer bills.',
+    ],
+    social: { linkedin: '#', github: '#' },
+  },
+  {
+    name: 'Mireille Abena', role: 'DevOps Lead · Ndovu Labs', topic: 'Shipping observability before launch day', initials: 'MA',
+    img: '/images/org1.png', thumb: '/images/org1.png',
+    bio: [
+      'Mireille leads DevOps at Ndovu Labs, where observability is a launch requirement, not an afterthought.',
+      'She\'ll share the instrumentation checklist her teams ship before any go-live.',
+    ],
+    social: { linkedin: '#', website: '#' },
+  },
+  {
+    name: 'Hugo Essomba', role: 'Systems Engineer · Canal+', topic: 'Bare metal that refuses to break', initials: 'HE',
+    img: '/images/org2.png', thumb: '/images/org2.png',
+    bio: [
+      'Hugo keeps broadcast infrastructure alive in environments where the cloud isn\'t an option.',
+      'He defends boring, well-tested systems with surprising enthusiasm.',
+    ],
+    social: { linkedin: '#', github: '#' },
+  },
+  {
+    name: 'Diane Nkoulou', role: 'Cloud Security Engineer · WiPay', topic: 'Securing the pipeline end to end', initials: 'DN',
+    img: '/images/org3.png', thumb: '/images/org3.png',
+    bio: [
+      'Diane bakes security into the pipeline so releases stop being a trust exercise.',
+      'Her session covers workload identity, secret handling, and the audits that actually catch things.',
+    ],
+    social: { linkedin: '#', website: '#' },
+  },
+];
+
 const socialIcons = {
   linkedin: (
     <svg
@@ -32,7 +116,7 @@ const socialIcons = {
   ),
 };
 
-export default function SpeakersSection({ speakers = [], accent = "#3ddc84" }) {
+export default function SpeakersSection({ speakers = DEFAULT_SPEAKERS, accent = "#3ddc84" }) {
   const rootRef = useRef(null);
   const photoWrapRef = useRef(null);
   const infoRef = useRef(null);
