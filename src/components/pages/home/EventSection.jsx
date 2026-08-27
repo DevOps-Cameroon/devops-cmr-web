@@ -150,6 +150,7 @@ export default function EventSection() {
           title="Upcoming events"
           subtitle=" "
           className="!py-0"
+          seeMoreTo="/events#archive"
         />
       )}
 

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useShowcase } from "@/hooks/useShowcase";
 import Container from "@/components/ui/container";
 import SweepButton from "@/components/ui/SweepButton";
@@ -8,9 +8,13 @@ import SectionHeading from "@/components/pages/events/SectionHeading";
 import EventHero from "@/components/pages/events/EventHero";
 import FeaturedEventSection from "@/components/pages/events/FeaturedEventSection";
 import EventShowcase from "@/components/pages/events/EventShowcase";
+import EventCard from "@/components/pages/events/EventCard";
+
+const ALL = "All events";
 
 export default function EventsOverview() {
   const [openFaq, setOpenFaq] = useState(0);
+  const [filter, setFilter] = useState(ALL);
   const { events, faqs, photos, loading } = useShowcase();
 
   useEffect(() => {
@@ -22,6 +26,16 @@ export default function EventsOverview() {
     [...events].sort((a, b) => new Date(a.dateISO) - new Date(b.dateISO))[0];
   const upcoming = events.filter((e) => e.id !== featured?.id);
   const ready = !loading;
+
+  const tabs = useMemo(() => {
+    const tags = [...new Set(events.map((e) => e.tag).filter(Boolean))];
+    return [ALL, ...tags];
+  }, [events]);
+
+  const filtered = useMemo(() => {
+    const list = filter === ALL ? events : events.filter((e) => e.tag === filter);
+    return [...list].sort((a, b) => new Date(b.dateISO) - new Date(a.dateISO));
+  }, [events, filter]);
 
   const toggleFaq = (i) => setOpenFaq((cur) => (cur === i ? -1 : i));
 
@@ -68,88 +82,54 @@ export default function EventsOverview() {
         />
       )}
 
-      {/* ================= FAQ =================
-      <section
-        id="faq"
-        className="wm-section relative overflow-hidden py-16 lg:py-24"
-      >
-        <Watermark className="right-[-20px] top-[-50px] text-[clamp(150px,20vw,240px)]">
-          ?
-        </Watermark>
+      {/* ================= ALL EVENTS ARCHIVE ================= */}
+      <section id="archive" className="wm-section relative overflow-hidden py-16 lg:py-24">
+        <Watermark className="right-[-40px] top-[-90px] text-[clamp(160px,22vw,280px)]">{'~/events'}</Watermark>
         <Container>
+          <SectionHeading title="All Events" sub="Filter by focus area. Tabs sort the full archive." />
+
+          {/* Tab bar */}
+          <div
+            role="tablist"
+            aria-label="Filter events by focus area"
+            className="mt-8 flex flex-wrap gap-1 border-b border-line pb-0"
+          >
+            {tabs.map((t) => (
+              <button
+                key={t}
+                type="button"
+                role="tab"
+                aria-selected={filter === t}
+                onClick={() => setFilter(t)}
+                className={`relative px-4 py-2.5 font-mono text-[12.5px] font-semibold uppercase tracking-[0.04em] transition-colors ${
+                  filter === t ? "bg-accent text-ink" : "text-ink-3 hover:bg-surface-2 hover:text-ink"
+                }`}
+              >
+                {t}
+              </button>
+            ))}
+          </div>
+
           <ScrollReveal
             as="div"
             variant="block"
-            className="grid grid-cols-1 items-start gap-5 lg:grid-cols-[0.85fr_1.4fr]"
+            key={filter}
+            className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+            role="list"
+            aria-label="All events"
           >
-            <div className="flex min-h-[380px] flex-col items-center justify-center rounded bg-accent p-8 text-center text-ink lg:min-h-[380px]">
-              <ScrollReveal
-                as="h2"
-                variant="scrub"
-                className="font-sans text-[2.1rem] font-extrabold uppercase leading-tight tracking-tight text-ink"
-              >
-                FAQ
-              </ScrollReveal>
-              <div className="my-[22px] h-px w-[70%] bg-ink/25" />
-              <ScrollReveal
-                as="p"
-                variant="scrub"
-                className="mb-[18px] text-[13.5px] leading-relaxed text-ink/75"
-              >
-                Do you have another question?
-              </ScrollReveal>
-              <SweepButton
-                as="a"
-                href="#contact"
-                onClick={(e) => e.preventDefault()}
-              >
-                Contact Us →
-              </SweepButton>
-            </div>
+            {filtered.map((ev) => (
+              <EventCard key={ev.id} event={ev} />
+            ))}
+          </ScrollReveal>
 
-            {ready && (
-              <div className="flex flex-col">
-                {faqs.map((item, i) => (
-                  <div
-                    key={item.q}
-                    className={`mb-3.5 border border-line last:mb-0 ${openFaq === i ? "border-line-strong" : ""}`}
-                  >
-                    <div
-                      className="flex cursor-pointer items-center justify-between px-5 py-[19px] text-sm font-semibold text-ink"
-                      onClick={() => toggleFaq(i)}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter" || e.key === " ") {
-                          e.preventDefault();
-                          toggleFaq(i);
-                        }
-                      }}
-                      role="button"
-                      tabIndex={0}
-                      aria-expanded={openFaq === i}
-                    >
-                      <span>{item.q}</span>
-                      <span
-                        className={`chev ml-4 text-ink-2 transition-transform duration-300 ${openFaq === i ? "rotate-180" : ""}`}
-                      >
-                        ⌄
-                      </span>
-                    </div>
-                    <div
-                      className={`grid transition-[grid-template-rows] duration-300 ease-in-out ${openFaq === i ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}
-                    >
-                      <div className="overflow-hidden">
-                        <p className="px-5 pb-5 text-[13.5px] leading-[1.7] text-ink-2">
-                          {item.a}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </ScrollReveal> 
+          {filtered.length === 0 && (
+            <p className="mt-10 py-10 text-center font-mono text-sm text-ink-3">
+              No events in this category yet.
+            </p>
+          )}
         </Container>
-      </section> */}
+      </section>
     </div>
   );
 }

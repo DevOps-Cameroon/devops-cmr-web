@@ -82,10 +82,14 @@ const EVENTS = [
   },
 ]
 
-function SeeMoreCard() {
+function SeeMoreCard({ to = '#archive' }) {
+  const isInternal = to.startsWith('#') || to.startsWith('/');
+  const Component = isInternal && !to.startsWith('#') ? Link : 'a';
+  const props = to.startsWith('#') ? { href: to } : { to };
+
   return (
-    <Link
-      to="/events/archive"
+    <Component
+      {...props}
       className="group relative flex shrink-0 snap-start flex-col items-center justify-center overflow-hidden rounded-xl border border-line bg-ink transition-colors hover:border-accent/40 w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(25%-0.75rem)]"
       style={{ aspectRatio: '4 / 5' }}
     >
@@ -101,11 +105,11 @@ function SeeMoreCard() {
           View Events <ArrowUpRight className="h-2.5 w-2.5" />
         </span>
       </div>
-    </Link>
+      </Component>
   )
 }
 
-export default function EventShowcase({ events: overrideEvents, title, subtitle, className = '' }) {
+export default function EventShowcase({ events: overrideEvents, title, subtitle, className = '', seeMoreTo }) {
   const scrollRef = useRef(null)
   const prevOverlayRef = useRef(null)
   const nextOverlayRef = useRef(null)
@@ -149,7 +153,7 @@ export default function EventShowcase({ events: overrideEvents, title, subtitle,
               <EventCard event={ev} />
             </div>
           ))}
-          <SeeMoreCard />
+          <SeeMoreCard to={seeMoreTo} />
         </div>
 
         {/* Nav arrows */}
