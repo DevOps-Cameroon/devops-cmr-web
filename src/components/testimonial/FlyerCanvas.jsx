@@ -4,6 +4,7 @@ import { wrapText } from '@/lib/canvasText';
 const W = 1080;
 const H = 1080;
 const ACCENT = '#3ddc84';
+const FLYER_BG = 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1800&q=80';
 const WHITE = '#ffffff';
 
 const FlyerCanvas = forwardRef(function FlyerCanvas({ name, takeaway, photoUrl, event }, ref) {
@@ -30,8 +31,12 @@ const FlyerCanvas = forwardRef(function FlyerCanvas({ name, takeaway, photoUrl, 
 
       ctx.clearRect(0, 0, W, H);
 
+      // ── Fallback accent background ──
+      ctx.fillStyle = ACCENT;
+      ctx.fillRect(0, 0, W, H);
+
       // ── Background ──
-      const bgImg = await loadImage(event.img);
+      const bgImg = await loadImage(FLYER_BG);
       if (cancelled) return;
 
       ctx.drawImage(bgImg, 0, 0, W, H);
@@ -82,22 +87,40 @@ const FlyerCanvas = forwardRef(function FlyerCanvas({ name, takeaway, photoUrl, 
       const photoCx = W / 2;
       const photoCy = divY + 40 + photoSize / 2;
 
+      // Accent ring
+      ctx.beginPath();
+      ctx.arc(photoCx, photoCy, photoSize / 2 + 6, 0, Math.PI * 2);
+      ctx.fillStyle = ACCENT;
+      ctx.fill();
+
       if (photoUrl) {
         const profileImg = await loadImage(photoUrl);
         if (cancelled) return;
 
-        // Accent ring
-        ctx.beginPath();
-        ctx.arc(photoCx, photoCy, photoSize / 2 + 6, 0, Math.PI * 2);
-        ctx.fillStyle = ACCENT;
-        ctx.fill();
-
-        // Circular clip for photo
         ctx.save();
         ctx.beginPath();
         ctx.arc(photoCx, photoCy, photoSize / 2, 0, Math.PI * 2);
         ctx.clip();
         ctx.drawImage(profileImg, photoCx - photoSize / 2, photoCy - photoSize / 2, photoSize, photoSize);
+        ctx.restore();
+      } else {
+        // WhatsApp-style placeholder silhouette
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(photoCx, photoCy, photoSize / 2, 0, Math.PI * 2);
+        ctx.clip();
+        ctx.fillStyle = '#d9dde0';
+        ctx.fillRect(photoCx - photoSize / 2, photoCy - photoSize / 2, photoSize, photoSize);
+        const r = photoSize / 2;
+        // head
+        ctx.fillStyle = '#9aa0a6';
+        ctx.beginPath();
+        ctx.arc(photoCx, photoCy - r * 0.22, r * 0.32, 0, Math.PI * 2);
+        ctx.fill();
+        // shoulders
+        ctx.beginPath();
+        ctx.ellipse(photoCx, photoCy + r * 0.68, r * 0.58, r * 0.42, 0, 0, Math.PI * 2);
+        ctx.fill();
         ctx.restore();
       }
 
