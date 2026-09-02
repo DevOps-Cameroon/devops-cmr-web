@@ -1,4 +1,5 @@
 import { Calendar, MapPin, Users, Ticket, Bell } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { useShowcase } from '@/hooks/useShowcase';
 import EventShowcase from '@/components/pages/events/EventShowcase';
 import SweepButton from '@/components/ui/SweepButton';
@@ -98,7 +99,7 @@ function FeaturedSpotlight({ event }) {
               <Bell className="h-3.5 w-3.5 text-accent-ink" />
             </span>
           </div>
-          <SweepButton>
+          <SweepButton as={Link} to={`/rsvp/${event.id}`}>
             RSVP
           </SweepButton>
         </div>

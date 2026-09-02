@@ -14,6 +14,7 @@ export const nav = [
   { label: 'About', path: '/about' },
   { label: 'Events', path: '/events' },
   { label: 'Projects', path: '/projects' },
+  { label: 'RSVP', path: '/rsvp' },
   { label: 'Join', path: '/join' },
 ]
 

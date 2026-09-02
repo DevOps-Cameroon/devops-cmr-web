@@ -151,7 +151,7 @@ export default function FeaturedEventSection({ event }) {
               <p className="font-sans text-md font-bold uppercase tracking-widest text-ink">
                 GET TICKETS
               </p>
-              <SweepButton as={Link} to={`/events/${event.id}`}>
+              <SweepButton as={Link} to={`/rsvp/${event.id}`}>
                 RSVP
               </SweepButton>
             </div>

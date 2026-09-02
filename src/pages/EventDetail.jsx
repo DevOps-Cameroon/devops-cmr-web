@@ -6,6 +6,7 @@ import Container from "@/components/ui/container";
 import SweepButton from "@/components/ui/SweepButton";
 import ScrollReveal from "@/components/ScrollReveal";
 import Watermark from "@/components/pages/events/Watermark";
+import SectionHeading from "@/components/pages/events/SectionHeading";
 import SpeakersSection from "@/components/pages/events/SpeakersSection";
 import OrganizersSection from "@/components/pages/events/OrganizersSection";
 import Countdown from "@/components/pages/events/Countdown";
@@ -217,7 +218,7 @@ export default function EventDetail() {
               <div className="flex flex-wrap items-center gap-4">
                 <SweepButton
                   as={Link}
-                  to="/join"
+                  to={`/rsvp/${event.id}`}
                   variant="outline"
                   className="border-white/80 text-white [&_.label-default]:text-white"
                 >
@@ -338,13 +339,7 @@ export default function EventDetail() {
           #
         </Watermark>
         <Container>
-          <ScrollReveal
-            as="h2"
-            variant="scrub"
-            className="text-center font-sans text-[2.1rem] font-extrabold uppercase leading-tight tracking-tight text-ink"
-          >
-            Partners
-          </ScrollReveal>
+          <SectionHeading title="Partners" />
           <ScrollReveal
             as="div"
             variant="block"

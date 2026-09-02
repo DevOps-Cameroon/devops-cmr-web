@@ -88,10 +88,10 @@ const footerColumns = [
     title: 'Links',
     items: [
       { label: 'Home', href: '/' },
-      { label: 'Platform', href: '/services' },
       { label: 'About', href: '/about' },
-      { label: 'Careers', href: '/join' },
-      { label: 'Contact us', href: '/contact' },
+      { label: 'Events', href: '/events' },
+      { label: 'RSVP', href: '/rsvp' },
+      { label: 'Join', href: '/join' },
     ],
   },
   {

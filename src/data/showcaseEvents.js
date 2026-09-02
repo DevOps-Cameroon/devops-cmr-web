@@ -293,6 +293,7 @@ export const showcaseEvents = [
     ],
     speakers: speakerData.cloudSpeakers,
     organizers: organizerBase,
+    topics: ['Kubernetes', 'CI/CD pipelines', 'Observability', 'Mentorship', 'Terraform', 'Cloud infrastructure'],
   },
   {
     id: 'sre-observability-2026',
@@ -320,6 +321,7 @@ export const showcaseEvents = [
     ],
     speakers: speakerData.sreSpeakers,
     organizers: organizerBase,
+    topics: ['Observability', 'Monitoring', 'On-call culture', 'SRE practices', 'OpenTelemetry', 'Incident response'],
   },
   {
     id: 'kube-cicd-week-2026',
@@ -347,6 +349,7 @@ export const showcaseEvents = [
     ],
     speakers: speakerData.kubeSpeakers,
     organizers: organizerBase,
+    topics: ['Kubernetes', 'CI/CD pipelines', 'GitOps', 'Docker', 'Helm', 'ArgoCD'],
   },
   {
     id: 'cloud-summit-2026',
@@ -374,6 +377,7 @@ export const showcaseEvents = [
     ],
     speakers: speakerData.cloudSpeakers,
     organizers: organizerBase,
+    topics: ['Cloud infrastructure', 'Cost optimization', 'AWS', 'GCP', 'Production deploys', 'Mentorship'],
   },
   {
     id: 'kube-cicd-week-2026-bis',
@@ -401,6 +405,7 @@ export const showcaseEvents = [
     ],
     speakers: speakerData.kubeSpeakers,
     organizers: organizerBase,
+    topics: ['Kubernetes', 'CI/CD pipelines', 'GitOps', 'Docker', 'Helm', 'ArgoCD'],
   },
 ]
 
