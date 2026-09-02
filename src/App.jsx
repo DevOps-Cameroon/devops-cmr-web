@@ -5,7 +5,9 @@ import About from './pages/About'
 import EventsOverview from './pages/EventsOverview'
 import EventDetail from './pages/EventDetail'
 import Projects from './pages/Projects'
+import RSVP from './pages/RSVP'
 import Join from './pages/Join'
+import Testimonial from './pages/Testimonial'
 
 function App() {
   return (
@@ -16,7 +18,10 @@ function App() {
           <Route path="about" element={<About />} />
           <Route path="events" element={<EventsOverview />} />
           <Route path="events/:id" element={<EventDetail />} />
+          <Route path="events/:id/testimonial" element={<Testimonial />} />
           <Route path="projects" element={<Projects />} />
+          <Route path="rsvp" element={<RSVP />} />
+          <Route path="rsvp/:id" element={<RSVP />} />
           <Route path="join" element={<Join />} />
           <Route path="*" element={<Home />} />
         </Route>
