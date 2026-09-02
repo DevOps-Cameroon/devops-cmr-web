@@ -4,8 +4,6 @@ import { wrapText } from '@/lib/canvasText';
 const W = 1080;
 const H = 1080;
 const ACCENT = '#3ddc84';
-const INK = '#111827';
-const SURFACE = '#1a1f1c';
 const WHITE = '#ffffff';
 
 const FlyerCanvas = forwardRef(function FlyerCanvas({ name, takeaway, photoUrl, event }, ref) {
@@ -53,36 +51,36 @@ const FlyerCanvas = forwardRef(function FlyerCanvas({ name, takeaway, photoUrl, 
       // ── "I attended" label ──
       ctx.font = '600 28px "JetBrains Mono", monospace';
       ctx.fillStyle = ACCENT;
-      ctx.textAlign = 'left';
-      ctx.fillText('I ATTENDED', 72, 140);
+      ctx.textAlign = 'center';
+      ctx.fillText('I ATTENDED', W / 2, 140);
 
       // ── Event title ──
       ctx.font = '800 64px Poppins, sans-serif';
       ctx.fillStyle = WHITE;
-      const titleLines = wrapText(ctx, event.title, W - 144);
+      const titleLines = wrapText(ctx, event.title, W - 200);
       titleLines.forEach((line, i) => {
-        ctx.fillText(line, 72, 210 + i * 78);
+        ctx.fillText(line, W / 2, 210 + i * 78);
       });
       const titleEndY = 210 + titleLines.length * 78;
 
       // ── Event tag ──
       ctx.font = '500 24px "JetBrains Mono", monospace';
       ctx.fillStyle = 'rgba(255,255,255,0.5)';
-      ctx.fillText(event.tag, 72, titleEndY + 30);
+      ctx.fillText(event.tag, W / 2, titleEndY + 30);
 
       // ── Divider line ──
       const divY = titleEndY + 70;
       ctx.strokeStyle = ACCENT;
       ctx.lineWidth = 3;
       ctx.beginPath();
-      ctx.moveTo(72, divY);
-      ctx.lineTo(280, divY);
+      ctx.moveTo(W / 2 - 100, divY);
+      ctx.lineTo(W / 2 + 100, divY);
       ctx.stroke();
 
-      // ── Profile photo (circular) ──
+      // ── Profile photo (circular, centered) ──
       const photoSize = 180;
-      const photoX = 72;
-      const photoY = divY + 40;
+      const photoCx = W / 2;
+      const photoCy = divY + 40 + photoSize / 2;
 
       if (photoUrl) {
         const profileImg = await loadImage(photoUrl);
@@ -90,59 +88,52 @@ const FlyerCanvas = forwardRef(function FlyerCanvas({ name, takeaway, photoUrl, 
 
         // Accent ring
         ctx.beginPath();
-        ctx.arc(photoX + photoSize / 2, photoY + photoSize / 2, photoSize / 2 + 6, 0, Math.PI * 2);
+        ctx.arc(photoCx, photoCy, photoSize / 2 + 6, 0, Math.PI * 2);
         ctx.fillStyle = ACCENT;
         ctx.fill();
 
         // Circular clip for photo
         ctx.save();
         ctx.beginPath();
-        ctx.arc(photoX + photoSize / 2, photoY + photoSize / 2, photoSize / 2, 0, Math.PI * 2);
+        ctx.arc(photoCx, photoCy, photoSize / 2, 0, Math.PI * 2);
         ctx.clip();
-        ctx.drawImage(profileImg, photoX, photoY, photoSize, photoSize);
+        ctx.drawImage(profileImg, photoCx - photoSize / 2, photoCy - photoSize / 2, photoSize, photoSize);
         ctx.restore();
       }
 
-      // ── Name (next to photo) ──
-      const nameX = photoUrl ? photoX + photoSize + 30 : photoX;
-      const nameY = photoY + photoSize / 2 + 8;
-      ctx.font = '700 36px Poppins, sans-serif';
-      ctx.fillStyle = WHITE;
-      ctx.textAlign = 'left';
-      ctx.fillText(name, nameX, nameY);
+      // ── Takeaway section (centered, below photo) ──
+      const takeawayTop = photoCy + photoSize / 2 + 55;
+      const quoteMaxW = 680;
 
-      // ── "My biggest takeaway" card ──
-      const cardX = 72;
-      const cardY = photoY + photoSize + 50;
-      const cardW = W - 144;
-      const cardPad = 40;
-
-      // Takeaway text height estimation
-      ctx.font = '400 30px Poppins, sans-serif';
-      const takeawayLines = wrapText(ctx, takeaway, cardW - cardPad * 2);
-      const takeawayTextHeight = takeawayLines.length * 44;
-      const cardH = cardPad + 50 + takeawayTextHeight + cardPad + 60;
-
-      // Card background
-      ctx.fillStyle = SURFACE;
-      ctx.fillRect(cardX, cardY, cardW, cardH);
-
-      // Accent left border
+      // Opening big quote
+      ctx.font = '800 120px Poppins, sans-serif';
       ctx.fillStyle = ACCENT;
-      ctx.fillRect(cardX, cardY, 5, cardH);
-
-      // Card heading
-      ctx.font = '700 30px Poppins, sans-serif';
-      ctx.fillStyle = WHITE;
       ctx.textAlign = 'left';
-      ctx.fillText('My biggest takeaway', cardX + cardPad, cardY + cardPad + 30);
+      ctx.fillText('\u201C', 100, takeawayTop + 60);
 
       // Takeaway text
-      ctx.font = '400 30px Poppins, sans-serif';
-      ctx.fillStyle = 'rgba(255,255,255,0.85)';
+      ctx.font = '400 32px Poppins, sans-serif';
+      ctx.fillStyle = 'rgba(255,255,255,0.9)';
+      ctx.textAlign = 'center';
+      const takeawayLines = wrapText(ctx, takeaway, quoteMaxW);
+      const lineHeight = 48;
+      const textStartY = takeawayTop + 80;
       takeawayLines.forEach((line, i) => {
-        ctx.fillText(line, cardX + cardPad, cardY + cardPad + 80 + i * 44);
+        ctx.fillText(line, W / 2, textStartY + i * lineHeight);
       });
+      const textEndY = textStartY + takeawayLines.length * lineHeight;
+
+      // Closing big quote
+      ctx.font = '800 120px Poppins, sans-serif';
+      ctx.fillStyle = ACCENT;
+      ctx.textAlign = 'right';
+      ctx.fillText('\u201D', W - 100, textEndY + 30);
+
+      // "by [name]" at bottom right of takeaway
+      ctx.font = '500 26px "JetBrains Mono", monospace';
+      ctx.fillStyle = 'rgba(255,255,255,0.7)';
+      ctx.textAlign = 'right';
+      ctx.fillText(`by ${name}`, W - 100, textEndY + 80);
 
       // ── Bottom branding ──
       const bottomY = H - 60;

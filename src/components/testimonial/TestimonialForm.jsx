@@ -5,18 +5,15 @@ import { z } from 'zod';
 import { Camera, X } from 'lucide-react';
 import SweepButton from '@/components/ui/SweepButton';
 
-const MAX_WORDS = 200;
+const MAX_CHARS = 200;
 
 const testimonialSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
-  takeaway: z.string().min(10, 'Tell us at least a little about your experience').refine(
-    (val) => val.trim().split(/\s+/).filter(Boolean).length <= MAX_WORDS,
-    `Takeaway must be ${MAX_WORDS} words or less`,
-  ),
+  takeaway: z.string().min(10, 'Tell us at least a little about your experience').max(MAX_CHARS, `Takeaway must be ${MAX_CHARS} characters or less`),
 });
 
-function wordCount(text) {
-  return text.trim().split(/\s+/).filter(Boolean).length;
+function charCount(text) {
+  return text.length;
 }
 
 const inputCls =
@@ -39,7 +36,7 @@ export default function TestimonialForm({ onSubmit }) {
 
   const takeaway = watch('takeaway');
   const photo = watch('photo');
-  const words = wordCount(takeaway || '');
+  const chars = charCount(takeaway || '');
 
   const handlePhoto = (e) => {
     const file = e.target.files?.[0];
@@ -84,8 +81,8 @@ export default function TestimonialForm({ onSubmit }) {
         />
         <div className="mt-1.5 flex items-center justify-between">
           {errors.takeaway && <p className="text-xs text-red-500">{errors.takeaway.message}</p>}
-          <span className={`ml-auto font-mono text-xs ${words > MAX_WORDS ? 'text-red-500' : 'text-ink-3'}`}>
-            {words}/{MAX_WORDS}
+          <span className={`ml-auto font-mono text-xs ${chars > MAX_CHARS ? 'text-red-500' : 'text-ink-3'}`}>
+            {chars}/{MAX_CHARS}
           </span>
         </div>
       </div>

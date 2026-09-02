@@ -224,6 +224,16 @@ export default function EventDetail() {
                 >
                   RSVP
                 </SweepButton>
+                {new Date(event.dateISO) < new Date() && (
+                  <SweepButton
+                    as={Link}
+                    to={`/events/${event.id}/testimonial`}
+                    variant="outline"
+                    className="border-accent/60 text-accent [&_.label-default]:text-accent"
+                  >
+                    Share Testimonial
+                  </SweepButton>
+                )}
                 <p className="max-w-[170px] text-[12.5px] leading-relaxed text-white/65">
                   {event.dateLabel} ·{" "}
                   <strong className="text-accent">{event.seats}</strong>
