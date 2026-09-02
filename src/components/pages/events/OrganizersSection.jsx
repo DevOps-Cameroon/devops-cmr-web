@@ -61,7 +61,7 @@ export default function OrganizersSection({
 
   const cardClassName =
     mode === "grid"
-      ? "relative h-[420px] w-[220px] cursor-pointer overflow-hidden bg-[#e9e9e7] transition-[box-shadow] duration-300"
+      ? "relative h-[600px] w-full cursor-pointer overflow-hidden bg-[#e9e9e7] transition-[box-shadow] duration-300"
       : "relative h-[420px] w-[220px] flex-none cursor-pointer overflow-hidden bg-[#e9e9e7] transition-[box-shadow] duration-300";
 
   return (
@@ -79,7 +79,7 @@ export default function OrganizersSection({
         </div>
       ) : mode === "grid" ? (
         <div className="mx-auto mt-10 max-w-[1600px] px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-wrap justify-center gap-[2px]">
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 justify-center gap-[2px]">
             {organizers.map((o, i) => (
               <article
                 key={o.name}
@@ -110,7 +110,7 @@ export default function OrganizersSection({
                     </p>
                   </div>
                 </div>
-                  <div className="absolute inset-x-0 bottom-0 h-[70%]">
+                  <div className="absolute inset-x-0 bottom-0 h-[90%]">
                     {o.photo ? (
                       <img
                         src={o.photo}
