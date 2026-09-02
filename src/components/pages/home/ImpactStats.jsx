@@ -252,7 +252,8 @@ export default function ImpactStats() {
     >
       <div
         ref={viewportRef}
-        className="relative left-1/2 h-screen w-[100dvw] max-w-none -translate-x-1/2 overflow-hidden"
+        className="relative h-screen w-screen max-w-none overflow-hidden"
+        style={{ marginLeft: 'calc(50% - 50vw)' }}
       >
         <div ref={trackRef} className="absolute inset-x-0 top-0" style={{ height: `${STATS.length * 100}vh` }}>
           {STATS.map((stat, index) => (
