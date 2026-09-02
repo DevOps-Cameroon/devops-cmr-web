@@ -230,7 +230,7 @@ export default function RSVPForm({ event, onSubmitted }) {
     <section className="flex min-h-[600px] items-center justify-start px-3 py-10 sm:px-6 md:justify-center lg:py-28">
       <div ref={cardRef} className="ticket-rsvp w-full max-w-[1100px]">
         {/* ── Mobile & tablet: stacked layout ── */}
-        <div className="bg-ink md:hidden">
+        <div className="ticket-scallop bg-ink md:hidden">
           <div className="border-b border-dashed border-white/20 px-5 py-5 sm:px-8 sm:py-7">
             <div className="mb-3 inline-flex w-fit border border-white/20 bg-accent/10 px-2.5 py-1">
               <span className="font-mono text-[0.6rem] font-bold uppercase tracking-widest text-accent">{event.tag}</span>

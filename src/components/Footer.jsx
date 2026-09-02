@@ -90,7 +90,6 @@ const footerColumns = [
       { label: 'Home', href: '/' },
       { label: 'About', href: '/about' },
       { label: 'Events', href: '/events' },
-      { label: 'RSVP', href: '/rsvp' },
       { label: 'Join', href: '/join' },
     ],
   },
