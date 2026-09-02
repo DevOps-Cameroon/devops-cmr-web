@@ -87,22 +87,40 @@ const FlyerCanvas = forwardRef(function FlyerCanvas({ name, takeaway, photoUrl, 
       const photoCx = W / 2;
       const photoCy = divY + 40 + photoSize / 2;
 
+      // Accent ring
+      ctx.beginPath();
+      ctx.arc(photoCx, photoCy, photoSize / 2 + 6, 0, Math.PI * 2);
+      ctx.fillStyle = ACCENT;
+      ctx.fill();
+
       if (photoUrl) {
         const profileImg = await loadImage(photoUrl);
         if (cancelled) return;
 
-        // Accent ring
-        ctx.beginPath();
-        ctx.arc(photoCx, photoCy, photoSize / 2 + 6, 0, Math.PI * 2);
-        ctx.fillStyle = ACCENT;
-        ctx.fill();
-
-        // Circular clip for photo
         ctx.save();
         ctx.beginPath();
         ctx.arc(photoCx, photoCy, photoSize / 2, 0, Math.PI * 2);
         ctx.clip();
         ctx.drawImage(profileImg, photoCx - photoSize / 2, photoCy - photoSize / 2, photoSize, photoSize);
+        ctx.restore();
+      } else {
+        // WhatsApp-style placeholder silhouette
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(photoCx, photoCy, photoSize / 2, 0, Math.PI * 2);
+        ctx.clip();
+        ctx.fillStyle = '#d9dde0';
+        ctx.fillRect(photoCx - photoSize / 2, photoCy - photoSize / 2, photoSize, photoSize);
+        const r = photoSize / 2;
+        // head
+        ctx.fillStyle = '#9aa0a6';
+        ctx.beginPath();
+        ctx.arc(photoCx, photoCy - r * 0.22, r * 0.32, 0, Math.PI * 2);
+        ctx.fill();
+        // shoulders
+        ctx.beginPath();
+        ctx.ellipse(photoCx, photoCy + r * 0.68, r * 0.58, r * 0.42, 0, 0, Math.PI * 2);
+        ctx.fill();
         ctx.restore();
       }
 
