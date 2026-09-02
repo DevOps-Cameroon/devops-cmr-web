@@ -4,6 +4,7 @@ import { wrapText } from '@/lib/canvasText';
 const W = 1080;
 const H = 1080;
 const ACCENT = '#3ddc84';
+const FLYER_BG = 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1800&q=80';
 const WHITE = '#ffffff';
 
 const FlyerCanvas = forwardRef(function FlyerCanvas({ name, takeaway, photoUrl, event }, ref) {
@@ -30,8 +31,12 @@ const FlyerCanvas = forwardRef(function FlyerCanvas({ name, takeaway, photoUrl, 
 
       ctx.clearRect(0, 0, W, H);
 
+      // ── Fallback accent background ──
+      ctx.fillStyle = ACCENT;
+      ctx.fillRect(0, 0, W, H);
+
       // ── Background ──
-      const bgImg = await loadImage(event.img);
+      const bgImg = await loadImage(FLYER_BG);
       if (cancelled) return;
 
       ctx.drawImage(bgImg, 0, 0, W, H);
