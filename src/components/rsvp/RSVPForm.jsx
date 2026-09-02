@@ -287,7 +287,7 @@ export default function RSVPForm({ event, onSubmitted }) {
         {/* ── Desktop: side-by-side layout ── */}
         <div className="hidden md:flex min-h-[560px]">
           <div ref={tearGroupRef} className="ticket-tear-group relative z-[2] flex shrink-0" style={{ '--cut-progress': 0 }}>
-            <div className="ticket-stub relative flex w-[340px] shrink-0 flex-col justify-between border-b border-dashed border-white/20 bg-ink px-8 py-8 lg:w-[400px] lg:px-10 xl:px-14 md:border-b-0">
+            <div className="ticket-stub ticket-scallop relative flex w-[340px] shrink-0 flex-col justify-between border-b border-dashed border-white/20 bg-ink px-8 py-8 lg:w-[400px] lg:px-10 xl:px-14 md:border-b-0">
               <div>
                 <div className="mb-5 inline-flex w-fit border border-white/20 bg-accent/10 px-3 py-1">
                   <span className="font-mono text-[0.6rem] font-bold uppercase tracking-widest text-accent">{event.tag}</span>
@@ -414,6 +414,10 @@ export default function RSVPForm({ event, onSubmitted }) {
         }
 
         .ticket-stub {
+          backface-visibility: hidden;
+        }
+
+        .ticket-scallop {
           mask-image:
             radial-gradient(circle 8px at 0px 10%, transparent 99%, #000 100%),
             radial-gradient(circle 8px at 0px 20%, transparent 99%, #000 100%),
@@ -426,7 +430,6 @@ export default function RSVPForm({ event, onSubmitted }) {
             radial-gradient(circle 8px at 0px 90%, transparent 99%, #000 100%);
           mask-composite: intersect;
           -webkit-mask-composite: source-in;
-          backface-visibility: hidden;
         }
 
         .ticket-tear-group {

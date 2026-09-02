@@ -10,15 +10,8 @@ function prefersReducedMotion() {
 export default function useTearAnimation(step, onComplete) {
   const cardRef = useRef(null);
   const tearGroupRef = useRef(null);
-
-  useEffect(() => {
-    if (cardRef.current) {
-      gsap.fromTo(cardRef.current,
-        { opacity: 0, y: 40, scale: 0.96 },
-        { opacity: 1, y: 0, scale: 1, duration: 0.8, ease: 'power3.out', delay: 0.2 },
-      );
-    }
-  }, []);
+  const onCompleteRef = useRef(onComplete);
+  onCompleteRef.current = onComplete;
 
   useEffect(() => {
     if (!tearGroupRef.current) return;
@@ -37,26 +30,29 @@ export default function useTearAnimation(step, onComplete) {
   }, [step]);
 
   const playFinalTear = useCallback(() => new Promise((resolve) => {
-    if (prefersReducedMotion()) {
-      onComplete?.();
+    const tearEl = tearGroupRef.current;
+    const cardEl = cardRef.current;
+
+    if (prefersReducedMotion() || !tearEl || !cardEl) {
+      onCompleteRef.current?.();
       resolve();
       return;
     }
 
     const timeline = gsap.timeline({
       onComplete: () => {
-        onComplete?.();
+        onCompleteRef.current?.();
         resolve();
       },
     });
 
     timeline
-      .to(tearGroupRef.current, {
+      .to(tearEl, {
         '--cut-progress': 1,
         duration: 0.58,
         ease: 'power2.inOut',
       })
-      .to(tearGroupRef.current, {
+      .to(tearEl, {
         x: -40,
         y: 320,
         rotation: -35,
@@ -66,14 +62,14 @@ export default function useTearAnimation(step, onComplete) {
         ease: 'power2.in',
         transformOrigin: 'calc(100% - 0.5rem) 50%',
       }, '<0.08')
-      .to(cardRef.current, {
+      .to(cardEl, {
         opacity: 0,
         y: -18,
         scale: 0.985,
         duration: 0.3,
         ease: 'power2.in',
       }, '-=0.34');
-  }), [onComplete]);
+  }), []);
 
   return { cardRef, tearGroupRef, playFinalTear };
 }

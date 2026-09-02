@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { useShowcaseEvent, useShowcase } from '@/hooks/useShowcase';
 import EventHero from '@/components/pages/events/EventHero';
@@ -11,6 +11,7 @@ export default function RSVP() {
   const [submitted, setSubmitted] = useState(false);
   const { event, loading: eventLoading } = useShowcaseEvent(id);
   const { events, loading: eventsLoading } = useShowcase();
+  const handleSubmitted = useCallback(() => setSubmitted(true), []);
 
   const loading = id ? eventLoading : eventsLoading;
   const activeEvent = id ? event : events.find((e) => e.featured) || events[0];
@@ -90,7 +91,7 @@ export default function RSVP() {
         </>
       )}
 
-      <RSVPForm event={activeEvent} onSubmitted={() => setSubmitted(true)} />
+      <RSVPForm event={activeEvent} onSubmitted={handleSubmitted} />
     </div>
   );
 }
