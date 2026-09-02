@@ -2,7 +2,7 @@
 import CtaSvg from '@/assets/images/CTA.svg';
 import ctaBg from '@/assets/images/CTA_bg.png';
 
-const socialIcons = [
+export const socialIcons = [
   {
     label: 'GitHub',
     href: 'https://github.com/devopscameroon',
