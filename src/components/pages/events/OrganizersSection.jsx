@@ -93,12 +93,12 @@ export default function OrganizersSection({
                 <div
                   aria-hidden="true"
                   className={`pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,rgba(61,220,132,0.22),rgba(61,220,132,0)_60%)] transition-opacity duration-500 ${
-                    active === i ? "opacity-100" : "opacity-0"
+                    active === i ? "opacity-100 lg:opacity-100" : "opacity-100 lg:opacity-0"
                   }`}
                 />
                 <div
-                  className={`absolute inset-x-0 top-0 z-10 flex justify-center pt-10 text-center transition-opacity duration-300 ${
-                    active === i ? "opacity-100" : "opacity-0"
+                  className={`absolute inset-x-0 top-0 z-10 flex justify-center pt-10 text-center opacity-100 transition-opacity duration-300 ${
+                    active === i ? "lg:opacity-100" : "lg:opacity-0"
                   }`}
                 >
                   <div className="text-center">
@@ -116,7 +116,7 @@ export default function OrganizersSection({
                         src={o.photo}
                         alt=""
                         className={`h-full w-full object-cover object-center brightness-[1.08] contrast-[1.06] saturate-[1.05] transition-[filter] duration-[400ms] ${
-                          active === i ? "grayscale-0" : "grayscale"
+                          active === i ? "grayscale-0 lg:grayscale-0" : "grayscale-0 lg:grayscale"
                         }`}
                         loading="lazy"
                       />
@@ -168,12 +168,12 @@ export default function OrganizersSection({
                   <div
                     aria-hidden="true"
                     className={`pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,rgba(61,220,132,0.22),rgba(61,220,132,0)_60%)] transition-opacity duration-500 ${
-                      active === i ? "opacity-100" : "opacity-0"
+                      active === i ? "opacity-100 lg:opacity-100" : "opacity-100 lg:opacity-0"
                     }`}
                   />
                   <div
-                    className={`absolute inset-x-0 top-0 z-10 flex justify-center pt-10 text-center transition-opacity duration-300 ${
-                      active === i ? "opacity-100" : "opacity-0"
+                    className={`absolute inset-x-0 top-0 z-10 flex justify-center pt-10 text-center opacity-100 transition-opacity duration-300 ${
+                      active === i ? "lg:opacity-100" : "lg:opacity-0"
                     }`}
                   >
                     <div className="text-center">
@@ -191,7 +191,7 @@ export default function OrganizersSection({
                         src={o.photo}
                         alt=""
                         className={`h-full w-full object-cover object-center brightness-[1.08] contrast-[1.06] saturate-[1.05] transition-[filter] duration-[400ms] ${
-                          active === i ? "grayscale-0" : "grayscale"
+                          active === i ? "grayscale-0 lg:grayscale-0" : "grayscale-0 lg:grayscale"
                         }`}
                         loading="lazy"
                       />
