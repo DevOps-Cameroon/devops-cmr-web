@@ -1,10 +1,12 @@
-import { useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Calendar, MapPin, Users, ChevronDown } from 'lucide-react';
+import { Calendar, MapPin, Users, ChevronDown, CalendarPlus, Share2, Mail } from 'lucide-react';
 import SweepButton from '@/components/ui/SweepButton';
 import useTearAnimation from '@/hooks/useTearAnimation';
+import InteractiveBadge from '@/components/rsvp/InteractiveBadge';
+import Container from '@/components/ui/container'
 
 const rsvpSchema = z.object({
   firstName: z.string().min(2, 'First name must be at least 2 characters'),
@@ -128,31 +130,64 @@ function Step2({ watch, event }) {
 
 /* ── Success ── */
 export function RSVPSuccess({ event }) {
+  const date = new Date(event.dateISO);
+  const calendarDate = date.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+  const calendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(event.title)}&dates=${calendarDate}/${calendarDate}&details=${encodeURIComponent('DevOps Cameroon event')}&location=${encodeURIComponent(event.venue)}`;
+
+  const shareEvent = async () => {
+    const shareData = {
+      title: `DevOps Cameroon — ${event.title}`,
+      text: `I am attending ${event.title}. See you there!`,
+      url: window.location.href,
+    };
+
+    if (navigator.share) {
+      await navigator.share(shareData).catch(() => undefined);
+      return;
+    }
+    await navigator.clipboard?.writeText(window.location.href);
+  };
+
   return (
-    <section className="flex min-h-[600px] items-center justify-center px-6 py-16 lg:py-28">
-      <div className="text-center">
-        <div className="mx-auto mb-8 inline-flex h-24 w-24 items-center justify-center rounded-full border-2 border-accent bg-accent/10">
-          <span className="font-mono text-4xl font-bold text-accent">✓</span>
+    <section>
+      <Container>
+      <div className="grid lg:grid-cols-2">
+        <div className="flex flex-col justify-center px-6 py-16 sm:px-10 lg:px-0 lg:py-20">
+          <h2 className="font-sans text-[clamp(2.75rem,4vw,5rem)] font-extrabold uppercase leading-[0.94] tracking-[-0.06em] text-ink">
+            See you at
+            <span className="block text-accent">{event.title}</span>
+          </h2>
+          <p className="mt-10 max-w-lg border-t border-line pt-6 font-mono text-sm leading-relaxed sm:text-base" style={{ color: 'var(--ink-2)' }}>
+            Your spot is reserved. We&apos;ve sent the confirmation and event details to your email.
+          </p>
+
+          <div className="mt-8 grid max-w-xl gap-3 border-y border-line py-6 text-sm text-ink-2 sm:grid-cols-2">
+            <span className="flex items-center gap-2"><Calendar className="h-4 w-4 text-accent-ink" />{date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
+            <span className="flex items-center gap-2"><MapPin className="h-4 w-4 text-accent-ink" />{event.venue}</span>
+          </div>
+
+          <div className="mt-8 flex flex-wrap gap-3">
+            <a href={calendarUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 border border-ink bg-ink px-5 py-3 font-mono text-xs font-bold uppercase tracking-wider text-white transition hover:bg-accent hover:text-accent-ink">
+              <CalendarPlus className="h-4 w-4" /> Add to calendar
+            </a>
+            <button type="button" onClick={shareEvent} className="inline-flex items-center gap-2 border border-line bg-white px-5 py-3 font-mono text-xs font-bold uppercase tracking-wider text-ink transition hover:border-accent hover:text-accent">
+              <Share2 className="h-4 w-4" /> Share
+            </button>
+          </div>
+
+          <p className="mt-6 flex items-center gap-2 font-mono text-xs" style={{ color: 'var(--ink-3)' }}><Mail className="h-4 w-4" /> Confirmation email on its way.</p>
+
+          <div className="mt-10 flex gap-5 font-mono text-xs font-bold uppercase tracking-wider">
+            <a href="/events" className="text-ink transition hover:text-accent">View events →</a>
+            <a href="/" className="text-ink-3 transition hover:text-accent">Home →</a>
+          </div>
         </div>
 
-        <h2 className="font-sans text-4xl font-extrabold uppercase tracking-tight text-ink sm:text-5xl">
-          You&apos;re In!
-        </h2>
-
-        <p className="mx-auto mt-5 max-w-md text-lg leading-relaxed text-ink-2">
-          Your RSVP for <strong className="text-ink">{event.title}</strong> has been confirmed.
-          Check your email for the ticket and event details.
-        </p>
-
-        <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-          <SweepButton as="a" href="/events">
-            View All Events
-          </SweepButton>
-          <SweepButton as="a" href="/" variant="outline" className="border-ink/20 text-ink">
-            Back to Home
-          </SweepButton>
+        <div className="relative min-h-105 overflow-hidden border-t border-line lg:min-h-0 lg:border-t-0">
+          <InteractiveBadge />
         </div>
       </div>
+      </Container>
     </section>
   );
 }
@@ -181,6 +216,10 @@ function MobileStepIndicator({ step }) {
 export default function RSVPForm({ event, onSubmitted }) {
   const [step, setStep] = useState(0);
   const [submitted, setSubmitted] = useState(false);
+
+  useLayoutEffect(() => {
+    if (submitted) window.scrollTo(0, 0);
+  }, [submitted]);
 
   const { cardRef, tearGroupRef, playFinalTear } = useTearAnimation(step, () => {
     setSubmitted(true);
@@ -227,8 +266,8 @@ export default function RSVPForm({ event, onSubmitted }) {
   }
 
   return (
-    <section className="flex min-h-[600px] items-center justify-start px-3 py-10 sm:px-6 md:justify-center lg:py-28">
-      <div ref={cardRef} className="ticket-rsvp w-full max-w-[1100px]">
+    <section className="flex min-h-150 items-center justify-start px-3 py-10 sm:px-6 md:justify-center lg:py-28">
+      <div ref={cardRef} className="ticket-rsvp w-full max-w-275">
         {/* ── Mobile & tablet: stacked layout ── */}
         <div className="ticket-scallop bg-ink md:hidden">
           <div className="border-b border-dashed border-white/20 px-5 py-5 sm:px-8 sm:py-7">
@@ -285,15 +324,15 @@ export default function RSVPForm({ event, onSubmitted }) {
         </div>
 
         {/* ── Desktop: side-by-side layout ── */}
-        <div className="hidden md:flex min-h-[560px]">
-          <div ref={tearGroupRef} className="ticket-tear-group relative z-[2] flex shrink-0" style={{ '--cut-progress': 0 }}>
-            <div className="ticket-stub ticket-scallop relative flex w-[340px] shrink-0 flex-col justify-between border-b border-dashed border-white/20 bg-ink px-8 py-8 lg:w-[400px] lg:px-10 xl:px-14 md:border-b-0">
+        <div className="hidden md:flex min-h-140">
+          <div ref={tearGroupRef} className="ticket-tear-group relative z-2 flex shrink-0" style={{ '--cut-progress': 0 }}>
+            <div className="ticket-stub ticket-scallop relative flex w-85 shrink-0 flex-col justify-between border-b border-dashed border-white/20 bg-ink px-8 py-8 lg:w-100 lg:px-10 xl:px-14 md:border-b-0">
               <div>
                 <div className="mb-5 inline-flex w-fit border border-white/20 bg-accent/10 px-3 py-1">
                   <span className="font-mono text-[0.6rem] font-bold uppercase tracking-widest text-accent">{event.tag}</span>
                 </div>
                 <h2 className="text-xl font-extrabold leading-tight text-white lg:text-2xl xl:text-[28px]">{event.title}</h2>
-                <p className="mt-4 max-w-[260px] text-sm leading-relaxed text-white/65 lg:max-w-[300px]">
+                <p className="mt-4 max-w-65 text-sm leading-relaxed text-white/65 lg:max-w-75">
                   Reserve your seat before spots run out. Confirmation sent to your email.
                 </p>
 
@@ -322,7 +361,7 @@ export default function RSVPForm({ event, onSubmitted }) {
                   </div>
                 </dl>
 
-                <div className="mt-6 max-w-[280px] lg:mt-7 lg:max-w-[320px]">
+                <div className="mt-6 max-w-70 lg:mt-7 lg:max-w-80">
                   <div className="h-1.5 w-full rounded-full bg-white/15">
                     <div className="h-full rounded-full bg-accent" style={{ width: `${fill}%` }} />
                   </div>

@@ -46,14 +46,16 @@ export default function RSVP() {
 
   return (
     <div className="overflow-x-clip bg-base text-ink">
-      <section className="bg-base pt-28 -my-20 pb-12 sm:pt-32 sm:pb-16 md:pt-36 md:pb-20">
-        <Container>
-          <SectionHeading
-            title="Secure Your Spot"
-            sub={`Fill in your details below to reserve your seat at ${activeEvent.title}.`}
-          />
-        </Container>
-      </section>
+      {!submitted && (
+        <section className="">
+          <Container>
+            <SectionHeading
+              title="Secure Your Spot"
+              sub={`Fill in your details below to reserve your seat at ${activeEvent.title}.`}
+            />
+          </Container>
+        </section>
+      )}
 
       <RSVPForm event={activeEvent} onSubmitted={handleSubmitted} />
     </div>
