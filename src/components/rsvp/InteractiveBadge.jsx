@@ -16,6 +16,27 @@ const segmentProps = {
   linearDamping: 2,
 }
 
+// ── Card proportions, tuned to match the tall/narrow badge in the Vercel
+//    reference image (roughly a 0.65 width:height ratio) instead of the
+//    wider default. Everything below derives from these two numbers so
+//    the visual mesh, its collider, and its lanyard attach point all stay
+//    in sync — changing only CARD_SCALE_X/Y is enough to retune further.
+const CARD_SCALE_X = 3.85
+const CARD_SCALE_Y = 3.85
+const CARD_HALF_WIDTH = 0.8 * (CARD_SCALE_X / 2.25)
+const CARD_HALF_HEIGHT = 1.125 * (CARD_SCALE_Y / 2.25)
+const CARD_GROUP_Y_OFFSET = -0.2 * (CARD_SCALE_Y / 2.25)
+const CARD_JOINT_Y_OFFSET = 1.45 * (CARD_SCALE_Y / 2.25)
+
+// ── Band length, scaled as one unit so the anchor height, each rope
+//    segment's max length, and the initial seed spacing all shrink
+//    together — changing them independently would either leave slack
+//    in the rope or start the sim from a mismatched pose.
+const BAND_LENGTH_SCALE = 0.6
+const BAND_ANCHOR_Y = 4.6 * BAND_LENGTH_SCALE
+const BAND_SEGMENT_SPACING = 0.5 * BAND_LENGTH_SCALE
+const BAND_ROPE_MAX_LENGTH = 1 * BAND_LENGTH_SCALE
+
 function BadgeBand() {
   const bandRef = useRef(null)
   const fixedRef = useRef(null)
@@ -39,10 +60,10 @@ function BadgeBand() {
   ])).current
   const { nodes } = useGLTF('/assets/3d/card.glb')
 
-  useRopeJoint(fixedRef, jointOneRef, [[0, 0, 0], [0, 0, 0], 1])
-  useRopeJoint(jointOneRef, jointTwoRef, [[0, 0, 0], [0, 0, 0], 1])
-  useRopeJoint(jointTwoRef, jointThreeRef, [[0, 0, 0], [0, 0, 0], 1])
-  useSphericalJoint(jointThreeRef, cardRef, [[0, 0, 0], [0, 1.45, 0]])
+  useRopeJoint(fixedRef, jointOneRef, [[0, 0, 0], [0, 0, 0], BAND_ROPE_MAX_LENGTH])
+  useRopeJoint(jointOneRef, jointTwoRef, [[0, 0, 0], [0, 0, 0], BAND_ROPE_MAX_LENGTH])
+  useRopeJoint(jointTwoRef, jointThreeRef, [[0, 0, 0], [0, 0, 0], BAND_ROPE_MAX_LENGTH])
+  useSphericalJoint(jointThreeRef, cardRef, [[0, 0, 0], [0, CARD_JOINT_Y_OFFSET, 0]])
 
   useEffect(() => {
     document.body.style.cursor = hovered ? (dragged ? 'grabbing' : 'grab') : 'auto'
@@ -88,16 +109,16 @@ function BadgeBand() {
 
   return (
     <>
-      <group position={[0, 4.6, 0]}>
+      <group position={[0, BAND_ANCHOR_Y, 0]}>
         <RigidBody ref={fixedRef} {...segmentProps} type="fixed" />
-        <RigidBody position={[0.5, 0, 0]} ref={jointOneRef} {...segmentProps}><BallCollider args={[0.1]} /></RigidBody>
-        <RigidBody position={[1, 0, 0]} ref={jointTwoRef} {...segmentProps}><BallCollider args={[0.1]} /></RigidBody>
-        <RigidBody position={[1.5, 0, 0]} ref={jointThreeRef} {...segmentProps}><BallCollider args={[0.1]} /></RigidBody>
-        <RigidBody position={[2, 0, 0]} ref={cardRef} {...segmentProps} type={dragged ? 'kinematicPosition' : 'dynamic'}>
-          <CuboidCollider args={[0.8, 1.125, 0.01]} />
+        <RigidBody position={[BAND_SEGMENT_SPACING, 0, 0]} ref={jointOneRef} {...segmentProps}><BallCollider args={[0.1]} /></RigidBody>
+        <RigidBody position={[BAND_SEGMENT_SPACING * 2, 0, 0]} ref={jointTwoRef} {...segmentProps}><BallCollider args={[0.1]} /></RigidBody>
+        <RigidBody position={[BAND_SEGMENT_SPACING * 3, 0, 0]} ref={jointThreeRef} {...segmentProps}><BallCollider args={[0.1]} /></RigidBody>
+        <RigidBody position={[BAND_SEGMENT_SPACING * 4, 0, 0]} ref={cardRef} {...segmentProps} type={dragged ? 'kinematicPosition' : 'dynamic'}>
+          <CuboidCollider args={[CARD_HALF_WIDTH, CARD_HALF_HEIGHT, 0.01]} />
           <group
-            scale={2.25}
-            position={[0, -1.25, -0.05]}
+            scale={[CARD_SCALE_X, CARD_SCALE_Y, 2.25]}
+            position={[0, CARD_GROUP_Y_OFFSET, -0.05]}
             onPointerOver={() => setHovered(true)}
             onPointerOut={() => setHovered(false)}
             onPointerDown={(event) => {
