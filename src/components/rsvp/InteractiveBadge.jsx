@@ -32,7 +32,7 @@ const CARD_JOINT_Y_OFFSET = 1.45 * (CARD_SCALE_Y / 2.25)
 //    segment's max length, and the initial seed spacing all shrink
 //    together — changing them independently would either leave slack
 //    in the rope or start the sim from a mismatched pose.
-const BAND_LENGTH_SCALE = 0.6
+const BAND_LENGTH_SCALE = 0.2
 const BAND_ANCHOR_Y = 4.6 * BAND_LENGTH_SCALE
 const BAND_SEGMENT_SPACING = 0.5 * BAND_LENGTH_SCALE
 const BAND_ROPE_MAX_LENGTH = 1 * BAND_LENGTH_SCALE
