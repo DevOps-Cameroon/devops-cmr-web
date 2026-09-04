@@ -75,21 +75,12 @@ export default function EventsOverview() {
       {/* ================= FEATURED EVENT ================= */}
       {ready && <FeaturedEventSection event={featured} />}
 
-      {/* ================= UPCOMING EVENTS ================= */}
-      {ready && (
-        <EventShowcase
-          events={upcoming}
-          title="Upcoming Events"
-          subtitle="Every edition, talk, and lab on the calendar. Open any event to see speakers, schedule, and how to RSVP."
-        />
-      )}
-
       {/* ================= ALL EVENTS ARCHIVE ================= */}
       <section
         id="archive"
         className="wm-section relative overflow-hidden py-16 lg:py-24"
       >
-        <Watermark className="right-[-40px] top-[-90px] text-[clamp(160px,22vw,280px)]">
+        <Watermark className="right-[-40px] top-0 text-[clamp(160px,22vw,280px)] opacity-45">
           {"~/events"}
         </Watermark>
         <Container>

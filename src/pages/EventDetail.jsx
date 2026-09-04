@@ -89,7 +89,7 @@ export default function EventDetail() {
       {/* ================= ABOUT THIS EVENT ================= */}
       <section className="wm-section relative overflow-hidden py-16 lg:py-24">
         <Watermark
-          className="bottom-[-70px] left-[-30px] text-[clamp(140px,18vw,240px)]"
+          className="bottom-0 left-[-30px] text-[clamp(140px,18vw,240px)] opacity-45"
           style={{ transform: "rotate(-6deg)" }}
         >
           {"</>"}
