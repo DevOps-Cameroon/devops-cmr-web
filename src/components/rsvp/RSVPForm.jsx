@@ -1,11 +1,12 @@
-import { useLayoutEffect, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Calendar, MapPin, Users, ChevronDown, CalendarPlus, Share2, Mail } from 'lucide-react';
+import { Calendar, MapPin, Users, ChevronDown, CalendarPlus, Share2, Mail, Download } from 'lucide-react';
 import SweepButton from '@/components/ui/SweepButton';
 import useTearAnimation from '@/hooks/useTearAnimation';
 import InteractiveBadge from '@/components/rsvp/InteractiveBadge';
+import BadgeFlyerCanvas from '@/components/rsvp/BadgeFlyerCanvas';
 import Container from '@/components/ui/container'
 
 const rsvpSchema = z.object({
@@ -134,26 +135,57 @@ export function RSVPSuccess({ event, attendeeName }) {
   const calendarDate = date.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
   const calendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(event.title)}&dates=${calendarDate}/${calendarDate}&details=${encodeURIComponent('DevOps Cameroon event')}&location=${encodeURIComponent(event.venue)}`;
 
-  const shareEvent = async () => {
-    const shareData = {
-      title: `DevOps Cameroon — ${event.title}`,
-      text: `I am attending ${event.title}. See you there!`,
-      url: window.location.href,
-    };
+  const flyerRef = useRef(null);
+  const [sharing, setSharing] = useState(false);
 
-    if (navigator.share) {
-      await navigator.share(shareData).catch(() => undefined);
-      return;
+  const shareEvent = async () => {
+    if (sharing) return;
+    setSharing(true);
+
+    try {
+      const blob = await flyerRef.current?.generateBlob();
+      if (!blob) throw new Error('Canvas not ready');
+
+      const fileName = `devops-cameroon-${event.title.toLowerCase().replace(/\s+/g, '-')}.png`;
+      const file = new File([blob], fileName, { type: 'image/png' });
+
+      // Try Web Share API with image file (mobile / supported browsers)
+      const canShareFiles =
+        typeof navigator.canShare === 'function' && navigator.canShare({ files: [file] });
+
+      if (navigator.share && canShareFiles) {
+        await navigator.share({
+          files: [file],
+          title: `DevOps Cameroon — ${event.title}`,
+          text: `I'm attending ${event.title}! Join me 🚀`,
+        });
+        return;
+      }
+
+      // Fallback: download the image directly
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = fileName;
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      // User cancelled the share — not an error worth surfacing
+      if (err?.name !== 'AbortError') console.warn('Share failed:', err);
+    } finally {
+      setSharing(false);
     }
-    await navigator.clipboard?.writeText(window.location.href);
   };
 
   return (
     <section>
+      {/* Hidden canvas — rendered off-screen, used only for image generation */}
+      <BadgeFlyerCanvas ref={flyerRef} event={event} attendeeName={attendeeName} />
+
       <Container>
       <div className="grid lg:grid-cols-2">
         <div className="flex flex-col justify-center px-6 py-16 sm:px-10 lg:px-0 lg:py-20">
-          <h2 className="font-sans text-[clamp(2.75rem,4vw,5rem)] font-extrabold uppercase leading-[0.94] tracking-[-0.06em] text-ink">
+          <h2 className="font-mono text-[clamp(2.75rem,4vw,5rem)] font-extrabold uppercase leading-[0.94] tracking-[-0.06em] text-ink">
             See you at
             <span className="block text-accent">{event.title}</span>
           </h2>
@@ -170,8 +202,16 @@ export function RSVPSuccess({ event, attendeeName }) {
             <a href={calendarUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 border border-ink bg-ink px-5 py-3 font-mono text-xs font-bold uppercase tracking-wider text-white transition hover:bg-accent hover:text-accent-ink">
               <CalendarPlus className="h-4 w-4" /> Add to calendar
             </a>
-            <button type="button" onClick={shareEvent} className="inline-flex items-center gap-2 border border-line bg-white px-5 py-3 font-mono text-xs font-bold uppercase tracking-wider text-ink transition hover:border-accent hover:text-accent">
-              <Share2 className="h-4 w-4" /> Share
+            <button
+              type="button"
+              onClick={shareEvent}
+              disabled={sharing}
+              className="inline-flex items-center gap-2 border border-line bg-white px-5 py-3 font-mono text-xs font-bold uppercase tracking-wider text-ink transition hover:border-accent hover:text-accent disabled:opacity-50 disabled:cursor-wait"
+            >
+              {sharing
+                ? <><Download className="h-4 w-4 animate-pulse" /> Preparing…</>
+                : <><Share2 className="h-4 w-4" /> Share</>
+              }
             </button>
           </div>
 

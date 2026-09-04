@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom'
-import SweepButton from '@/components/ui/SweepButton'
 
 export default function ViewMoreCard({ count = 0, to = '/events', className = '' }) {
   return (
@@ -39,9 +38,12 @@ export default function ViewMoreCard({ count = 0, to = '/events', className = ''
           {count > 0 ? `+${count} more ` : 'View More'}
         </span>
       </span>
-      <SweepButton as="span" aria-hidden="true" className="[&_.label-default]:text-ink">
+      <span
+        aria-hidden="true"
+        className="relative z-[2] inline-flex items-center border border-ink/30 bg-transparent px-[1.7rem] py-[0.85rem] font-mono text-xs font-bold uppercase tracking-wider text-ink transition-colors duration-200 hover:bg-ink hover:text-accent"
+      >
         See all →
-      </SweepButton>
+      </span>
     </Link>
   )
 }
