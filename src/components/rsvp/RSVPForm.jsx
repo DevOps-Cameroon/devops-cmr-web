@@ -129,7 +129,7 @@ function Step2({ watch, event }) {
 }
 
 /* ── Success ── */
-export function RSVPSuccess({ event }) {
+export function RSVPSuccess({ event, attendeeName }) {
   const date = new Date(event.dateISO);
   const calendarDate = date.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
   const calendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(event.title)}&dates=${calendarDate}/${calendarDate}&details=${encodeURIComponent('DevOps Cameroon event')}&location=${encodeURIComponent(event.venue)}`;
@@ -184,7 +184,7 @@ export function RSVPSuccess({ event }) {
         </div>
 
         <div className="relative min-h-105 overflow-hidden border-t border-line lg:min-h-0 lg:border-t-0">
-          <InteractiveBadge />
+          <InteractiveBadge event={event} attendeeName={attendeeName} />
         </div>
       </div>
       </Container>
@@ -216,6 +216,7 @@ function MobileStepIndicator({ step }) {
 export default function RSVPForm({ event, onSubmitted }) {
   const [step, setStep] = useState(0);
   const [submitted, setSubmitted] = useState(false);
+  const [attendeeName, setAttendeeName] = useState('');
 
   useLayoutEffect(() => {
     if (submitted) window.scrollTo(0, 0);
@@ -254,6 +255,7 @@ export default function RSVPForm({ event, onSubmitted }) {
 
   const onSubmit = (data) => {
     console.log('RSVP:', data);
+    setAttendeeName(`${data.firstName} ${data.lastName}`);
     return playFinalTear();
   };
 
@@ -262,7 +264,7 @@ export default function RSVPForm({ event, onSubmitted }) {
   const remaining = event.capacity - event.taken;
 
   if (submitted) {
-    return <RSVPSuccess event={event} />;
+    return <RSVPSuccess event={event} attendeeName={attendeeName} />;
   }
 
   return (
