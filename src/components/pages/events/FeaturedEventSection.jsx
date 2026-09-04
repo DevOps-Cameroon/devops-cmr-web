@@ -151,9 +151,12 @@ export default function FeaturedEventSection({ event }) {
               <p className="font-sans text-md font-bold uppercase tracking-widest text-ink">
                 GET TICKETS
               </p>
-              <SweepButton as={Link} to={`/rsvp/${event.id}`}>
+              <Link
+                to={`/rsvp/${event.id}`}
+                className="inline-flex items-center border border-ink bg-transparent px-[1.7rem] py-[0.85rem] font-mono text-xs font-bold uppercase tracking-wider text-ink transition-colors duration-200 hover:bg-ink hover:text-accent"
+              >
                 RSVP
-              </SweepButton>
+              </Link>
             </div>
           </div>
         </div>

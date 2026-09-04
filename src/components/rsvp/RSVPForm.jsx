@@ -1,11 +1,12 @@
-import { useLayoutEffect, useState } from 'react';
+import { useLayoutEffect, useRef, useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Calendar, MapPin, Users, ChevronDown, CalendarPlus, Share2, Mail } from 'lucide-react';
+import { Calendar, MapPin, Users, ChevronDown, CalendarPlus, Share2, Mail, Download, X } from 'lucide-react';
 import SweepButton from '@/components/ui/SweepButton';
 import useTearAnimation from '@/hooks/useTearAnimation';
 import InteractiveBadge from '@/components/rsvp/InteractiveBadge';
+import BadgeFlyerCanvas from '@/components/rsvp/BadgeFlyerCanvas';
 import Container from '@/components/ui/container'
 
 const rsvpSchema = z.object({
@@ -134,26 +135,194 @@ export function RSVPSuccess({ event, attendeeName }) {
   const calendarDate = date.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
   const calendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(event.title)}&dates=${calendarDate}/${calendarDate}&details=${encodeURIComponent('DevOps Cameroon event')}&location=${encodeURIComponent(event.venue)}`;
 
-  const shareEvent = async () => {
-    const shareData = {
-      title: `DevOps Cameroon — ${event.title}`,
-      text: `I am attending ${event.title}. See you there!`,
-      url: window.location.href,
-    };
+  const flyerRef = useRef(null);
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewUrl, setPreviewUrl]   = useState(null);
+  const [acting, setActing]           = useState(false); // share or download in progress
+  const [fullscreen, setFullscreen]   = useState(false);
 
-    if (navigator.share) {
-      await navigator.share(shareData).catch(() => undefined);
-      return;
-    }
-    await navigator.clipboard?.writeText(window.location.href);
+  // Generate the data-URL once when the modal opens
+  const openPreview = async () => {
+    const url = flyerRef.current?.generateDataURL();
+    setPreviewUrl(url ?? null);
+    setPreviewOpen(true);
   };
+
+  const closePreview = () => {
+    setPreviewOpen(false);
+  };
+
+  // Close on Escape — handles both modal and fullscreen
+  useEffect(() => {
+    if (!previewOpen && !fullscreen) return;
+    const onKey = (e) => {
+      if (e.key === 'Escape') {
+        if (fullscreen) setFullscreen(false);
+        else closePreview();
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [previewOpen, fullscreen]);
+
+  // Lock body scroll while modal is open
+  useEffect(() => {
+    document.body.style.overflow = previewOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [previewOpen]);
+
+  const fileName = `devops-cameroon-${event.title.toLowerCase().replace(/\s+/g, '-')}.png`;
+
+  const handleShare = async () => {
+    if (acting) return;
+    setActing(true);
+    try {
+      const blob = await flyerRef.current?.generateBlob();
+      if (!blob) throw new Error('Canvas not ready');
+      const file = new File([blob], fileName, { type: 'image/png' });
+      const canShareFiles =
+        typeof navigator.canShare === 'function' && navigator.canShare({ files: [file] });
+      if (navigator.share && canShareFiles) {
+        await navigator.share({
+          files: [file],
+          title: `DevOps Cameroon — ${event.title}`,
+          text: `I'm attending ${event.title}! Join me 🚀`,
+        });
+      }
+    } catch (err) {
+      if (err?.name !== 'AbortError') console.warn('Share failed:', err);
+    } finally {
+      setActing(false);
+    }
+  };
+
+  const handleDownload = () => {
+    if (!previewUrl) return;
+    const a = document.createElement('a');
+    a.href = previewUrl;
+    a.download = fileName;
+    a.click();
+  };
+
+  // Detect if native file share is available (mobile)
+  const canNativeShare = typeof navigator.canShare === 'function';
 
   return (
     <section>
+      {/* Hidden canvas — rendered off-screen, used only for image generation */}
+      <BadgeFlyerCanvas ref={flyerRef} event={event} attendeeName={attendeeName} />
+
+      {/* ── Fullscreen image viewer ─────────────────────────────────────── */}
+      {fullscreen && previewUrl && (
+        <div
+          className="fixed inset-0 z-60 flex items-center justify-center bg-black/95"
+          onClick={() => setFullscreen(false)}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Full size flyer"
+        >
+          <button
+            type="button"
+            onClick={() => setFullscreen(false)}
+            aria-label="Close fullscreen"
+            className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center text-white/50 transition hover:text-white"
+          >
+            <X className="h-5 w-5" />
+          </button>
+          <img
+            src={previewUrl}
+            alt="Badge flyer full size"
+            className="max-h-screen max-w-full object-contain p-10"
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
+      )}
+
+      {/* ── Flyer preview modal ─────────────────────────────────────────── */}
+      {previewOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-8"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Share your badge flyer"
+        >
+          {/* Backdrop */}
+          <div
+            className="absolute inset-0 bg-black/75 backdrop-blur-sm"
+            onClick={closePreview}
+            aria-hidden="true"
+          />
+
+          {/* Panel */}
+          <div className="relative z-10 flex w-full max-w-sm flex-col gap-4 bg-white p-5 shadow-2xl sm:max-w-md">
+
+            {/* Header */}
+            <div className="flex shrink-0 items-center justify-between">
+              <span className="font-mono text-[0.65rem] font-bold tracking-wide text-ink">
+                Your Invitation Badge
+              </span>
+              <button
+                type="button"
+                onClick={closePreview}
+                aria-label="Close"
+                className="flex h-7 w-7 items-center justify-center text-ink/30 transition hover:text-ink"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+
+            {/* Flyer preview — fixed height, click to view fullscreen */}
+            <div className="shrink-0 overflow-hidden border border-ink/10">
+              {previewUrl
+                ? (
+                  <button
+                    type="button"
+                    onClick={() => setFullscreen(true)}
+                    className="group relative block w-full cursor-zoom-in"
+                    aria-label="View full size"
+                  >
+                    <img src={previewUrl} alt="Badge flyer preview" className="mx-auto block h-64 w-auto object-contain sm:h-72" />
+                    <span className="absolute inset-0 flex items-center justify-center bg-black/0 transition-colors duration-200 group-hover:bg-black/30">
+                      <span className="scale-75 rounded-full bg-black/60 px-3 py-1 font-mono text-[0.6rem] font-bold uppercase tracking-wider text-white opacity-0 transition-all duration-200 group-hover:scale-100 group-hover:opacity-100">
+                        View full size
+                      </span>
+                    </span>
+                  </button>
+                )
+                : <div className="flex h-64 items-center justify-center font-mono text-xs text-ink/30">Rendering…</div>
+              }
+            </div>
+
+            {/* Actions — always visible at the bottom */}
+            <div className="grid shrink-0 grid-cols-2 gap-3">
+              {canNativeShare && (
+                <button
+                  type="button"
+                  onClick={handleShare}
+                  disabled={acting}
+                  className="inline-flex items-center justify-center gap-2 border border-ink/20 bg-transparent px-4 py-3 font-mono text-xs font-bold uppercase tracking-wider text-ink transition hover:border-ink hover:bg-ink hover:text-white disabled:opacity-40"
+                >
+                  <Share2 className="h-3.5 w-3.5" />
+                  {acting ? 'Sharing…' : 'Share'}
+                </button>
+              )}
+              <button
+                type="button"
+                onClick={handleDownload}
+                className={`inline-flex items-center justify-center gap-2 border border-accent bg-accent px-4 py-3 font-mono text-xs font-bold uppercase tracking-wider text-ink transition hover:bg-transparent hover:text-accent ${canNativeShare ? '' : 'col-span-2'}`}
+              >
+                <Download className="h-3.5 w-3.5" />
+                Download
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <Container>
       <div className="grid lg:grid-cols-2">
         <div className="flex flex-col justify-center px-6 py-16 sm:px-10 lg:px-0 lg:py-20">
-          <h2 className="font-sans text-[clamp(2.75rem,4vw,5rem)] font-extrabold uppercase leading-[0.94] tracking-[-0.06em] text-ink">
+          <h2 className="font-mono text-[clamp(2.75rem,4vw,5rem)] font-extrabold uppercase leading-[0.94] tracking-[-0.06em] text-ink">
             See you at
             <span className="block text-accent">{event.title}</span>
           </h2>
@@ -170,7 +339,11 @@ export function RSVPSuccess({ event, attendeeName }) {
             <a href={calendarUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 border border-ink bg-ink px-5 py-3 font-mono text-xs font-bold uppercase tracking-wider text-white transition hover:bg-accent hover:text-accent-ink">
               <CalendarPlus className="h-4 w-4" /> Add to calendar
             </a>
-            <button type="button" onClick={shareEvent} className="inline-flex items-center gap-2 border border-line bg-white px-5 py-3 font-mono text-xs font-bold uppercase tracking-wider text-ink transition hover:border-accent hover:text-accent">
+            <button
+              type="button"
+              onClick={openPreview}
+              className="inline-flex items-center gap-2 border border-line bg-white px-5 py-3 font-mono text-xs font-bold uppercase tracking-wider text-ink transition hover:border-accent hover:text-accent"
+            >
               <Share2 className="h-4 w-4" /> Share
             </button>
           </div>
