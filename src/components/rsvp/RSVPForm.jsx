@@ -222,7 +222,7 @@ export default function RSVPForm({ event, onSubmitted }) {
     if (submitted) window.scrollTo(0, 0);
   }, [submitted]);
 
-  const { cardRef, tearGroupRef, playFinalTear } = useTearAnimation(step, () => {
+  const { cardRef, tearGroupRef, rightPanelRef, playFinalTear } = useTearAnimation(step, () => {
     setSubmitted(true);
     onSubmitted?.();
   });
@@ -409,7 +409,7 @@ export default function RSVPForm({ event, onSubmitted }) {
             </div>
           </div>
 
-          <div className="flex-1 bg-ink px-8 py-8 lg:px-10 xl:pl-12 xl:pr-14 flex flex-col">
+          <div ref={rightPanelRef} className="flex-1 bg-ink px-8 py-8 lg:px-10 xl:pl-12 xl:pr-14 flex flex-col transition-all duration-[1800ms] ease-[cubic-bezier(0.16,1,0.3,1)]">
             <div className="mb-6 flex items-baseline justify-between">
               <h2 className="font-sans text-xl font-semibold text-white">{STEPS[step]}</h2>
               <span className="font-mono text-xs text-white/35">{step + 1} / {STEPS.length}</span>
