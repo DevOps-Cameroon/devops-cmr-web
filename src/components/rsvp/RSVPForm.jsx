@@ -2,7 +2,7 @@ import { useLayoutEffect, useRef, useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Calendar, MapPin, Users, ChevronDown, CalendarPlus, Share2, Mail, Download, X } from 'lucide-react';
+import { Calendar, MapPin, Users, ChevronDown, CalendarPlus, Share2, Mail, Download, X, ChevronRight, ArrowLeft } from 'lucide-react';
 import SweepButton from '@/components/ui/SweepButton';
 import useTearAnimation from '@/hooks/useTearAnimation';
 import InteractiveBadge from '@/components/rsvp/InteractiveBadge';
@@ -34,7 +34,7 @@ function Field({ label, error, children }) {
     <div>
       <label className="mb-2 block font-mono text-[0.65rem] font-bold uppercase tracking-widest text-white/60">{label}</label>
       {children}
-      {error && <p className="mt-1.5 text-xs text-red-400">{error}</p>}
+      {error && <p className="mt-1.5 text-xs text-red-300">{error}</p>}
     </div>
   );
 }
@@ -322,15 +322,15 @@ export function RSVPSuccess({ event, attendeeName }) {
       <Container>
       <div className="grid lg:grid-cols-2">
         <div className="flex flex-col justify-center px-6 py-16 sm:px-10 lg:px-0 lg:py-20">
-         <div className="mb-10 flex gap-5 font-mono text-xs font-bold uppercase tracking-wider">
-            <a href="/" className="text-ink-3 transition hover:text-accent">Home </a>
+         <div className="mb-10 flex gap-3 font-mono text-xs font-bold uppercase tracking-wider">
+            <a href="/" className=" inline-flex gap-3 items-center   text-ink-3 transition hover:text-accent">Home <ChevronRight className="w-4 h-4" /> </a>
             <a href="/events" className="text-ink transition hover:text-accent">View events </a>
           </div>
           <h2 className="font-mono text-[clamp(2.75rem,4vw,5rem)] font-extrabold uppercase leading-[0.94] tracking-[-0.06em] text-ink">
             See you at
             <span className="block text-accent">{event.title}</span>
           </h2>
-          <p className="mt-10 max-w-lg border-t border-line pt-6 font-mono text-sm leading-relaxed sm:text-base" style={{ color: 'var(--ink-2)' }}>
+          <p className="mt-10 max-w-xl border-t border-line pt-6 font-mono text-sm leading-relaxed sm:text-base" style={{ color: 'var(--ink-2)' }}>
             Your spot is reserved. We&apos;ve sent the confirmation and event details to your email.
           </p>
 
@@ -478,9 +478,9 @@ export default function RSVPForm({ event, onSubmitted }) {
                   type="button"
                   onClick={prev}
                   disabled={step === 0}
-                  className="font-mono text-xs font-bold uppercase tracking-widest text-white/40 transition-colors hover:text-white disabled:opacity-30 disabled:hover:text-white/40"
+                  className="flex gap-3 items-center font-mono text-xs font-bold uppercase tracking-widest text-white/40 transition-colors hover:text-white disabled:opacity-30 disabled:hover:text-white/40"
                 >
-                  ← Back
+                  <ArrowLeft className="h-4 w-4" /> Back
                 </button>
                 <div className="ml-auto">
                   {step < STEPS.length - 1 ? (
@@ -599,9 +599,9 @@ export default function RSVPForm({ event, onSubmitted }) {
                   type="button"
                   onClick={prev}
                   disabled={step === 0}
-                  className="font-mono text-xs font-bold uppercase tracking-widest text-white/40 transition-colors hover:text-white disabled:opacity-30 disabled:hover:text-white/40"
+                  className="flex items-center gap-1 font-mono text-xs font-bold uppercase tracking-widest text-white/40 transition-colors hover:text-white disabled:opacity-30 disabled:hover:text-white/40"
                 >
-                  ← Back
+                  <ArrowLeft className='h-4 w-4'/> Back
                 </button>
                 <div className="ml-auto">
                   {step < STEPS.length - 1 ? (
