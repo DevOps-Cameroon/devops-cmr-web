@@ -322,6 +322,10 @@ export function RSVPSuccess({ event, attendeeName }) {
       <Container>
       <div className="grid lg:grid-cols-2">
         <div className="flex flex-col justify-center px-6 py-16 sm:px-10 lg:px-0 lg:py-20">
+         <div className="mb-10 flex gap-5 font-mono text-xs font-bold uppercase tracking-wider">
+            <a href="/" className="text-ink-3 transition hover:text-accent">Home </a>
+            <a href="/events" className="text-ink transition hover:text-accent">View events </a>
+          </div>
           <h2 className="font-mono text-[clamp(2.75rem,4vw,5rem)] font-extrabold uppercase leading-[0.94] tracking-[-0.06em] text-ink">
             See you at
             <span className="block text-accent">{event.title}</span>
@@ -350,10 +354,6 @@ export function RSVPSuccess({ event, attendeeName }) {
 
           <p className="mt-6 flex items-center gap-2 font-mono text-xs" style={{ color: 'var(--ink-3)' }}><Mail className="h-4 w-4" /> Confirmation email on its way.</p>
 
-          <div className="mt-10 flex gap-5 font-mono text-xs font-bold uppercase tracking-wider">
-            <a href="/events" className="text-ink transition hover:text-accent">View events →</a>
-            <a href="/" className="text-ink-3 transition hover:text-accent">Home →</a>
-          </div>
         </div>
 
         <div className="relative min-h-105 overflow-hidden border-t border-line lg:min-h-0 lg:border-t-0">
