@@ -557,7 +557,7 @@ export default function RSVPForm({ event, onSubmitted }) {
   }
 
   return (
-    <section className="px-3 py-10 sm:px-6 md:flex md:min-h-150 md:items-center md:justify-center lg:py-28">
+    <section className="bg-base px-3 py-10 sm:px-6 md:flex md:min-h-150 md:items-center md:justify-center lg:py-28">
       <div ref={cardRef} className="ticket-rsvp w-full max-w-275">
         {/*
          * Single <form> wraps the entire card.
@@ -630,7 +630,7 @@ export default function RSVPForm({ event, onSubmitted }) {
             className="ticket-tear-group relative z-2 hidden md:flex shrink-0"
             style={{ "--cut-progress": 0 }}
           >
-            <div className="ticket-stub ticket-scallop relative flex w-85 shrink-0 flex-col justify-between border-b border-dashed border-white/20 bg-ink px-8 py-8 lg:w-100 lg:px-10 xl:px-14 md:border-b-0">
+            <div className="ticket-stub ticket-scallop relative flex w-85 shrink-0 flex-col justify-between border-dashed border-white/20 bg-ink px-8 py-8 lg:w-100 lg:px-10 xl:px-14 md:border-b-0">
               <div>
                 <div className="mb-5 inline-flex w-fit border border-white/20 bg-accent/10 px-3 py-1">
                   <span className="font-mono text-[0.6rem] font-bold uppercase tracking-widest text-accent">
@@ -828,9 +828,10 @@ export default function RSVPForm({ event, onSubmitted }) {
           backface-visibility: hidden;
         }
 
+        /* Desktop scallop: cuts from the LEFT edge (ticket stub side) */
         .ticket-scallop {
           mask-image:
-            radial-gradient(circle 8px at 0px 0%, transparent 99%, #000 100%),
+            radial-gradient(circle 8px at 0px 10%, transparent 99%, #000 100%),
             radial-gradient(circle 8px at 0px 10%, transparent 99%, #000 100%),
             radial-gradient(circle 8px at 0px 20%, transparent 99%, #000 100%),
             radial-gradient(circle 8px at 0px 30%, transparent 99%, #000 100%),
@@ -840,7 +841,7 @@ export default function RSVPForm({ event, onSubmitted }) {
             radial-gradient(circle 8px at 0px 70%, transparent 99%, #000 100%),
             radial-gradient(circle 8px at 0px 80%, transparent 99%, #000 100%),
             radial-gradient(circle 8px at 0px 90%, transparent 99%, #000 100%),
-            radial-gradient(circle 8px at 0px 100%, transparent 99%, #000 100%);
+            radial-gradient(circle 8px at 0px 90%, transparent 99%, #000 100%);
           mask-composite: intersect;
           -webkit-mask-composite: source-in;
         }
