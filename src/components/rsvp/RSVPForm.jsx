@@ -1,38 +1,56 @@
-import { useLayoutEffect, useRef, useState, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { Calendar, MapPin, Users, ChevronDown, CalendarPlus, Share2, Mail, Download, X, ChevronRight, ArrowLeft } from 'lucide-react';
-import SweepButton from '@/components/ui/SweepButton';
-import useTearAnimation from '@/hooks/useTearAnimation';
-import InteractiveBadge from '@/components/rsvp/InteractiveBadge';
-import BadgeFlyerCanvas from '@/components/rsvp/BadgeFlyerCanvas';
-import Container from '@/components/ui/container'
+import { useLayoutEffect, useRef, useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import {
+  Calendar,
+  MapPin,
+  Users,
+  ChevronDown,
+  CalendarPlus,
+  Share2,
+  Mail,
+  Download,
+  X,
+  ChevronRight,
+  ArrowLeft,
+} from "lucide-react";
+import SweepButton from "@/components/ui/SweepButton";
+import useTearAnimation from "@/hooks/useTearAnimation";
+import InteractiveBadge from "@/components/rsvp/InteractiveBadge";
+import BadgeFlyerCanvas from "@/components/rsvp/BadgeFlyerCanvas";
+import Container from "@/components/ui/container";
 
 const rsvpSchema = z.object({
-  firstName: z.string().min(2, 'First name must be at least 2 characters'),
-  lastName: z.string().min(2, 'Last name must be at least 2 characters'),
-  email: z.string().email('Please enter a valid email address'),
-  phone: z.string().min(8, 'Please enter a valid WhatsApp number'),
-  city: z.string().min(1, 'Please select your city'),
-  experience: z.string().min(1, 'Please select your experience level'),
+  firstName: z.string().min(2, "First name must be at least 2 characters"),
+  lastName: z.string().min(2, "Last name must be at least 2 characters"),
+  email: z.string().email("Please enter a valid email address"),
+  phone: z.string().min(8, "Please enter a valid WhatsApp number"),
+  city: z.string().min(1, "Please select your city"),
+  experience: z.string().min(1, "Please select your experience level"),
   questions: z.string().optional(),
 });
 
-const CITIES = ['Yaoundé', 'Douala', 'Buea', 'Bafoussam', 'Other'];
-const LEVELS = ['Just getting started', 'Shipping to production', 'Running the platform'];
-const STEPS = ['Basic Details', 'Your Interests', 'Confirm & Reserve'];
+const CITIES = ["Yaoundé", "Douala", "Buea", "Bafoussam", "Other"];
+const LEVELS = [
+  "Just getting started",
+  "Shipping to production",
+  "Running the platform",
+];
+const STEPS = ["Basic Details", "Your Interests", "Confirm & Reserve"];
 
 const inputCls =
-  'w-full rounded-lg border border-white/15 bg-white/5 px-4 py-3.5 text-[15px] text-white outline-none transition-all placeholder:text-white/35 focus:border-accent focus:ring-1 focus:ring-accent/30';
+  "w-full rounded-lg border border-white/15 bg-white/5 px-4 py-3.5 text-[15px] text-white outline-none transition-all placeholder:text-white/35 focus:border-accent focus:ring-1 focus:ring-accent/30";
 
 const selectCls =
-  'w-full appearance-none rounded-lg border border-white/15 bg-white/5 px-4 py-3.5 pr-10 text-[15px] text-white outline-none transition-all cursor-pointer focus:border-accent focus:ring-1 focus:ring-accent/30';
+  "w-full appearance-none rounded-lg border border-white/15 bg-white/5 px-4 py-3.5 pr-10 text-[15px] text-white outline-none transition-all cursor-pointer focus:border-accent focus:ring-1 focus:ring-accent/30";
 
 function Field({ label, error, children }) {
   return (
     <div>
-      <label className="mb-2 block font-mono text-[0.65rem] font-bold uppercase tracking-widest text-white/60">{label}</label>
+      <label className="mb-2 block font-mono text-[0.65rem] font-bold uppercase tracking-widest text-white/60">
+        {label}
+      </label>
       {children}
       {error && <p className="mt-1.5 text-xs text-red-300">{error}</p>}
     </div>
@@ -43,22 +61,44 @@ function Step0({ register, errors }) {
   return (
     <div className="grid grid-cols-1 gap-x-10 gap-y-6 sm:grid-cols-2">
       <Field label="First Name" error={errors.firstName?.message}>
-        <input {...register('firstName')} placeholder="Achille" className={inputCls} />
+        <input
+          {...register("firstName")}
+          placeholder="Achille"
+          className={inputCls}
+        />
       </Field>
       <Field label="Last Name" error={errors.lastName?.message}>
-        <input {...register('lastName')} placeholder="Mballa" className={inputCls} />
+        <input
+          {...register("lastName")}
+          placeholder="Mballa"
+          className={inputCls}
+        />
       </Field>
       <Field label="Email" error={errors.email?.message}>
-        <input {...register('email')} type="email" placeholder="you@example.com" className={inputCls} />
+        <input
+          {...register("email")}
+          type="email"
+          placeholder="you@example.com"
+          className={inputCls}
+        />
       </Field>
       <Field label="WhatsApp Number" error={errors.phone?.message}>
-        <input {...register('phone')} type="tel" placeholder="+237 6xx xxx xxx" className={inputCls} />
+        <input
+          {...register("phone")}
+          type="tel"
+          placeholder="+237 6xx xxx xxx"
+          className={inputCls}
+        />
       </Field>
       <Field label="City" error={errors.city?.message}>
         <div className="relative">
-          <select {...register('city')} className={selectCls}>
+          <select {...register("city")} className={selectCls}>
             <option value="">Select city</option>
-            {CITIES.map((c) => <option key={c} value={c}>{c}</option>)}
+            {CITIES.map((c) => (
+              <option key={c} value={c}>
+                {c}
+              </option>
+            ))}
           </select>
           <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40" />
         </div>
@@ -72,9 +112,13 @@ function Step1({ register, errors }) {
     <div className="space-y-8">
       <Field label="Experience level" error={errors.experience?.message}>
         <div className="relative">
-          <select {...register('experience')} className={selectCls}>
+          <select {...register("experience")} className={selectCls}>
             <option value="">Select level</option>
-            {LEVELS.map((l) => <option key={l} value={l}>{l}</option>)}
+            {LEVELS.map((l) => (
+              <option key={l} value={l}>
+                {l}
+              </option>
+            ))}
           </select>
           <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40" />
         </div>
@@ -82,7 +126,7 @@ function Step1({ register, errors }) {
 
       <Field label="Any specific questions?" error={errors.questions?.message}>
         <textarea
-          {...register('questions')}
+          {...register("questions")}
           rows={4}
           placeholder="Anything you'd like us to know or prepare for you..."
           className={`${inputCls} resize-none`}
@@ -93,26 +137,33 @@ function Step1({ register, errors }) {
 }
 
 function Step2({ watch, event }) {
-  const firstName = watch('firstName');
-  const lastName = watch('lastName');
-  const email = watch('email');
-  const experience = watch('experience');
-  const questions = watch('questions');
+  const firstName = watch("firstName");
+  const lastName = watch("lastName");
+  const email = watch("email");
+  const experience = watch("experience");
+  const questions = watch("questions");
   const dateObj = new Date(event.dateISO);
 
   return (
     <div className="space-y-6">
       <div className="rounded-xl border border-accent/20 bg-accent/5 p-6 text-[15px] text-white/80 leading-relaxed">
-        You&apos;re reserving a seat for{' '}
+        You&apos;re reserving a seat for{" "}
         <strong className="text-white">DevOps Cameroon — {event.title}</strong>,
-        {dateObj.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}, {event.venue}. Confirmation goes to{' '}
+        {dateObj.toLocaleDateString("en-GB", {
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        })}
+        , {event.venue}. Confirmation goes to{" "}
         <strong className="text-accent">{email}</strong>.
       </div>
 
       <div className="space-y-3 text-[15px]">
         <div className="flex items-center justify-between rounded-lg border border-white/10 bg-white/5 px-5 py-4">
           <span className="text-white/50">Name</span>
-          <span className="font-medium text-white">{firstName} {lastName}</span>
+          <span className="font-medium text-white">
+            {firstName} {lastName}
+          </span>
         </div>
         <div className="flex items-center justify-between rounded-lg border border-white/10 bg-white/5 px-5 py-4">
           <span className="text-white/50">Level</span>
@@ -121,7 +172,9 @@ function Step2({ watch, event }) {
         {questions && (
           <div className="rounded-lg border border-white/10 bg-white/5 px-5 py-4">
             <span className="block text-white/50 mb-1">Questions</span>
-            <span className="text-[15px] text-white/80 leading-relaxed">{questions}</span>
+            <span className="text-[15px] text-white/80 leading-relaxed">
+              {questions}
+            </span>
           </div>
         )}
       </div>
@@ -132,14 +185,17 @@ function Step2({ watch, event }) {
 /* ── Success ── */
 export function RSVPSuccess({ event, attendeeName }) {
   const date = new Date(event.dateISO);
-  const calendarDate = date.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
-  const calendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(event.title)}&dates=${calendarDate}/${calendarDate}&details=${encodeURIComponent('DevOps Cameroon event')}&location=${encodeURIComponent(event.venue)}`;
+  const calendarDate = date
+    .toISOString()
+    .replace(/[-:]/g, "")
+    .replace(/\.\d{3}/, "");
+  const calendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(event.title)}&dates=${calendarDate}/${calendarDate}&details=${encodeURIComponent("DevOps Cameroon event")}&location=${encodeURIComponent(event.venue)}`;
 
   const flyerRef = useRef(null);
   const [previewOpen, setPreviewOpen] = useState(false);
-  const [previewUrl, setPreviewUrl]   = useState(null);
-  const [acting, setActing]           = useState(false); // share or download in progress
-  const [fullscreen, setFullscreen]   = useState(false);
+  const [previewUrl, setPreviewUrl] = useState(null);
+  const [acting, setActing] = useState(false); // share or download in progress
+  const [fullscreen, setFullscreen] = useState(false);
 
   // Generate the data-URL once when the modal opens
   const openPreview = async () => {
@@ -156,32 +212,35 @@ export function RSVPSuccess({ event, attendeeName }) {
   useEffect(() => {
     if (!previewOpen && !fullscreen) return;
     const onKey = (e) => {
-      if (e.key === 'Escape') {
+      if (e.key === "Escape") {
         if (fullscreen) setFullscreen(false);
         else closePreview();
       }
     };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
   }, [previewOpen, fullscreen]);
 
   // Lock body scroll while modal is open
   useEffect(() => {
-    document.body.style.overflow = previewOpen ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
+    document.body.style.overflow = previewOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [previewOpen]);
 
-  const fileName = `devops-cameroon-${event.title.toLowerCase().replace(/\s+/g, '-')}.png`;
+  const fileName = `devops-cameroon-${event.title.toLowerCase().replace(/\s+/g, "-")}.png`;
 
   const handleShare = async () => {
     if (acting) return;
     setActing(true);
     try {
       const blob = await flyerRef.current?.generateBlob();
-      if (!blob) throw new Error('Canvas not ready');
-      const file = new File([blob], fileName, { type: 'image/png' });
+      if (!blob) throw new Error("Canvas not ready");
+      const file = new File([blob], fileName, { type: "image/png" });
       const canShareFiles =
-        typeof navigator.canShare === 'function' && navigator.canShare({ files: [file] });
+        typeof navigator.canShare === "function" &&
+        navigator.canShare({ files: [file] });
       if (navigator.share && canShareFiles) {
         await navigator.share({
           files: [file],
@@ -190,7 +249,7 @@ export function RSVPSuccess({ event, attendeeName }) {
         });
       }
     } catch (err) {
-      if (err?.name !== 'AbortError') console.warn('Share failed:', err);
+      if (err?.name !== "AbortError") console.warn("Share failed:", err);
     } finally {
       setActing(false);
     }
@@ -198,19 +257,23 @@ export function RSVPSuccess({ event, attendeeName }) {
 
   const handleDownload = () => {
     if (!previewUrl) return;
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = previewUrl;
     a.download = fileName;
     a.click();
   };
 
   // Detect if native file share is available (mobile)
-  const canNativeShare = typeof navigator.canShare === 'function';
+  const canNativeShare = typeof navigator.canShare === "function";
 
   return (
     <section>
       {/* Hidden canvas — rendered off-screen, used only for image generation */}
-      <BadgeFlyerCanvas ref={flyerRef} event={event} attendeeName={attendeeName} />
+      <BadgeFlyerCanvas
+        ref={flyerRef}
+        event={event}
+        attendeeName={attendeeName}
+      />
 
       {/* ── Fullscreen image viewer ─────────────────────────────────────── */}
       {fullscreen && previewUrl && (
@@ -255,7 +318,6 @@ export function RSVPSuccess({ event, attendeeName }) {
 
           {/* Panel */}
           <div className="relative z-10 flex w-full max-w-sm flex-col gap-4 bg-white p-5 shadow-2xl sm:max-w-md">
-
             {/* Header */}
             <div className="flex shrink-0 items-center justify-between">
               <span className="font-mono text-[0.65rem] font-bold tracking-wide text-ink">
@@ -273,24 +335,29 @@ export function RSVPSuccess({ event, attendeeName }) {
 
             {/* Flyer preview — fixed height, click to view fullscreen */}
             <div className="shrink-0 overflow-hidden border border-ink/10">
-              {previewUrl
-                ? (
-                  <button
-                    type="button"
-                    onClick={() => setFullscreen(true)}
-                    className="group relative block w-full cursor-zoom-in"
-                    aria-label="View full size"
-                  >
-                    <img src={previewUrl} alt="Badge flyer preview" className="mx-auto block h-64 w-auto object-contain sm:h-72" />
-                    <span className="absolute inset-0 flex items-center justify-center bg-black/0 transition-colors duration-200 group-hover:bg-black/30">
-                      <span className="scale-75 rounded-full bg-black/60 px-3 py-1 font-mono text-[0.6rem] font-bold uppercase tracking-wider text-white opacity-0 transition-all duration-200 group-hover:scale-100 group-hover:opacity-100">
-                        View full size
-                      </span>
+              {previewUrl ? (
+                <button
+                  type="button"
+                  onClick={() => setFullscreen(true)}
+                  className="group relative block w-full cursor-zoom-in"
+                  aria-label="View full size"
+                >
+                  <img
+                    src={previewUrl}
+                    alt="Badge flyer preview"
+                    className="mx-auto block h-64 w-auto object-contain sm:h-72"
+                  />
+                  <span className="absolute inset-0 flex items-center justify-center bg-black/0 transition-colors duration-200 group-hover:bg-black/30">
+                    <span className="scale-75 rounded-full bg-black/60 px-3 py-1 font-mono text-[0.6rem] font-bold uppercase tracking-wider text-white opacity-0 transition-all duration-200 group-hover:scale-100 group-hover:opacity-100">
+                      View full size
                     </span>
-                  </button>
-                )
-                : <div className="flex h-64 items-center justify-center font-mono text-xs text-ink/30">Rendering…</div>
-              }
+                  </span>
+                </button>
+              ) : (
+                <div className="flex h-64 items-center justify-center font-mono text-xs text-ink/30">
+                  Rendering…
+                </div>
+              )}
             </div>
 
             {/* Actions — always visible at the bottom */}
@@ -303,13 +370,13 @@ export function RSVPSuccess({ event, attendeeName }) {
                   className="inline-flex items-center justify-center gap-2 border border-ink/20 bg-transparent px-4 py-3 font-mono text-xs font-bold uppercase tracking-wider text-ink transition hover:border-ink hover:bg-ink hover:text-white disabled:opacity-40"
                 >
                   <Share2 className="h-3.5 w-3.5" />
-                  {acting ? 'Sharing…' : 'Share'}
+                  {acting ? "Sharing…" : "Share"}
                 </button>
               )}
               <button
                 type="button"
                 onClick={handleDownload}
-                className={`inline-flex items-center justify-center gap-2 border border-accent bg-accent px-4 py-3 font-mono text-xs font-bold uppercase tracking-wider text-ink transition hover:bg-transparent hover:text-accent ${canNativeShare ? '' : 'col-span-2'}`}
+                className={`inline-flex items-center justify-center gap-2 border border-accent bg-accent px-4 py-3 font-mono text-xs font-bold uppercase tracking-wider text-ink transition hover:bg-transparent hover:text-accent ${canNativeShare ? "" : "col-span-2"}`}
               >
                 <Download className="h-3.5 w-3.5" />
                 Download
@@ -320,46 +387,79 @@ export function RSVPSuccess({ event, attendeeName }) {
       )}
 
       <Container>
-      <div className="grid lg:grid-cols-2">
-        <div className="flex flex-col justify-center px-6 py-16 sm:px-10 lg:px-0 lg:py-20">
-         <div className="mb-10 flex gap-3 font-mono text-xs font-bold uppercase tracking-wider">
-            <a href="/" className=" inline-flex gap-3 items-center   text-ink-3 transition hover:text-accent">Home <ChevronRight className="w-4 h-4" /> </a>
-            <a href="/events" className="text-ink transition hover:text-accent">View events </a>
-          </div>
-          <h2 className="font-mono text-[clamp(2.75rem,4vw,5rem)] font-extrabold uppercase leading-[0.94] tracking-[-0.06em] text-ink">
-            See you at
-            <span className="block text-accent">{event.title}</span>
-          </h2>
-          <p className="mt-10 max-w-xl border-t border-line pt-6 font-mono text-sm leading-relaxed sm:text-base" style={{ color: 'var(--ink-2)' }}>
-            Your spot is reserved. We&apos;ve sent the confirmation and event details to your email.
-          </p>
-
-          <div className="mt-8 grid max-w-xl gap-3 border-y border-line py-6 text-sm text-ink-2 sm:grid-cols-2">
-            <span className="flex items-center gap-2"><Calendar className="h-4 w-4 text-accent-ink" />{date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
-            <span className="flex items-center gap-2"><MapPin className="h-4 w-4 text-accent-ink" />{event.venue}</span>
-          </div>
-
-          <div className="mt-8 flex flex-wrap gap-3">
-            <a href={calendarUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 border border-ink bg-ink px-5 py-3 font-mono text-xs font-bold uppercase tracking-wider text-white transition hover:bg-accent hover:text-accent-ink">
-              <CalendarPlus className="h-4 w-4" /> Add to calendar
-            </a>
-            <button
-              type="button"
-              onClick={openPreview}
-              className="inline-flex items-center gap-2 border border-line bg-white px-5 py-3 font-mono text-xs font-bold uppercase tracking-wider text-ink transition hover:border-accent hover:text-accent"
+        <div className="grid lg:grid-cols-2">
+          <div className="flex flex-col justify-center px-6 py-16 sm:px-10 lg:px-0 lg:py-20">
+            <div className="mb-10 flex gap-3 font-mono text-xs font-bold uppercase tracking-wider">
+              <a
+                href="/"
+                className=" inline-flex gap-3 items-center   text-ink-3 transition hover:text-accent"
+              >
+                Home <ChevronRight className="w-4 h-4" />{" "}
+              </a>
+              <a
+                href="/events"
+                className="text-ink transition hover:text-accent"
+              >
+                View events{" "}
+              </a>
+            </div>
+            <h2 className="font-mono text-[clamp(2.75rem,4vw,5rem)] font-extrabold uppercase leading-[0.94] tracking-[-0.06em] text-ink">
+              See you at
+              <span className="block text-accent">{event.title}</span>
+            </h2>
+            <p
+              className="mt-10 max-w-xl border-t border-line pt-6 font-mono text-sm leading-relaxed sm:text-base"
+              style={{ color: "var(--ink-2)" }}
             >
-              <Share2 className="h-4 w-4" /> Share
-            </button>
+              Your spot is reserved. We&apos;ve sent the confirmation and event
+              details to your email.
+            </p>
+
+            <div className="mt-8 grid max-w-xl gap-3 border-y border-line py-6 text-sm text-ink-2 sm:grid-cols-2">
+              <span className="flex items-center gap-2">
+                <Calendar className="h-4 w-4 text-accent-ink" />
+                {date.toLocaleDateString("en-GB", {
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric",
+                })}
+              </span>
+              <span className="flex items-center gap-2">
+                <MapPin className="h-4 w-4 text-accent-ink" />
+                {event.venue}
+              </span>
+            </div>
+
+            <div className="mt-8 flex flex-wrap gap-3">
+              <a
+                href={calendarUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 border border-ink bg-ink px-5 py-3 font-mono text-xs font-bold uppercase tracking-wider text-white transition hover:bg-accent hover:text-accent-ink"
+              >
+                <CalendarPlus className="h-4 w-4" /> Add to calendar
+              </a>
+              <button
+                type="button"
+                onClick={openPreview}
+                className="inline-flex items-center gap-2 border border-line bg-white px-5 py-3 font-mono text-xs font-bold uppercase tracking-wider text-ink transition hover:border-accent hover:text-accent"
+              >
+                <Share2 className="h-4 w-4" /> Share
+              </button>
+            </div>
+
+            <p
+              className="mt-6 flex items-center gap-2 font-mono text-xs"
+              style={{ color: "var(--ink-3)" }}
+            >
+              <Mail className="h-4 w-4" /> Confirmation email on its way.
+            </p>
           </div>
 
-          <p className="mt-6 flex items-center gap-2 font-mono text-xs" style={{ color: 'var(--ink-3)' }}><Mail className="h-4 w-4" /> Confirmation email on its way.</p>
-
+          <div className="relative min-h-105 overflow-hidden border-t border-line lg:min-h-0 lg:border-t-0">
+            <InteractiveBadge event={event} attendeeName={attendeeName} />
+          </div>
         </div>
-
-        <div className="relative min-h-105 overflow-hidden border-t border-line lg:min-h-0 lg:border-t-0">
-          <InteractiveBadge event={event} attendeeName={attendeeName} />
-        </div>
-      </div>
       </Container>
     </section>
   );
@@ -371,13 +471,21 @@ function MobileStepIndicator({ step }) {
     <div className="flex items-center justify-center px-1">
       {STEPS.map((_, i) => (
         <div key={i} className="flex items-center">
-          <span className={`flex h-6 w-6 shrink-0 items-center justify-center text-[10px] font-bold font-mono ${
-            i === step ? 'bg-accent text-ink' : i < step ? 'bg-white/20 text-white' : 'bg-white/10 text-white/40'
-          }`}>
-            {i < step ? '✓' : i + 1}
+          <span
+            className={`flex h-6 w-6 shrink-0 items-center justify-center text-[10px] font-bold font-mono ${
+              i === step
+                ? "bg-accent text-ink"
+                : i < step
+                  ? "bg-white/20 text-white"
+                  : "bg-white/10 text-white/40"
+            }`}
+          >
+            {i < step ? "✓" : i + 1}
           </span>
           {i < STEPS.length - 1 && (
-            <div className={`h-px w-12 sm:w-16 ${i < step ? 'bg-accent/50' : 'bg-white/10'}`} />
+            <div
+              className={`h-px w-12 sm:w-16 ${i < step ? "bg-accent/50" : "bg-white/10"}`}
+            />
           )}
         </div>
       ))}
@@ -389,16 +497,17 @@ function MobileStepIndicator({ step }) {
 export default function RSVPForm({ event, onSubmitted }) {
   const [step, setStep] = useState(0);
   const [submitted, setSubmitted] = useState(false);
-  const [attendeeName, setAttendeeName] = useState('');
+  const [attendeeName, setAttendeeName] = useState("");
 
   useLayoutEffect(() => {
     if (submitted) window.scrollTo(0, 0);
   }, [submitted]);
 
-  const { cardRef, tearGroupRef, rightPanelRef, playFinalTear } = useTearAnimation(step, () => {
-    setSubmitted(true);
-    onSubmitted?.();
-  });
+  const { cardRef, tearGroupRef, rightPanelRef, playFinalTear } =
+    useTearAnimation(step, () => {
+      setSubmitted(true);
+      onSubmitted?.();
+    });
 
   const {
     register,
@@ -409,21 +518,22 @@ export default function RSVPForm({ event, onSubmitted }) {
   } = useForm({
     resolver: zodResolver(rsvpSchema),
     defaultValues: {
-      firstName: '',
-      lastName: '',
-      email: '',
-      phone: '',
-      city: '',
-      experience: '',
-      questions: '',
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      city: "",
+      experience: "",
+      questions: "",
     },
-    mode: 'onTouched',
+    mode: "onTouched",
   });
 
   const next = async () => {
     let fields;
-    if (step === 0) fields = ['firstName', 'lastName', 'email', 'phone', 'city'];
-    else if (step === 1) fields = ['experience'];
+    if (step === 0)
+      fields = ["firstName", "lastName", "email", "phone", "city"];
+    else if (step === 1) fields = ["experience"];
     if (fields) {
       const valid = await trigger(fields);
       if (!valid) return;
@@ -449,7 +559,6 @@ export default function RSVPForm({ event, onSubmitted }) {
   return (
     <section className="px-3 py-10 sm:px-6 md:flex md:min-h-150 md:items-center md:justify-center lg:py-28">
       <div ref={cardRef} className="ticket-rsvp w-full max-w-275">
-
         {/*
          * Single <form> wraps the entire card.
          * The step fields (Step0/Step1/Step2) are rendered ONCE inside the
@@ -458,21 +567,40 @@ export default function RSVPForm({ event, onSubmitted }) {
          * but NO <input> elements, so react-hook-form registers each field
          * exactly once regardless of which CSS breakpoint is active.
          */}
-        <form onSubmit={(e) => e.preventDefault()} className="flex flex-col md:flex-row md:min-h-140">
-
+        <form
+          onSubmit={(e) => e.preventDefault()}
+          className="flex flex-col md:flex-row md:min-h-140"
+        >
           {/* ── Mobile chrome (visible below md) ── */}
           {/* Contains: event header + step indicator + step title + nav buttons. NO inputs. */}
           <div className="ticket-scallop bg-ink md:hidden">
             {/* Event header */}
             <div className="border-b border-dashed border-white/20 px-5 py-5 sm:px-8 sm:py-7">
               <div className="mb-3 inline-flex w-fit border border-white/20 bg-accent/10 px-2.5 py-1">
-                <span className="font-mono text-[0.6rem] font-bold uppercase tracking-widest text-accent">{event.tag}</span>
+                <span className="font-mono text-[0.6rem] font-bold uppercase tracking-widest text-accent">
+                  {event.tag}
+                </span>
               </div>
-              <h2 className="text-xl font-extrabold leading-tight text-white sm:text-2xl">{event.title}</h2>
+              <h2 className="text-xl font-extrabold leading-tight text-white sm:text-2xl">
+                {event.title}
+              </h2>
               <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-white/60 sm:text-sm">
-                <span className="flex items-center gap-1.5"><Calendar className="h-3.5 w-3.5" />{dateObj.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' })}</span>
-                <span className="flex items-center gap-1.5"><MapPin className="h-3.5 w-3.5" />{event.venue}</span>
-                <span className="flex items-center gap-1.5"><Users className="h-3.5 w-3.5" />{remaining} left</span>
+                <span className="flex items-center gap-1.5">
+                  <Calendar className="h-3.5 w-3.5" />
+                  {dateObj.toLocaleDateString("en-GB", {
+                    weekday: "short",
+                    day: "numeric",
+                    month: "short",
+                  })}
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <MapPin className="h-3.5 w-3.5" />
+                  {event.venue}
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <Users className="h-3.5 w-3.5" />
+                  {remaining} left
+                </span>
               </div>
             </div>
 
@@ -484,8 +612,12 @@ export default function RSVPForm({ event, onSubmitted }) {
             {/* Step title + divider (decorative — no inputs here) */}
             <div className="px-5 pt-6 sm:px-8">
               <div className="mb-5 flex items-baseline justify-between">
-                <h2 className="font-sans text-lg font-semibold text-white sm:text-xl">{STEPS[step]}</h2>
-                <span className="font-mono text-xs text-white/35">{step + 1} / {STEPS.length}</span>
+                <h2 className="font-sans text-lg font-semibold text-white sm:text-xl">
+                  {STEPS[step]}
+                </h2>
+                <span className="font-mono text-xs text-white/35">
+                  {step + 1} / {STEPS.length}
+                </span>
               </div>
               <div className="mb-6 h-px bg-white/10" />
             </div>
@@ -493,15 +625,24 @@ export default function RSVPForm({ event, onSubmitted }) {
 
           {/* ── Desktop stub + seam (visible from md up) ── */}
           {/* Contains: event info, capacity bar, step nav. NO inputs. */}
-          <div ref={tearGroupRef} className="ticket-tear-group relative z-2 hidden md:flex shrink-0" style={{ '--cut-progress': 0 }}>
+          <div
+            ref={tearGroupRef}
+            className="ticket-tear-group relative z-2 hidden md:flex shrink-0"
+            style={{ "--cut-progress": 0 }}
+          >
             <div className="ticket-stub ticket-scallop relative flex w-85 shrink-0 flex-col justify-between border-b border-dashed border-white/20 bg-ink px-8 py-8 lg:w-100 lg:px-10 xl:px-14 md:border-b-0">
               <div>
                 <div className="mb-5 inline-flex w-fit border border-white/20 bg-accent/10 px-3 py-1">
-                  <span className="font-mono text-[0.6rem] font-bold uppercase tracking-widest text-accent">{event.tag}</span>
+                  <span className="font-mono text-[0.6rem] font-bold uppercase tracking-widest text-accent">
+                    {event.tag}
+                  </span>
                 </div>
-                <h2 className="text-xl font-extrabold leading-tight text-white lg:text-2xl xl:text-[28px]">{event.title}</h2>
+                <h2 className="text-xl font-extrabold leading-tight text-white lg:text-2xl xl:text-[28px]">
+                  {event.title}
+                </h2>
                 <p className="mt-4 max-w-65 text-sm leading-relaxed text-white/65 lg:max-w-75">
-                  Reserve your seat before spots run out. Confirmation sent to your email.
+                  Reserve your seat before spots run out. Confirmation sent to
+                  your email.
                 </p>
 
                 <dl className="mt-8 grid grid-cols-3 gap-x-4 gap-y-4 lg:mt-9 lg:gap-x-6 lg:gap-y-5">
@@ -510,28 +651,43 @@ export default function RSVPForm({ event, onSubmitted }) {
                       <Calendar className="h-3 w-3" /> When
                     </dt>
                     <dd className="font-mono text-xs font-semibold text-white lg:text-[13px]">
-                      {dateObj.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' })}
+                      {dateObj.toLocaleDateString("en-GB", {
+                        weekday: "short",
+                        day: "numeric",
+                        month: "short",
+                      })}
                     </dd>
-                    <dd className="font-mono text-[0.6rem] text-white/60 lg:text-[0.65rem]">{event.format}</dd>
+                    <dd className="font-mono text-[0.6rem] text-white/60 lg:text-[0.65rem]">
+                      {event.format}
+                    </dd>
                   </div>
                   <div>
                     <dt className="mb-2 flex items-center gap-1.5 font-mono text-[0.6rem] font-bold uppercase tracking-widest text-white/50">
                       <MapPin className="h-3 w-3" /> Where
                     </dt>
-                    <dd className="font-mono text-xs font-semibold text-white/90 lg:text-[13px]">{event.venue}</dd>
+                    <dd className="font-mono text-xs font-semibold text-white/90 lg:text-[13px]">
+                      {event.venue}
+                    </dd>
                   </div>
                   <div>
                     <dt className="mb-2 flex items-center gap-1.5 font-mono text-[0.6rem] font-bold uppercase tracking-widest text-white/50">
                       <Users className="h-3 w-3" /> Seats
                     </dt>
-                    <dd className="font-mono text-xs font-semibold text-white lg:text-[13px]">{event.taken}/{event.capacity}</dd>
-                    <dd className="font-mono text-[0.6rem] text-white/50 lg:text-[0.65rem]">{remaining} left</dd>
+                    <dd className="font-mono text-xs font-semibold text-white lg:text-[13px]">
+                      {event.taken}/{event.capacity}
+                    </dd>
+                    <dd className="font-mono text-[0.6rem] text-white/50 lg:text-[0.65rem]">
+                      {remaining} left
+                    </dd>
                   </div>
                 </dl>
 
                 <div className="mt-6 max-w-70 lg:mt-7 lg:max-w-80">
                   <div className="h-1.5 w-full rounded-full bg-white/15">
-                    <div className="h-full rounded-full bg-accent" style={{ width: `${fill}%` }} />
+                    <div
+                      className="h-full rounded-full bg-accent"
+                      style={{ width: `${fill}%` }}
+                    />
                   </div>
                   <div className="mt-2 flex justify-between font-mono text-[0.6rem] uppercase tracking-widest text-white/45">
                     <span>{fill}% full</span>
@@ -542,15 +698,30 @@ export default function RSVPForm({ event, onSubmitted }) {
 
               <div className="flex items-center gap-4 mt-10 lg:gap-5">
                 {STEPS.map((s, i) => (
-                  <button key={s} type="button" onClick={() => setStep(i)} disabled={i > step}
-                    aria-current={i === step ? 'step' : undefined}
+                  <button
+                    key={s}
+                    type="button"
+                    onClick={() => setStep(i)}
+                    disabled={i > step}
+                    aria-current={i === step ? "step" : undefined}
                     className={`flex items-center gap-2 font-mono text-[0.6rem] font-bold uppercase tracking-widest transition-colors lg:gap-2.5 ${
-                      i === step ? 'text-accent' : i < step ? 'text-white/60' : 'text-white/30'
-                    } disabled:cursor-not-allowed disabled:opacity-60`}>
-                    <span className={`flex h-6 w-6 items-center justify-center text-[10px] font-bold ${
-                      i === step ? 'bg-accent text-ink' : i < step ? 'bg-white/20 text-white' : 'bg-white/10 text-white/40'
-                    }`}>
-                      {i < step ? '✓' : i + 1}
+                      i === step
+                        ? "text-accent"
+                        : i < step
+                          ? "text-white/60"
+                          : "text-white/30"
+                    } disabled:cursor-not-allowed disabled:opacity-60`}
+                  >
+                    <span
+                      className={`flex h-6 w-6 items-center justify-center text-[10px] font-bold ${
+                        i === step
+                          ? "bg-accent text-ink"
+                          : i < step
+                            ? "bg-white/20 text-white"
+                            : "bg-white/10 text-white/40"
+                      }`}
+                    >
+                      {i < step ? "✓" : i + 1}
                     </span>
                     <span className="hidden lg:inline">{s}</span>
                   </button>
@@ -563,7 +734,11 @@ export default function RSVPForm({ event, onSubmitted }) {
                 <span className="ticket-perforation__opening" />
                 <div className="ticket-perforation__track">
                   {Array.from({ length: 30 }).map((_, i) => (
-                    <span key={i} className="ticket-perforation__dot" style={{ '--dot': i }} />
+                    <span
+                      key={i}
+                      className="ticket-perforation__dot"
+                      style={{ "--dot": i }}
+                    />
                   ))}
                 </div>
               </div>
@@ -584,40 +759,67 @@ export default function RSVPForm({ event, onSubmitted }) {
             {/* Step title — desktop only (mobile title is rendered in the chrome above) */}
             <div className="hidden md:block">
               <div className="mb-6 flex items-baseline justify-between">
-                <h2 className="font-sans text-xl font-semibold text-white">{STEPS[step]}</h2>
-                <span className="font-mono text-xs text-white/35">{step + 1} / {STEPS.length}</span>
+                <h2 className="font-sans text-xl font-semibold text-white">
+                  {STEPS[step]}
+                </h2>
+                <span className="font-mono text-xs text-white/35">
+                  {step + 1} / {STEPS.length}
+                </span>
               </div>
               <div className="mb-8 h-px bg-white/10" />
             </div>
 
             {/* Step fields — rendered exactly once, always mounted, toggled via CSS */}
             <div className="flex-1">
-              <div className={step === 0 ? 'block' : 'hidden'}><Step0 register={register} errors={errors} /></div>
-              <div className={step === 1 ? 'block' : 'hidden'}><Step1 register={register} errors={errors} /></div>
-              <div className={step === 2 ? 'block' : 'hidden'}><Step2 watch={watch} event={event} /></div>
+              <div className={step === 0 ? "block" : "hidden"}>
+                <Step0 register={register} errors={errors} />
+              </div>
+              <div className={step === 1 ? "block" : "hidden"}>
+                <Step1 register={register} errors={errors} />
+              </div>
+              <div className={step === 2 ? "block" : "hidden"}>
+                <Step2 watch={watch} event={event} />
+              </div>
             </div>
 
             {/* Navigation — same buttons, padding adapts per breakpoint */}
             <div className="mt-8 md:mt-10 flex items-center justify-between gap-4">
-              <button type="button" onClick={prev} disabled={step === 0}
-                className="flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-widest text-white/40 transition-colors hover:text-white disabled:opacity-30 disabled:hover:text-white/40">
+              <button
+                type="button"
+                onClick={prev}
+                disabled={step === 0}
+                className="flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-widest text-white/40 transition-colors hover:text-white disabled:opacity-30 disabled:hover:text-white/40"
+              >
                 <ArrowLeft className="h-4 w-4" /> Back
               </button>
               <div className="ml-auto">
-                {step < STEPS.length - 1
-                  ? <SweepButton type="button" onClick={next} contentClassName="px-6 py-3 md:px-8">Continue</SweepButton>
-                  : <SweepButton type="button" onClick={handleSubmit(onSubmit)} disabled={isSubmitting} contentClassName="px-6 py-3 md:px-8">{isSubmitting ? 'Submitting...' : 'Reserve my seat'}</SweepButton>
-                }
+                {step < STEPS.length - 1 ? (
+                  <SweepButton
+                    type="button"
+                    onClick={next}
+                    contentClassName="px-6 py-3 md:px-8"
+                  >
+                    Continue
+                  </SweepButton>
+                ) : (
+                  <SweepButton
+                    type="button"
+                    onClick={handleSubmit(onSubmit)}
+                    disabled={isSubmitting}
+                    contentClassName="px-6 py-3 md:px-8"
+                  >
+                    {isSubmitting ? "Submitting..." : "Reserve my seat"}
+                  </SweepButton>
+                )}
               </div>
             </div>
           </div>
-
         </form>
       </div>
 
       <style>{`
         .ticket-rsvp {
-          background-color: transparent;
+          background-color: var(--color-base);
           isolation: isolate;
           overflow: visible;
         }
