@@ -368,16 +368,16 @@ export function RSVPSuccess({ event, attendeeName }) {
 /* ── Mobile step indicator ── */
 function MobileStepIndicator({ step }) {
   return (
-    <div className="flex items-center gap-3 px-1">
+    <div className="flex items-center justify-center px-1">
       {STEPS.map((_, i) => (
-        <div key={i} className="flex items-center gap-2 flex-1">
+        <div key={i} className="flex items-center">
           <span className={`flex h-6 w-6 shrink-0 items-center justify-center text-[10px] font-bold font-mono ${
             i === step ? 'bg-accent text-ink' : i < step ? 'bg-white/20 text-white' : 'bg-white/10 text-white/40'
           }`}>
             {i < step ? '✓' : i + 1}
           </span>
           {i < STEPS.length - 1 && (
-            <div className={`h-px flex-1 ${i < step ? 'bg-accent/50' : 'bg-white/10'}`} />
+            <div className={`h-px w-12 sm:w-16 ${i < step ? 'bg-accent/50' : 'bg-white/10'}`} />
           )}
         </div>
       ))}
@@ -408,15 +408,22 @@ export default function RSVPForm({ event, onSubmitted }) {
     formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(rsvpSchema),
-    defaultValues: {},
-    mode: 'all',
+    defaultValues: {
+      firstName: '',
+      lastName: '',
+      email: '',
+      phone: '',
+      city: '',
+      experience: '',
+      questions: '',
+    },
+    mode: 'onTouched',
   });
 
   const next = async () => {
     let fields;
     if (step === 0) fields = ['firstName', 'lastName', 'email', 'phone', 'city'];
     else if (step === 1) fields = ['experience'];
-
     if (fields) {
       const valid = await trigger(fields);
       if (!valid) return;
@@ -427,7 +434,6 @@ export default function RSVPForm({ event, onSubmitted }) {
   const prev = () => setStep((s) => Math.max(0, s - 1));
 
   const onSubmit = (data) => {
-    console.log('RSVP:', data);
     setAttendeeName(`${data.firstName} ${data.lastName}`);
     return playFinalTear();
   };
@@ -441,66 +447,53 @@ export default function RSVPForm({ event, onSubmitted }) {
   }
 
   return (
-    <section className="flex min-h-150 items-center justify-start px-3 py-10 sm:px-6 md:justify-center lg:py-28">
+    <section className="px-3 py-10 sm:px-6 md:flex md:min-h-150 md:items-center md:justify-center lg:py-28">
       <div ref={cardRef} className="ticket-rsvp w-full max-w-275">
-        {/* ── Mobile & tablet: stacked layout ── */}
-        <div className="ticket-scallop bg-ink md:hidden">
-          <div className="border-b border-dashed border-white/20 px-5 py-5 sm:px-8 sm:py-7">
-            <div className="mb-3 inline-flex w-fit border border-white/20 bg-accent/10 px-2.5 py-1">
-              <span className="font-mono text-[0.6rem] font-bold uppercase tracking-widest text-accent">{event.tag}</span>
-            </div>
-            <h2 className="text-xl font-extrabold leading-tight text-white sm:text-2xl">{event.title}</h2>
-            <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-white/60 sm:text-sm">
-              <span className="flex items-center gap-1.5"><Calendar className="h-3.5 w-3.5" />{dateObj.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' })}</span>
-              <span className="flex items-center gap-1.5"><MapPin className="h-3.5 w-3.5" />{event.venue}</span>
-              <span className="flex items-center gap-1.5"><Users className="h-3.5 w-3.5" />{remaining} left</span>
-            </div>
-          </div>
 
-          <div className="px-5 pt-5 pb-2 sm:px-8">
-            <MobileStepIndicator step={step} />
-          </div>
+        {/*
+         * Single <form> wraps the entire card.
+         * The step fields (Step0/Step1/Step2) are rendered ONCE inside the
+         * desktop right-panel. The mobile chrome and desktop stub are purely
+         * structural — they contain headings, event info, and step indicators
+         * but NO <input> elements, so react-hook-form registers each field
+         * exactly once regardless of which CSS breakpoint is active.
+         */}
+        <form onSubmit={(e) => e.preventDefault()} className="flex flex-col md:flex-row md:min-h-140">
 
-          <div className="bg-ink px-5 py-6 sm:px-8 sm:py-8">
-            <div className="mb-5 flex items-baseline justify-between">
-              <h2 className="font-sans text-lg font-semibold text-white sm:text-xl">{STEPS[step]}</h2>
-              <span className="font-mono text-xs text-white/35">{step + 1} / {STEPS.length}</span>
-            </div>
-            <div className="mb-6 h-px bg-white/10" />
-
-            <form id="rsvpForm" onSubmit={(e) => e.preventDefault()}>
-              {step === 0 && <Step0 register={register} errors={errors} />}
-              {step === 1 && <Step1 register={register} errors={errors} />}
-              {step === 2 && <Step2 watch={watch} event={event} />}
-
-              <div className="mt-8 flex items-center justify-between gap-4">
-                <button
-                  type="button"
-                  onClick={prev}
-                  disabled={step === 0}
-                  className="flex gap-3 items-center font-mono text-xs font-bold uppercase tracking-widest text-white/40 transition-colors hover:text-white disabled:opacity-30 disabled:hover:text-white/40"
-                >
-                  <ArrowLeft className="h-4 w-4" /> Back
-                </button>
-                <div className="ml-auto">
-                  {step < STEPS.length - 1 ? (
-                    <SweepButton type="button" onClick={next} contentClassName="px-6 py-3">
-                      Continue
-                    </SweepButton>
-                  ) : (
-                    <SweepButton type="button" onClick={handleSubmit(onSubmit)} disabled={isSubmitting} contentClassName="px-6 py-3">
-                      {isSubmitting ? 'Submitting...' : 'Reserve my seat'}
-                    </SweepButton>
-                  )}
-                </div>
+          {/* ── Mobile chrome (visible below md) ── */}
+          {/* Contains: event header + step indicator + step title + nav buttons. NO inputs. */}
+          <div className="ticket-scallop bg-ink md:hidden">
+            {/* Event header */}
+            <div className="border-b border-dashed border-white/20 px-5 py-5 sm:px-8 sm:py-7">
+              <div className="mb-3 inline-flex w-fit border border-white/20 bg-accent/10 px-2.5 py-1">
+                <span className="font-mono text-[0.6rem] font-bold uppercase tracking-widest text-accent">{event.tag}</span>
               </div>
-            </form>
-          </div>
-        </div>
+              <h2 className="text-xl font-extrabold leading-tight text-white sm:text-2xl">{event.title}</h2>
+              <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-white/60 sm:text-sm">
+                <span className="flex items-center gap-1.5"><Calendar className="h-3.5 w-3.5" />{dateObj.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' })}</span>
+                <span className="flex items-center gap-1.5"><MapPin className="h-3.5 w-3.5" />{event.venue}</span>
+                <span className="flex items-center gap-1.5"><Users className="h-3.5 w-3.5" />{remaining} left</span>
+              </div>
+            </div>
 
-        {/* ── Desktop: side-by-side layout ── */}
-        <div className="hidden md:flex min-h-140">
-          <div ref={tearGroupRef} className="ticket-tear-group relative z-2 flex shrink-0" style={{ '--cut-progress': 0 }}>
+            {/* Step indicator */}
+            <div className="px-5 pt-5 pb-2 sm:px-8">
+              <MobileStepIndicator step={step} />
+            </div>
+
+            {/* Step title + divider (decorative — no inputs here) */}
+            <div className="px-5 pt-6 sm:px-8">
+              <div className="mb-5 flex items-baseline justify-between">
+                <h2 className="font-sans text-lg font-semibold text-white sm:text-xl">{STEPS[step]}</h2>
+                <span className="font-mono text-xs text-white/35">{step + 1} / {STEPS.length}</span>
+              </div>
+              <div className="mb-6 h-px bg-white/10" />
+            </div>
+          </div>
+
+          {/* ── Desktop stub + seam (visible from md up) ── */}
+          {/* Contains: event info, capacity bar, step nav. NO inputs. */}
+          <div ref={tearGroupRef} className="ticket-tear-group relative z-2 hidden md:flex shrink-0" style={{ '--cut-progress': 0 }}>
             <div className="ticket-stub ticket-scallop relative flex w-85 shrink-0 flex-col justify-between border-b border-dashed border-white/20 bg-ink px-8 py-8 lg:w-100 lg:px-10 xl:px-14 md:border-b-0">
               <div>
                 <div className="mb-5 inline-flex w-fit border border-white/20 bg-accent/10 px-3 py-1">
@@ -549,16 +542,11 @@ export default function RSVPForm({ event, onSubmitted }) {
 
               <div className="flex items-center gap-4 mt-10 lg:gap-5">
                 {STEPS.map((s, i) => (
-                  <button
-                    key={s}
-                    type="button"
-                    onClick={() => setStep(i)}
-                    disabled={i > step}
+                  <button key={s} type="button" onClick={() => setStep(i)} disabled={i > step}
                     aria-current={i === step ? 'step' : undefined}
                     className={`flex items-center gap-2 font-mono text-[0.6rem] font-bold uppercase tracking-widest transition-colors lg:gap-2.5 ${
                       i === step ? 'text-accent' : i < step ? 'text-white/60' : 'text-white/30'
-                    } disabled:cursor-not-allowed disabled:opacity-60`}
-                  >
+                    } disabled:cursor-not-allowed disabled:opacity-60`}>
                     <span className={`flex h-6 w-6 items-center justify-center text-[10px] font-bold ${
                       i === step ? 'bg-accent text-ink' : i < step ? 'bg-white/20 text-white' : 'bg-white/10 text-white/40'
                     }`}>
@@ -582,42 +570,49 @@ export default function RSVPForm({ event, onSubmitted }) {
             </div>
           </div>
 
-          <div ref={rightPanelRef} className="flex-1 bg-ink px-8 py-8 lg:px-10 xl:pl-12 xl:pr-14 flex flex-col transition-all duration-[1800ms] ease-[cubic-bezier(0.16,1,0.3,1)]">
-            <div className="mb-6 flex items-baseline justify-between">
-              <h2 className="font-sans text-xl font-semibold text-white">{STEPS[step]}</h2>
-              <span className="font-mono text-xs text-white/35">{step + 1} / {STEPS.length}</span>
-            </div>
-            <div className="mb-8 h-px bg-white/10" />
-
-            <form id="rsvpFormDesktop" onSubmit={(e) => e.preventDefault()} className="flex-1">
-              {step === 0 && <Step0 register={register} errors={errors} />}
-              {step === 1 && <Step1 register={register} errors={errors} />}
-              {step === 2 && <Step2 watch={watch} event={event} />}
-
-              <div className="mt-10 flex items-center justify-between">
-                <button
-                  type="button"
-                  onClick={prev}
-                  disabled={step === 0}
-                  className="flex items-center gap-1 font-mono text-xs font-bold uppercase tracking-widest text-white/40 transition-colors hover:text-white disabled:opacity-30 disabled:hover:text-white/40"
-                >
-                  <ArrowLeft className='h-4 w-4'/> Back
-                </button>
-                <div className="ml-auto">
-                  {step < STEPS.length - 1 ? (
-                    <SweepButton type="button" onClick={next} contentClassName="px-8 py-3">
-                      Continue
-                    </SweepButton>
-                  ) : (
-                    <SweepButton type="button" onClick={handleSubmit(onSubmit)} disabled={isSubmitting} contentClassName="px-8 py-3">
-                      {isSubmitting ? 'Submitting...' : 'Reserve my seat'}
-                    </SweepButton>
-                  )}
-                </div>
+          {/*
+           * ── Shared fields panel ──
+           * This is the ONE place where Step0/Step1/Step2 are rendered.
+           * On mobile it flows below the mobile chrome above.
+           * On desktop it becomes the right-panel (flex-1) next to the stub.
+           * ref={rightPanelRef} is attached here for the tear animation.
+           */}
+          <div
+            ref={rightPanelRef}
+            className="flex-1 bg-ink px-5 py-6 sm:px-8 sm:py-8 md:px-8 md:py-8 lg:px-10 xl:pl-12 xl:pr-14 flex flex-col transition-all duration-[1800ms] ease-[cubic-bezier(0.16,1,0.3,1)]"
+          >
+            {/* Step title — desktop only (mobile title is rendered in the chrome above) */}
+            <div className="hidden md:block">
+              <div className="mb-6 flex items-baseline justify-between">
+                <h2 className="font-sans text-xl font-semibold text-white">{STEPS[step]}</h2>
+                <span className="font-mono text-xs text-white/35">{step + 1} / {STEPS.length}</span>
               </div>
-            </form>
+              <div className="mb-8 h-px bg-white/10" />
+            </div>
+
+            {/* Step fields — rendered exactly once, always mounted, toggled via CSS */}
+            <div className="flex-1">
+              <div className={step === 0 ? 'block' : 'hidden'}><Step0 register={register} errors={errors} /></div>
+              <div className={step === 1 ? 'block' : 'hidden'}><Step1 register={register} errors={errors} /></div>
+              <div className={step === 2 ? 'block' : 'hidden'}><Step2 watch={watch} event={event} /></div>
+            </div>
+
+            {/* Navigation — same buttons, padding adapts per breakpoint */}
+            <div className="mt-8 md:mt-10 flex items-center justify-between gap-4">
+              <button type="button" onClick={prev} disabled={step === 0}
+                className="flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-widest text-white/40 transition-colors hover:text-white disabled:opacity-30 disabled:hover:text-white/40">
+                <ArrowLeft className="h-4 w-4" /> Back
+              </button>
+              <div className="ml-auto">
+                {step < STEPS.length - 1
+                  ? <SweepButton type="button" onClick={next} contentClassName="px-6 py-3 md:px-8">Continue</SweepButton>
+                  : <SweepButton type="button" onClick={handleSubmit(onSubmit)} disabled={isSubmitting} contentClassName="px-6 py-3 md:px-8">{isSubmitting ? 'Submitting...' : 'Reserve my seat'}</SweepButton>
+                }
+              </div>
+            </div>
           </div>
-        </div>
+
+        </form>
       </div>
 
       <style>{`
@@ -633,6 +628,7 @@ export default function RSVPForm({ event, onSubmitted }) {
 
         .ticket-scallop {
           mask-image:
+            radial-gradient(circle 8px at 0px 0%, transparent 99%, #000 100%),
             radial-gradient(circle 8px at 0px 10%, transparent 99%, #000 100%),
             radial-gradient(circle 8px at 0px 20%, transparent 99%, #000 100%),
             radial-gradient(circle 8px at 0px 30%, transparent 99%, #000 100%),
@@ -641,7 +637,8 @@ export default function RSVPForm({ event, onSubmitted }) {
             radial-gradient(circle 8px at 0px 60%, transparent 99%, #000 100%),
             radial-gradient(circle 8px at 0px 70%, transparent 99%, #000 100%),
             radial-gradient(circle 8px at 0px 80%, transparent 99%, #000 100%),
-            radial-gradient(circle 8px at 0px 90%, transparent 99%, #000 100%);
+            radial-gradient(circle 8px at 0px 90%, transparent 99%, #000 100%),
+            radial-gradient(circle 8px at 0px 100%, transparent 99%, #000 100%);
           mask-composite: intersect;
           -webkit-mask-composite: source-in;
         }
