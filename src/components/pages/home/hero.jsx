@@ -15,7 +15,10 @@ const DevOpsHero = React.forwardRef(function DevOpsHero(props, forwardedRef) {
     if (!root) return;
 
     const content = root.querySelectorAll('.content-animation');
-    gsap.fromTo(content, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 1, stagger: 0.18, ease: 'power3.out' });
+    // Guard: tweening an empty NodeList makes GSAP log "GSAP target  not found".
+    if (content.length) {
+      gsap.fromTo(content, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 1, stagger: 0.18, ease: 'power3.out' });
+    }
 
     return undefined;
   }, [heroRef]);
@@ -43,7 +46,7 @@ const DevOpsHero = React.forwardRef(function DevOpsHero(props, forwardedRef) {
 
         <h1 className="hero-wordmark relative content-animation text-center" data-hero-title>
           <div className="content-animation absolute top-20 left-40 hidden md:flex gap-3 items-center pb-2 font-medium text-ink-2 lg:block lg:pb-4 lg:text-lg xl:text-xl">
-              <div class="flex items-center gap-4">
+              <div className="flex items-center gap-4">
                 <span>Automate</span>
                 <span className='w-2 h-2 rounded-full bg-primary'></span>
                 <span>Collaborate</span>
@@ -51,7 +54,7 @@ const DevOpsHero = React.forwardRef(function DevOpsHero(props, forwardedRef) {
             </div>
 
             <div className="content-animation absolute top-20 right-35 hidden md:flex gap-3 items-center pb-2 font-medium text-ink-2 lg:block lg:pb-4 lg:text-lg xl:text-xl">
-              <div class="flex items-center gap-4">
+              <div className="flex items-center gap-4">
                 <span>Deliver</span>
                 <span className='w-2 h-2 rounded-full bg-primary'></span>
                 <span className='text-primary-500'>Together</span>

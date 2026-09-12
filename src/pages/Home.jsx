@@ -112,13 +112,9 @@ export default function Home() {
           { opacity: 0 },
           { opacity: 1, duration: 0.6 },
           "-=0.3",
-        )
-        .fromTo(
-          "[data-hero-terminal]",
-          { y: 40, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.8 },
-          "-=0.4",
         );
+      // NOTE: no [data-hero-terminal] tween — the hero no longer renders a
+      // terminal element, and tweening a missing selector warns on every mount.
     },
     { scope: heroRef },
   );

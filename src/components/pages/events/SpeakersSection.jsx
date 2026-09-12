@@ -542,6 +542,7 @@ export default function SpeakersSection({
           </div>
 
           <div
+            ref={infoRef}
             data-sp-info
             className="relative z-10 mx-auto max-w-[460px] text-center md:mx-0 md:text-left"
           >

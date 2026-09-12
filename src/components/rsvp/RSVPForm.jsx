@@ -20,6 +20,7 @@ import useTearAnimation from "@/hooks/useTearAnimation";
 import InteractiveBadge from "@/components/rsvp/InteractiveBadge";
 import BadgeFlyerCanvas from "@/components/rsvp/BadgeFlyerCanvas";
 import Container from "@/components/ui/container";
+import { getLenis } from "@/lib/lenis";
 
 const rsvpSchema = z.object({
   firstName: z.string().min(2, "First name must be at least 2 characters"),
