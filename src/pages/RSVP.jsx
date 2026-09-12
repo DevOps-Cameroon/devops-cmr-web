@@ -15,15 +15,23 @@ export default function RSVP() {
   const loading = id ? eventLoading : eventsLoading;
   const activeEvent = id ? event : events.find((e) => e.featured) || events[0];
 
+  // stableEvent never goes back to null once set — prevents RSVPForm from
+  // unmounting mid-fill when a background re-render produces a new object reference
+  const [stableEvent, setStableEvent] = useState(null);
   useEffect(() => {
-    if (activeEvent) {
-      document.title = `RSVP — ${activeEvent.title} — DevOps Cameroon`;
+    if (activeEvent) setStableEvent(activeEvent);
+  }, [activeEvent]);
+
+  useEffect(() => {
+    const title = stableEvent?.title ?? activeEvent?.title;
+    if (title) {
+      document.title = `RSVP — ${title} — DevOps Cameroon`;
     } else {
       document.title = 'RSVP — DevOps Cameroon';
     }
-  }, [activeEvent]);
+  }, [stableEvent, activeEvent]);
 
-  if (loading) {
+  if (loading && !stableEvent) {
     return (
       <div className="min-h-screen bg-base text-ink">
         <Container className="px-6 py-32">
@@ -33,7 +41,7 @@ export default function RSVP() {
     );
   }
 
-  if (!activeEvent) {
+  if (!loading && !stableEvent && !activeEvent) {
     return (
       <div className="min-h-screen bg-base text-ink">
         <Container className="px-6 py-32 text-center">
@@ -44,6 +52,10 @@ export default function RSVP() {
     );
   }
 
+  // Use stableEvent once available — falls back to activeEvent on first render
+  const eventToRender = stableEvent ?? activeEvent;
+  if (!eventToRender) return null;
+
   return (
     <div className="overflow-x-clip bg-base text-ink">
       {!submitted && (
@@ -51,13 +63,13 @@ export default function RSVP() {
           <Container>
             <SectionHeading
               title="Secure Your Spot"
-              sub={`Fill in your details below to reserve your seat at ${activeEvent.title}.`}
+              sub={`Fill in your details below to reserve your seat at ${eventToRender.title}.`}
             />
           </Container>
         </section>
       )}
 
-      <RSVPForm event={activeEvent} onSubmitted={handleSubmitted} />
+      <RSVPForm event={eventToRender} onSubmitted={handleSubmitted} />
     </div>
   );
 }
