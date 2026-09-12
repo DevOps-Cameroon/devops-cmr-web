@@ -110,48 +110,82 @@ function AboutHero() {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   DEVOPS CAMEROON — home page style header + event detail body
+   ABOUT — dark editorial split, CAST-style reference
+   Left: intro copy + stacked ABOUT / DEVOPS CAMEROON heading
+   Right: three monochrome panels (infra · community · code)
    ═══════════════════════════════════════════════════════════════ */
+const ABOUT_PANELS = [
+  { index: '01', tag: 'Infrastructure', src: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=900&q=80', alt: 'Server racks glowing in a dark data center' },
+  { index: '02', tag: 'Community', src: 'https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=900&q=80', alt: 'Engineers collaborating around laptops at a meetup' },
+  { index: '03', tag: 'Code', src: 'https://images.unsplash.com/photo-1542831371-29b0f74f9713?auto=format&fit=crop&w=900&q=80', alt: 'Source code on a terminal screen' },
+]
+
 function DevOpsCameroonSection() {
   return (
-    <section className="wm-section relative overflow-hidden py-20 sm:py-28">
+    <section className="wm-section relative overflow-hidden bg-surface py-20 sm:py-28">
+      <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px bg-accent/50" />
       <Watermark
         className="bottom-[-70px] left-[-30px] text-[clamp(140px,18vw,240px)]"
         style={{ transform: 'rotate(-6deg)' }}
       >
         {'</>'}
       </Watermark>
-      <Container>
-        {/* Home page style header */}
-        <div className="grid gap-6 sm:grid-cols-[1fr_auto] sm:items-end sm:justify-between mb-16 sm:mb-20 md:mb-24">
-          <div>
-            <span className="eyebrow label-mono mb-6 content-animation"><Terminal /> About</span>
-            <h2 className="content-animation text-4xl font-extrabold uppercase leading-[1.05] tracking-tight text-ink sm:text-5xl">
-              DevOps Cameroon
+      <Container className="relative">
+        <div className="grid gap-14 lg:grid-cols-12 lg:gap-12">
+          {/* Left — intro + stacked heading */}
+          <div className="flex flex-col lg:col-span-5">
+            {/* <span className="eyebrow label-mono mb-6 content-animation"><Terminal /> About</span> */}
+
+            <ScrollReveal as="p" variant="block" className="mb-8 max-w-sm text-[15px] leading-relaxed text-ink-2">
+              A volunteer-run community of engineers building Cameroon&apos;s infrastructure future — together.
+            </ScrollReveal>
+
+            <h2 className="font-sans text-[clamp(3.25rem,7vw,5.75rem)] font-extrabold uppercase leading-[0.95] tracking-tight">
+              <ScrollReveal as="span" variant="block" className="block text-ink">
+                About
+              </ScrollReveal>
+              <span aria-hidden="true" className="mt-5 block h-[3px] w-24 bg-accent" />
+              <ScrollReveal as="span" variant="block" className="mt-5 block text-accent">
+                DevOps
+                <br />
+                Cameroon
+              </ScrollReveal>
             </h2>
           </div>
-          <p className="content-animation max-w-sm leading-relaxed text-ink-2 sm:text-right">
-            A volunteer-run community of engineers building Cameroon&apos;s infrastructure future — together.
-          </p>
-        </div>
 
-        <ScrollReveal as="div" variant="block" className="border border-line bg-surface px-5 py-10 sm:px-8 sm:py-12 lg:px-10 lg:py-14">
-          <div className="">
-            <ScrollReveal
-              as="p"
-              variant="scrub"
-              className="font-sans text-sm font-medium tracking-tight text-ink"
-            >
-              lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel tincidunt lacinia, nunc est aliquam nunc, eget aliquam nisl nunc vel nisl. Sed euismod, nisl vel tincidunt lacinia, nunc est aliquam nunc, eget aliquam nisl nunc vel nisl.lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel tincidunt lacinia, nunc est aliquam nunc, eget aliquam nisl nunc vel nisl. Sed euismod, nisl vel tincidunt lacinia, nunc est aliquam nunc, eget aliquam nisl nunc vel nisl.
-              lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel tincidunt lacinia, nunc est aliquam nunc, eget aliquam nisl nunc vel nisl. Sed euismod, nisl vel tincidunt lacinia, nunc est aliquam nunc, eget aliquam nisl nunc vel nisl.
-              lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel tincidunt lacinia, nunc est aliquam nunc, eget aliquam nisl nunc vel nisl. Sed euismod, nisl vel tincidunt lacinia, nunc est aliquam nunc, eget aliquam nisl nunc vel nisl.
-              lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel tincidunt lacinia, nunc est aliquam nunc, eget aliquam nisl nunc vel nisl. Sed euismod, nisl vel tincidunt lacinia, nunc est aliquam nunc, eget aliquam nisl nunc vel nisl.
-              lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel tincidunt lacinia, nunc est aliquam nunc, eget aliquam nisl nunc vel nisl. Sed euismod, nisl vel tincidunt lacinia, nunc est aliquam nunc, eget aliquam nisl nunc vel nisl.
-              lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel tincidunt lacinia, nunc est aliquam nunc, eget aliquam nisl nunc vel nisl. Sed euismod, nisl vel tincidunt lacinia, nunc est aliquam nunc, eget aliquam nisl nunc vel nisl.
-              lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel tincidunt lacinia, nunc est aliquam nunc, eget aliquam nisl nunc vel nisl. Sed euismod, nisl vel tincidunt lacinia, nunc est aliquam nunc, eget aliquam nisl nunc vel nisl.
+          {/* Right — three monochrome panels + closing copy */}
+          <div className="lg:col-span-7">
+
+            <div className="grid grid-cols-3 gap-3 sm:gap-4">
+              {ABOUT_PANELS.map((panel) => (
+                <ScrollReveal
+                  key={panel.index}
+                  as="figure"
+                  variant="block"
+                  className="group relative overflow-hidden border border-line bg-surface-2"
+                >
+                  <img
+                    src={panel.src}
+                    alt={panel.alt}
+                    loading="lazy"
+                    className="h-64 w-full object-cover contrast-[1.02] grayscale transition-[filter,transform] duration-500 group-hover:scale-[1.04] group-hover:grayscale-0 sm:h-80 lg:h-[540px]"
+                  />
+                  <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-ink/25 via-transparent to-transparent" />
+                  <figcaption className="absolute bottom-4 left-4 font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-ink">
+                    <span className="text-accent">{panel.index}</span>
+                    <span className="mx-2 text-ink-3">/</span>
+                    {panel.tag}
+                  </figcaption>
+                </ScrollReveal>
+              ))}
+            </div>
+
+            <ScrollReveal as="p" variant="scrub" className="ml-auto mt-9 max-w-md text-right text-[15px] leading-relaxed text-ink-2 sm:mt-11">
+              From a first meetup in Douala to a national movement — 500+ members, 80+ events and a
+              growing library of open tools. We turn raw talent into production-grade engineers.
             </ScrollReveal>
           </div>
-        </ScrollReveal>
+        </div>
       </Container>
     </section>
   )

@@ -153,7 +153,7 @@ export default function FeaturedEventSection({ event }) {
               </p>
               <Link
                 to={`/rsvp/${event.id}`}
-                className="inline-flex items-center border border-ink bg-transparent px-[1.7rem] py-[0.85rem] font-mono text-xs font-bold uppercase tracking-wider text-ink transition-colors duration-200 hover:bg-ink hover:text-accent"
+                className="inline-flex items-center border border-ink bg-ink px-[1.7rem] py-[0.85rem] font-mono text-xs font-bold uppercase tracking-wider text-white transition-colors duration-200 hover:bg-ink hover:text-accent"
               >
                 RSVP
               </Link>

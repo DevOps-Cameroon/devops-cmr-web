@@ -1,6 +1,7 @@
 import EventHero from "../components/pages/events/EventHero";
 import GallerySection from "../components/pages/projects/GallerySection";
 import ProjectShowcase from "@/components/pages/home/ProjectShowcase";
+import Container from "@/components/ui/container";
 
 export default function Projects() {
   return (
@@ -33,7 +34,9 @@ export default function Projects() {
         }
       />
       <GallerySection />
-      <ProjectShowcase />
+      <Container>
+        <ProjectShowcase />
+      </Container>
     </div>
   );
 }

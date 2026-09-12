@@ -40,7 +40,7 @@ export default function ViewMoreCard({ count = 0, to = '/events', className = ''
       </span>
       <span
         aria-hidden="true"
-        className="relative z-[2] inline-flex items-center border border-ink/30 bg-transparent px-[1.7rem] py-[0.85rem] font-mono text-xs font-bold uppercase tracking-wider text-ink transition-colors duration-200 hover:bg-ink hover:text-accent"
+        className="relative z-[2] inline-flex items-center border border-ink/30 bg-ink px-[1.7rem] py-[0.85rem] font-mono text-xs font-bold uppercase tracking-wider text-white transition-colors duration-200 hover:bg-ink hover:text-accent"
       >
         See all →
       </span>
