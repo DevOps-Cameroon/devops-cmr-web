@@ -9,7 +9,6 @@ function RootLayout() {
   const isShowcase =
     location.pathname === '/events' || location.pathname.startsWith('/events/') || location.pathname === '/projects' || location.pathname === '/about'
     || location.pathname === '/rsvp' || location.pathname.startsWith('/rsvp/')
-    location.pathname === '/events' || location.pathname.startsWith('/events/') || location.pathname === '/projects' || location.pathname === '/rsvp' || location.pathname.startsWith('/rsvp/')
 
   if (isShowcase) {
     return (

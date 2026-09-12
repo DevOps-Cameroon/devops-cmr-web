@@ -369,9 +369,6 @@
   * {
     @apply border-border outline-ring/50;
   }
-  html {
-    @apply scroll-smooth;
-  }
   body {
     @apply bg-background text-foreground antialiased;
     font-family: var(--font-sans);
@@ -410,6 +407,44 @@
   }
   .scrollbar-none::-webkit-scrollbar {
     display: none;
+  }
+
+  /* Lenis smooth scroll — recommended CSS (https://lenis.darkroom.engineering/).
+     Mirrors lenis/dist/lenis.css, which is imported in App.jsx. */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+
+  .lenis:not(.lenis-autoToggle).lenis-stopped {
+    overflow: clip;
+  }
+
+  .lenis [data-lenis-prevent],
+  .lenis [data-lenis-prevent-wheel],
+  .lenis [data-lenis-prevent-touch],
+  .lenis [data-lenis-prevent-vertical],
+  .lenis [data-lenis-prevent-horizontal] {
+    overscroll-behavior: contain;
+  }
+
+  .lenis.lenis-smooth iframe {
+    pointer-events: none;
+  }
+
+  .lenis.lenis-autoToggle {
+    transition-property: overflow;
+    transition-duration: 1ms;
+    transition-behavior: allow-discrete;
+  }
+
+  /* Honor prefers-reduced-motion: Lenis already forces lerp to 1 (1:1
+     scrolling) and instant programmatic scrolls when the user prefers reduced
+     motion, so CSS smooth scrolling must be disabled to match. */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
   }
 }
 

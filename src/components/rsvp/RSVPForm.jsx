@@ -8,6 +8,7 @@ import useTearAnimation from '@/hooks/useTearAnimation';
 import InteractiveBadge from '@/components/rsvp/InteractiveBadge';
 import BadgeFlyerCanvas from '@/components/rsvp/BadgeFlyerCanvas';
 import Container from '@/components/ui/container'
+import { getLenis } from '@/lib/lenis';
 
 const rsvpSchema = z.object({
   firstName: z.string().min(2, 'First name must be at least 2 characters'),
@@ -165,10 +166,24 @@ export function RSVPSuccess({ event, attendeeName }) {
     return () => window.removeEventListener('keydown', onKey);
   }, [previewOpen, fullscreen]);
 
-  // Lock body scroll while modal is open
+  // Lock body scroll while modal is open.
+  // Lenis docs: use lenis.stop() to pause smooth scroll (adds `lenis-stopped`
+  // on the root, which freezes the page via `overflow: clip`), so the modal
+  // keeps its own native scrolling. The body overflow toggle stays as a
+  // fallback for when Lenis is unavailable (e.g. reduced-motion edge cases).
   useEffect(() => {
-    document.body.style.overflow = previewOpen ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
+    const lenis = getLenis();
+    if (previewOpen) {
+      lenis?.stop();
+      document.body.style.overflow = 'hidden';
+    } else {
+      lenis?.start();
+      document.body.style.overflow = '';
+    }
+    return () => {
+      getLenis()?.start();
+      document.body.style.overflow = '';
+    };
   }, [previewOpen]);
 
   const fileName = `devops-cameroon-${event.title.toLowerCase().replace(/\s+/g, '-')}.png`;
@@ -392,7 +407,12 @@ export default function RSVPForm({ event, onSubmitted }) {
   const [attendeeName, setAttendeeName] = useState('');
 
   useLayoutEffect(() => {
-    if (submitted) window.scrollTo(0, 0);
+    if (!submitted) return;
+    // Jump back to the top instantly (Lenis honors `immediate`); fall back to
+    // native scrolling if Lenis isn't available.
+    const lenis = getLenis();
+    if (lenis) lenis.scrollTo(0, { immediate: true, force: true });
+    else window.scrollTo(0, 0);
   }, [submitted]);
 
   const { cardRef, tearGroupRef, rightPanelRef, playFinalTear } = useTearAnimation(step, () => {

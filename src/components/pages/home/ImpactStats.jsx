@@ -3,6 +3,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
+import { getLenis } from '@/lib/lenis';
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
@@ -165,7 +166,13 @@ export default function ImpactStats() {
       // One scroll gesture = one metric: jump the real scroll position to
       // the next/previous panel's exact point. `scrub: true` + `onUpdate`
       // above then animates the background AND updates the text together,
-      // in real time, as this tween plays — not after it.
+      // in real time, as the jump plays — not after it.
+      //
+      // The jump goes through Lenis (the single scroll driver while smooth
+      // scroll is active) instead of gsap ScrollToPlugin: two writers on the
+      // window scroll position would fight Lenis's rAF loop. `lock: true`
+      // swallows user wheel/touch input until the jump completes, so the
+      // lock flag can never get stuck.
       const stepOnce = (direction) => {
         if (lockRef.current || !st.isActive) return false;
 
@@ -173,12 +180,17 @@ export default function ImpactStats() {
         const next = currentIndex + direction;
         if (next < 0 || next > total - 1) return false;
 
+        const lenis = getLenis();
+        if (!lenis) return false;
+
         lockRef.current = true;
         const targetY = st.start + (next / (total - 1)) * (st.end - st.start);
-        gsap.to(window, {
+        lenis.scrollTo(targetY, {
           duration: 0.6,
-          ease: 'power3.inOut',
-          scrollTo: targetY,
+          // power3.inOut, matching the previous gsap tween
+          easing: (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2),
+          lock: true,
+          force: true,
           onComplete: () => {
             lockRef.current = false;
           },
